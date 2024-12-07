@@ -66,5 +66,5 @@ for player in sorted(tournament.participant_tournois, key=lambda x: x["Player"].
         
         
         
-    # Trier les participants par leur nom
+    #Trier les participants par leur nom
     #tournament.participant_tournois.sort(key=lambda player: player.name)
