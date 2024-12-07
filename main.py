@@ -54,7 +54,7 @@ tournament = Tournament("Championnat 2024", location="Paris", date_initial="01/0
 
 #all_players.shuffle()
 
-for i  in range(0, 8):
+for i in range(0, 8):
     tournament.participant_tournois.append({"Player":all_players[i], "Score":0, "Adversaires":[]})
     
 #for player in tournament.participant_tournois:
@@ -68,3 +68,4 @@ for player in sorted(tournament.participant_tournois, key=lambda x: x["Player"].
         
     #Trier les participants par leur nom
     #tournament.participant_tournois.sort(key=lambda player: player.name)
+    
