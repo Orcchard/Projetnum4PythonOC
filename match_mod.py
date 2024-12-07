@@ -14,8 +14,6 @@ class Match:
         # constitution  d'un tuple pour stocker les informations du match
         self.match_tuple = ([self.player1, self.player1_score], [self.player2, self.player2_score])
     
-   
-    
     def display_match(self):
         # Affiche les binomes
         return f"{self.player1.first_name} {self.player1.name} (ID: {self.player1.player_id}) VS {self.player2.first_name} {self.player2.name} (ID: {self.player2.player_id})"
