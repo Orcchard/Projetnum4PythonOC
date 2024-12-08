@@ -1,5 +1,6 @@
 import random
 from player_mod import Player
+from match_mod import Match
 
 class Tournament:
     def __init__(self, name, location, date_initial, date_end, nb_round=4, description=""):
