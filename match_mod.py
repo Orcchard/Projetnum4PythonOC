@@ -16,33 +16,24 @@ class Match:
     
     def display_match(self):
         # Affiche les binomes
-        return f"{self.player1.first_name} {self.player1.name} (ID: {self.player1.player_id}) VS {self.player2.first_name} {self.player2.name} (ID: {self.player2.player_id})"
-
+        # return f"{self.player1.first_name} {self.player1.name} (ID: {self.player1.player_id}) VS {self.player2.first_name} {self.player2.name} (ID: {self.player2.player_id})"
+        pass
     def enter_scores(self):
-        # Affiche le match
-        print(self.display_match())
+        #Affiche le match
+        # print(self.display_match())
         # Mise à jour des scores via la méthode enter_scores
-match1.enter_scores()
+        pass
 
-# Impression du tuple mis à jour
-print(f"Tuple du match : {match1.match_tuple}")
+
 
 # Si vous voulez un formatage plus lisible :
-print("Détails du match :")
-print(f"Joueur 1 : {match1.match_tuple[0][0].first_name} {match1.match_tuple[0][0].name} avec un score de {match1.match_tuple[0][1]}")
-print(f"Joueur 2 : {match1.match_tuple[1][0].first_name} {match1.match_tuple[1][0].name} avec un score de {match1.match_tuple[1][1]}")
+
     
         # Demande les scores pour chaque joueur avec validation
 
-self.player1_score = int(input(f"Entrez le score pour {self.player1.first_name} {self.player1.name}: "))
-self.player2_score = int(input(f"Entrez le score pour {self.player2.first_name} {self.player2.name}: "))
-          
-        # Met à jour le tuple du match avec les scores
-self.match_tuple = (
-    [self.player1, self.player1_score], 
-    [self.player2, self.player2_score]
-    )
-print(f"Scores enregistrés avec succès!{self.match_tuple}")
+
+
+#print(f"Scores enregistrés avec succès!{self.match_tuple}")
    
 def add_winner(self):
     pass
