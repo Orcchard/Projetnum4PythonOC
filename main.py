@@ -1,7 +1,7 @@
 from player_mod import Player
 from tournament_mod import Tournament
+from match_mod import Match
 import random
-#from match_mod import Match
 #from round_mod import Round
 # Liste des joueurs inscrits pour participer au tournois
 
@@ -52,15 +52,52 @@ Player(name="Cousin", first_name="Violette", date_of_birth="17-07-1992", player_
 Player(name="Brebion", first_name="Vincent", date_of_birth="13-03-1973", player_id="AC45987")
 ]
 
+
 tournament = Tournament("Championnat 2024", location="Paris", date_initial="01/01/2025", date_end="30/01/2025", nb_round=4, description="Premier tournois dans la capitale")
 
+#random.shuffle(all_players)
+#for player in all_players:
+    #print(f"{player.name} {player.first_name} (ID: {player.player_id})")
+
 random.shuffle(all_players)
-for player in all_players:
-    print(f"{player.name} {player.first_name} (ID: {player.player_id})")
+selected_players = all_players[:8]
 
-for i in range(0, 43):
-    tournament.participant_tournois.append({"Player":all_players[i], "Score":0, "Adversaires":[]})
+
+# Ajouter les joueurs au tournoi avec un score initial de 0 et une liste d'adversaires
+tournament.participant_tournois = [
+    {"Player": player, "Score": 0, "Adversaires": []} for player in selected_players
+]
+
+# Créer des paires de joueurs pour les matchs
+pairs = [(selected_players[i], selected_players[i + 1]) for i in range(0, len(selected_players), 2)]
+
+# Créer les matchs à partir des paires
+matches = []
+
+for player1, player2 in pairs:
+    match = Match(player1, player2, 0, 0)  # Initialiser le match avec des scores à 0
+    matches.append(match)
+
+# Afficher les matchs
+for match in matches:
+    print(f"Match entre: {match.player1.name} {match.player1.first_name} Score:{match.player1_score}" 
+    f" Contre {match.player2.name } {match.player2.first_name} Score : {match.player2_score}")
     
+    # Afficher les paires pour vérification
+for pair in pairs:
+    print(f"Paire: {pair[0].name} vs {pair[1].name}")
+    print(type(pair))
 
-    for player in tournament.participant_tournois:
-        print(player["Player"].name + " " + player["Player"].player_id + " Score :" + str(player["Score"]))
+# Sauvegarder les paires dans une liste
+saved_pairs = pairs
+
+
+
+
+"""
+for i in range(0, 8):
+    tournament.participant_tournois.append({"Player":all_players[i], "Score":0, "Adversaires":[]})
+
+for player in tournament.participant_tournois:
+    print(player["Player"].name + " " + player["Player"].player_id + " Score :" + str(player["Score"]))
+"""
