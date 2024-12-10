@@ -26,3 +26,5 @@ class Tournament:
         return (f"Tournois: {self.name}, Lieu: {self.location}, "
                 f"Debut: {self.date_initial}, Fin: {self.date_end}, "
                 f"Description: {self.description}")
+        
+        
