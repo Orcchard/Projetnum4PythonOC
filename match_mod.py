@@ -10,8 +10,7 @@ class Match:
         self.player2 = player2  # Deuxième joueur
         self.player1_score = player1_score  # Score du premier joueur
         self.player2_score = player2_score  # Score du deuxième joueur
-        
-        # constitution  d'un tuple pour stocker les informations du match
+                # constitution  d'un tuple pour stocker les informations du match
         self.match_tuple = ([self.player1, self.player1_score], [self.player2, self.player2_score])
     
     def display_match(self):
@@ -33,10 +32,10 @@ class Match:
 
 
 
-#print(f"Scores enregistrés avec succès!{self.match_tuple}")
-   
-def add_winner(self):
-    pass
+    #print(f"Scores enregistrés avec succès!{self.match_tuple}")
 
-def calcul_score(self):
-    pass
+    def add_winner(self):
+        pass
+
+    def calcul_score(self):
+        pass
