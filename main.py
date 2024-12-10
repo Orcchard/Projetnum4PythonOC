@@ -1,10 +1,12 @@
 from player_mod import Player
 from tournament_mod import Tournament
+RESULTAT = (1, 0.5, 0)
 from match_mod import Match
+from round_mod import Round
 import random
-#from round_mod import Round
-# Liste des joueurs inscrits pour participer au tournois
 
+
+# Liste des joueurs inscrits pour participer au tournois
 
 all_players = [
 Player(name="Gourgues", first_name="Benjamin", date_of_birth="15-12-1952", player_id="AA34567"),
@@ -63,6 +65,7 @@ random.shuffle(all_players)
 selected_players = all_players[:8]
 
 
+
 # Ajouter les joueurs au tournoi avec un score initial de 0 et une liste d'adversaires
 tournament.participant_tournois = [
     {"Player": player, "Score": 0, "Adversaires": []} for player in selected_players
@@ -79,19 +82,21 @@ for player1, player2 in pairs:
     matches.append(match)
 
 # Afficher les matchs
+round_1 = Round(1, "Premier Round")
 for match in matches:
+    print(round_1)
     print(f"Match entre: {match.player1.name} {match.player1.first_name} Score:{match.player1_score}" 
     f" Contre {match.player2.name } {match.player2.first_name} Score : {match.player2_score}")
+
     
     # Afficher les paires pour vérification
-for pair in pairs:
-    print(f"Paire: {pair[0].name} vs {pair[1].name}")
-    print(type(pair))
+#for pair in pairs:
+    #print(f"Paire: {pair[0].name} vs {pair[1].name}")
+    
 
 # Sauvegarder les paires dans une liste
-saved_pairs = pairs
 
-
+# Créer un round avec un numéro et un nom
 
 
 """
