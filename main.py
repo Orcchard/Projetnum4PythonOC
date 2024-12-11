@@ -1,8 +1,8 @@
-from player_mod import Player
-from tournament_mod import Tournament
 RESULTAT = (1, 0.5, 0)
-from match_mod import Match
+from tournament_mod import Tournament
 from round_mod import Round
+from match_mod import Match
+from player_mod import Player
 import random
 
 
@@ -56,58 +56,59 @@ Player(name="Brebion", first_name="Vincent", date_of_birth="13-03-1973", player_
 
 
 tournament = Tournament("Championnat 2024", location="Paris", date_initial="01/01/2025", date_end="30/01/2025", nb_round=4, description="Premier tournois dans la capitale")
-"""
+print("-" *120)
+print(tournament)
+print("-" *120)
+random.shuffle(all_players)
 for i in range(0, 8):
     tournament.participant_tournois.append({"Player":all_players[i], "Score":0, "Adversaires":[]})
-
+    
+# Selection des 8 joueurs de maniere aleatoir à partir de all_players.
+print("*******Joueurs selectionnés pour le 1ER round*******")
+print()
 for player in tournament.participant_tournois:
-    print(f"{'Nom':<15} {'Identifiant':<12} {'Score':<5}")
-    print("-" * 40)
-    print(player["Player"].name + " " + player["Player"].player_id + " Score :" + str(player["Score"]))
+    print(f"{'Nom':<8}{'Prénom':<10}{'ID':<8}{'Score':<5}")
+    print("-" * 50)
+    print(player["Player"].name + " " + player["Player"].first_name + " " + player["Player"].player_id + " Score :" + str(player["Score"]))
     print()
-    """
-#random.shuffle(all_players)
-#for player in all_players:
-    #print(f"{player.name} {player.first_name} (ID: {player.player_id})")
-
-random.shuffle(all_players)
-selected_players = all_players[:8]
-
-# Ajouter les joueurs au tournoi avec un score initial de 0 et une liste d'adversaires
-tournament.participant_tournois = [
-    {"Player": player, "Score": 0, "Adversaires": []} for player in selected_players
-]
-# Afficher la liste des joueurs sélectionnés avant la création des paires
-print("Liste des joueurs sélectionnés pour le tournoi :")
-print(f"{'Nom':<15}{'Prénom':<15}{'ID':<12}{'Score':<5}")
-print("-" * 50)
-for player in selected_players:
-    print(f"{player.name:<15}{player.first_name:<15}{player.player_id:<12}{0:<5}")  # Score initial à 0
 
 # Créer des paires de joueurs pour les matchs
-pairs = [(selected_players[i], selected_players[i + 1]) for i in range(0, len(selected_players), 2)]
+pairs = []
+participants = tournament.participant_tournois.copy()
+random.shuffle(participants)  # Réordonner les participants pour former des paires aléatoires
 
-# Créer les matchs à partir des paires
+for i in range(0, len(participants), 2):
+    player1 = participants[i]["Player"]
+    player2 = participants[i + 1]["Player"]
+    pairs.append((player1, player2))
+
+# Créer les matchs
 matches = []
-
 for player1, player2 in pairs:
-    match = Match(player1, player2, 0, 0)  # Initialiser le match avec des scores à 0
+    match = Match(player1=player1, player2=player2, player1_score=0, player2_score=0)
     matches.append(match)
+#Créer le 1er round
+round1 = Round(round_number=1,round_name="Premier round")  # Heure a revoir...
+round1.matches.extend(matches)    
 
+print("Matchs du premier round :")
+print(round1)
+# Afficher les matchs directement à partir de la liste matches
+print("Liste des matchs du round :")
+print("-" * 50)
+for match in matches:
+    print(
+        f"{match.player1.name} {match.player1.first_name} VS {match.player2.name} {match.player2.first_name} "
+        f"(Scores initiaux : {match.player1_score} - {match.player2_score})"
+    )
+    
+    
 
-# Afficher les matchs
-round_1 = Round(1, "Premier Round")
-for x in matches:
-    print()
-    print()
-    print(round_1)
-    print(f"Match entre: {x.player1.name} {x.player1.first_name} Score:{x.player1_score}" 
-    f" Contre {x.player2.name } {x.player2.first_name} Score : {x.player2_score}")
 matches[0].player1_score = 1
 matches[0].player2_score = 0
 
-matches[1].player1_score = 0.5
-matches[1].player2_score = 0.5
+matches[1].player1_score = 0
+matches[1].player2_score = 1
 
 matches[2].player1_score = 1
 matches[2].player2_score = 0
@@ -115,12 +116,18 @@ matches[2].player2_score = 0
 matches[3].player1_score = 0.5
 matches[3].player2_score = 0.5
 
+for x in matches:
+    print()
+    print(round1)
+    print(f"Match entre: {x.player1.name} {x.player1.first_name} Score:{x.player1_score}" 
+    f" Contre {x.player2.name } {x.player2.first_name} Score : {x.player2_score}")
 
 
 
-"""
-Mettre à jour les scores des joueurs dans le tournoi
-"""
+
+
+#Mettre à jour les scores des joueurs dans le tournoi
+
 for match in matches:
     for participant in tournament.participant_tournois:
         # Trouver le joueur 1 et ajouter son score
