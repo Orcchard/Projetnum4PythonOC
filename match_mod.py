@@ -24,18 +24,3 @@ class Match:
         pass
 
 
-
-# Si vous voulez un formatage plus lisible :
-
-    
-        # Demande les scores pour chaque joueur avec validation
-
-
-
-    #print(f"Scores enregistrés avec succès!{self.match_tuple}")
-
-    def add_winner(self):
-        pass
-
-    def calcul_score(self):
-        pass
