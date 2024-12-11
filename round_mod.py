@@ -14,11 +14,4 @@ class Round:
         # Retourner une représentation lisible de l'objet Round
         return f"Round {self.round_number} - {self.round_name} - {self.start_time} - {self.end_time} {len(self.matches)} matchs"
         
-    def add_match(self, match):
-        """Ajoute un match à la liste des matchs du round."""
-        self.matches.append(match)
-
-    def __str__(self):
-        return (f"Round {self.round_number} - {self.round_name} - "
-                f"Début : {self.start_time}, Fin : {self.end_time}, "
-                f"{len(self.matches)} match(s) programmé(s)")
+    
