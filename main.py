@@ -150,3 +150,6 @@ print(f"{'Nom':<15}{'ID':<10}{'Score':<10}")
 print("=" * 35)
 for player in sorted_players:
     print(f"{player['Player'].name:<15}{player['Player'].player_id:<10}{player['Score']:<10}")
+    
+
+
