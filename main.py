@@ -62,8 +62,18 @@ random.shuffle(all_players)
 for i in range(0, 8):
     tournament.participant_tournois.append({"Player":all_players[i], "Score":0, "Adversaires":[]})
 
-for i in range(0, 4):
-    round.matches.append( player1, player2, player1_score=0, player2_score=0)
+for round_number in range(1, tournament.nb_round +1):
+    round_i = Round(round_number, f"Round{round_number}")
+    #participants = tournament.participant_tournois
+    for j in range(0,len(tournament.participant_tournois),2):
+        player1 = tournament.participant_tournois[j]["Player"]
+        player2 = tournament.participant_tournois[j + 1]["Player"]
+        
+        
+    match = Match(player1, player2, player1_score=0, player2_score=0)
+    round_i.matches.append(match)
+        
+    
     
 # Selection des 8 joueurs de maniere aleatoir à partir de all_players.
 print("******* 8 Joueurs selectionnés pour le tournois de Paris*******")
@@ -74,30 +84,40 @@ for player in tournament.participant_tournois:
     print(player["Player"].name + " " + player["Player"].first_name + " " + player["Player"].player_id + " Score :" + str(player["Score"]))
     print()
 
-# Instancier 4 matchs
-matches = []
-for i in range(0, len(tournament.participant_tournois), 2):
-    player1 = tournament.participant_tournois[i]["Player"]
-    player2 = tournament.participant_tournois[i + 1]["Player"]
-    match = Match(player1, player2)
-    matches.append(match)
+
+
     
     
 #Créer le 1er round
 round1 = Round(round_number=1,round_name="Premier Round")  # Heure a revoir...
-round1.matches.extend(matches)
+
 
 # Afficher les matchs
 print("******* Matchs du premier round *******")
 print(round1)
 print("-" * 60)
+
+"""
 for matchx in matches:
     player1, score1 = matchx.match_tuple[0]
     player2, score2 = matchx.match_tuple[1]
     print(f"{player1.name} {player1.first_name} ({score1}) VS {player2.name} {player2.first_name} ({score2})")
+"""
 
+# Créer un round et y ajouter des matchs
+round1 = Round(round_number=1, round_name="Round 1")
 
+# Ajouter les matchs au round (en utilisant des joueurs fictifs ici pour l'exemple)
+matches = [
+    Match(all_players[0], all_players[1]),
+    Match(all_players[2], all_players[3]),
+    Match(all_players[4], all_players[5]),
+    Match(all_players[6], all_players[7]),
+]
+# Ajouter les matchs au round
+round1.matches.extend(matches)
 
+# Définir les scores statiquement
 matches[0].player1_score = 1
 matches[0].player2_score = 0
 
@@ -109,6 +129,7 @@ matches[2].player2_score = 0
 
 matches[3].player1_score = 0.5
 matches[3].player2_score = 0.5
+
 
 for x in matches:
     print()
