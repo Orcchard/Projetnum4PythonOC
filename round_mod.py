@@ -9,6 +9,7 @@ class Round:
         self.start_time = datetime.now()  # Date et heure de début définies automatiquement
         self.end_time = (self.start_time + timedelta(hours=4))# 4 heures plus tard)
         self.matches = []  # Liste des matchs (chaque match est une liste de 2 joueurs)
+        
 
     def __str__(self):
         # Retourner une représentation lisible de l'objet Round
