@@ -3,7 +3,8 @@ from round_mod import Round
 from match_mod import Match
 from player_mod import Player
 import random
-
+from pprint import pprint
+MATCH_SCORES = [(1, 0),(0.5, 0.5),(0, 1)]
 
 # Liste des joueurs inscrits pour participer au tournois
 
@@ -63,10 +64,17 @@ for i in range(0, 8):
     tournament.participant_tournois.append({"Player":all_players[i], "Score":0, "Adversaires":[]})
 
 for round_number in range(1, tournament.nb_round +1):
-    round_name = f"Round {round_number}"
+    round_name = f"Round numéro: {round_number}"
     round_i = Round(round_number, round_name)
-    round_name = f"Round {round_number}"
-#si tour num 1 shuffle des participants , sinon trier liste des participant core ecroissant
+    if round_number == 1:
+        random.shuffle(tournament.participant_tournois)
+    else:
+        # Trier les joueurs par score après chaque round
+        sorted_players = sorted(tournament.participant_tournois,
+            key=lambda x: x["Score"],
+            reverse=True  # Trie par ordre décroissant des scores
+    ) 
+    #si tour num 1 shuffle des participants , sinon trier liste des participant score decroissant
     for i in range(0,len(tournament.participant_tournois),2):
         player1 = tournament.participant_tournois[i]["Player"] #[Playeur] Récupère la valeur associée à la clé "Player".
         player2 = tournament.participant_tournois[i + 1]["Player"]
@@ -79,7 +87,6 @@ for round_number in range(1, tournament.nb_round +1):
     #tournament.paticipant[i] ["score"] += 1
     #tournament.participant[i] [adversaire].append(playeur2)
             match.player2_score = 0
-            
         elif round_number == 2:
             match.player1_score = 0.5
             match.player2_score = 0.5
@@ -88,11 +95,6 @@ for round_number in range(1, tournament.nb_round +1):
             match.player2_score = 1
             
         round_i.matches.append(match)
-        
-
-    
-    
-    
     # Afficher les rounds et leurs matchs
     print()
     print(f"{round_name} :")
@@ -110,15 +112,6 @@ for round_number in range(1, tournament.nb_round +1):
             # Trouver le joueur 2 et ajouter son score
             elif participant["Player"].player_id == match.player2.player_id:
                 participant["Score"] += match.player2_score
-                
-                
-    
-    # Trier les joueurs par score après chaque round
-    sorted_players = sorted(tournament.participant_tournois,
-        key=lambda x: x["Score"],
-        reverse=True  # Trie par ordre décroissant des scores
-    )    
-        
         
 # Selection des 8 joueurs de maniere aleatoir à partir de all_players.
 print("******* 8 Joueurs selectionnés pour le tournois de Paris*******")
@@ -137,11 +130,6 @@ matches = [
 ]
 #Ajouter les rounds au tournois de Paris
 tournament.rounds.append(round_i)
-
-    
-                
-            
-
 #afficher les scores totaux
 print()
 print("*" *50)
@@ -156,3 +144,9 @@ sorted_players = sorted(
         
 for i, participant in enumerate(sorted_players, 1):
     print(f"{i}. {participant['Player'].name:<15} {participant['Player'].first_name:<10} {participant['Player'].player_id:<10} {participant['Score']:<5}")
+
+pprint(tournament.participant_tournois)
+for participant in tournament.participant_tournois:
+    print(f"Clés : {list(participant.keys())}")
+    print(f"Valeurs : {participant}")
+    print("-" * 40)
