@@ -2,7 +2,7 @@ import random
 from player_mod import Player
 from match_mod import Match
 from round_mod import Round
-RESULTAT = (1, 0.5, 0)
+
 
 class Tournament:
     def __init__(self, name, location, date_initial, date_end, nb_round=4, description=""):
