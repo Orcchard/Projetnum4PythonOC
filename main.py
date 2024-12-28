@@ -95,7 +95,7 @@ for round_number in range(1, tournament.nb_round +1):
         tournament.participant_tournois[i]["Adversaires"].append(player2)
         tournament.participant_tournois[i+1]["Adversaires"].append(player1)
         
-        #sauvegarde des adversaires
+        #sauvegarde des Scores
         tournament.participant_tournois[i]["Score"] += match.player1_score
         tournament.participant_tournois[i+1]["Score"] +=match.player2_score
             
