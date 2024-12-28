@@ -16,7 +16,7 @@ class Tournament:
         self.nb_round = nb_round
         self.description = description
         self.participant_tournois = []  # Liste pour stocker les 8 joueurs ajoutes au tournois
-        self.adversaires = [] # quels sont les adversaires que le joueur a rencontré pendant un tournois.
+        #self.adversaires = [] # quels sont les adversaires que le joueur a rencontré pendant un tournois.
         self.rounds = [] # 1 round contient 4 matches
         
     def __str__(self):
