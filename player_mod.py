@@ -7,9 +7,15 @@ class Player:
         
 
     def __str__(self):
-        return f"Nom: {self.first_name}, Prenom: {self.name}, Date de Naissance: {self.date_of_birth}, Score: {self.score} pts"
+        return f"Nom: {self.first_name}, Prenom: {self.name}, Date de Naissance: {self.date_of_birth}, ID: {self.player_id}"
 
-# Affichage de tous les joueurs
+    def player_dict(self):
+        return{
+            "name" : self.name,
+            "first_name" : self.first_name,
+            "date_of_birth" : self.date_of_birth,
+            "player_id" : self.player_id
+        }
 
         
 
