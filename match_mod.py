@@ -11,6 +11,15 @@ class Match:
         self.player1_score = player1_score  # Score du premier joueur
         self.player2_score = player2_score  # Score du deuxième joueur
                 # constitution  d'un tuple pour stocker les informations du match
-        self.match_tuple = ([self.player1, self.player1_score], [self.player2, self.player2_score])
+        #self.match_tuple = ([self.player1, self.player1_score], [self.player2, self.player2_score])
     
+    def match_dict(self):
+        return{
+               "player1" : self.player1.player_id,
+               "player2" : self.player2.player_id,
+               "player1_score" : self.player1_score,
+               "player2_score" : self.player2_score,
+               }
+        
+        
     
