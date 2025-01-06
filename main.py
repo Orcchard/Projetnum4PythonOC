@@ -5,6 +5,7 @@ from player_mod import Player
 import random
 from pprint import pprint
 MATCH_SCORE = [(1, 0),(0.5, 0.5),(0, 1)]
+import json
 # Liste des joueurs inscrits pour participer au tournois
 
 all_players = [
@@ -52,7 +53,8 @@ Player(name="Bernard", first_name="Victorine", date_of_birth="17-07-1991", playe
 Player(name="Cousin", first_name="Violette", date_of_birth="17-07-1992", player_id="AT87698"),
 Player(name="Brebion", first_name="Vincent", date_of_birth="13-03-1973", player_id="AC45987")
 ]
-
+for p in all_players:
+    print(f"---{p}---")
 
 tournament = Tournament("Championnat 2024", location="Paris", date_initial="01/01/2025", date_end="30/01/2025", nb_round=4, description="Premier tournois dans la capitale")
 print("-" *120)
@@ -60,7 +62,11 @@ print(tournament)
 print("-" *120)
 random.shuffle(all_players)
 for i in range(0, 8):
-    tournament.participant_tournois.append({"Player":all_players[i], "Score":0, "Adversaires":[]})
+    tournament.participant_tournois.append({"Player":all_players[i], 
+                                            "Score":0, 
+                                            "Adversaires":[]}
+                                           )
+    
 
 # boucle et défininition des rounds 
 for round_number in range(1, tournament.nb_round +1):
@@ -100,18 +106,10 @@ for round_number in range(1, tournament.nb_round +1):
         tournament.participant_tournois[i+1]["Score"] +=match.player2_score
             
         
-            #Ajout du match au round
+        #Ajout du match au round
     
         round_i.matches.append(match)
                 
-        """    for participant in tournament.participant_tournois:
-            # Trouver le joueur 1 et ajouter son score
-            if participant["Player"].player_id == match.player1.player_id:
-                participant["Score"] += match.player1_score
-            # Trouver le joueur 2 et ajouter son score
-                elif participant["Player"].player_id == match.player2.player_id:
-                    participant["Score"] += match.player2_score
-        """
     #Ajouter les rounds au tournois de Paris
     tournament.rounds.append(round_i)
     
@@ -144,7 +142,7 @@ for player in tournament.participant_tournois:
     # Parcours des adversaires
     print("A affronté:")
     for adversaire in player["Adversaires"]:
-        print(" - " + adversaire.name+ " " + adversaire.first_name) 
+        print(" - " + adversaire.name + " " + adversaire.first_name) 
     #print("Debug:", player["Adversaires"])
 
 #Afficher le classement final
@@ -153,10 +151,17 @@ print(f"{'Nom':<15}{'ID':<10}{'Score':<10}")
 print("=" * 35)
 for i, participant in enumerate(sorted_players, 1):
     print(f"{i}. {participant['Player'].name:<15} {participant['Player'].first_name:<10} {participant['Player'].player_id:<10} {participant['Score']:<5}")
-"""
-pprint(tournament.participant_tournois)
-for participant in tournament.participant_tournois:
-    print(f"Clés : {list(participant.keys())}")
-    print(f"Valeurs : {participant}")
-    print("-" * 40)
-"""
+
+
+with open("tournament_data.json", "w", encoding="utf-8") as file:
+    json.dump(tournament.tournament_dict(), file, ensure_ascii=False, indent=4)
+    
+all_players_data = p.player_dict()
+for p in all_players_data:
+    with open("all_players_data.json", "w", encoding="utf-8") as jfile:
+        json.dump(all_players_data, jfile, ensure_ascii=False, indent=4)
+        jfile.write('\n')
+
+
+    
+print("================================données sauvegardées=====================================")
