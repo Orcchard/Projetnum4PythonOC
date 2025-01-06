@@ -7,7 +7,6 @@ class Round:
         self.round_number = round_number  # Numéro du round
         self.round_name = round_name  # Nom du round (ex: "Premier round", "Finale", etc.)
         self.start_time = datetime.now()  # Date et heure de début définies automatiquement
-        
         self.end_time = (self.start_time + timedelta(hours=4))# 4 heures plus tard)
         self.matches = []  # Liste des matchs (chaque match est une liste de 2 joueurs)
         
@@ -16,4 +15,9 @@ class Round:
         # Retourner une représentation lisible de l'objet Round
         return f"Round {self.round_number} - {self.round_name} - {self.start_time} - {self.end_time} {len(self.matches)} matchs"
         
-    
+    def round_dict(self):
+        return {
+            "round_number": self.round_number,
+            "round_name": self.round_name,
+            "matches": [match.match_dict() for match in self.matches],
+        }
