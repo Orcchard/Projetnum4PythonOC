@@ -157,7 +157,7 @@ with open("tournament_data.json", "w", encoding="utf-8") as file:
     json.dump(tournament.tournament_dict(), file, ensure_ascii=False, indent=4)
     
 all_players_data = p.player_dict()
-for p in all_players_data:
+for p in all_players:
     with open("all_players_data.json", "w", encoding="utf-8") as jfile:
         json.dump(all_players_data, jfile, ensure_ascii=False, indent=4)
         jfile.write('\n')
