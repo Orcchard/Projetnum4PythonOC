@@ -1,3 +1,5 @@
+# The above code is a Python script that simulates a tournament with multiple rounds of matches
+# between players. Here is a summary of what the code does:
 from tournament_mod import Tournament
 from round_mod import Round
 from match_mod import Match
@@ -9,6 +11,7 @@ import json
 # Liste des joueurs inscrits pour participer au tournois
 
 all_players = [
+Player(name="TESTNOM", first_name="TESTPRENOM", date_of_birth="15-12-1999", player_id="AZ5657"),
 Player(name="Gourgues", first_name="Benjamin", date_of_birth="15-12-1952", player_id="AA34567"),
 Player(name="Zidi", first_name="Dahlia", date_of_birth="14- 06-1960", player_id="AA98765"),
 Player(name="Totem", first_name="Louise", date_of_birth="04- 07-1938", player_id="AB67854"),
@@ -53,6 +56,7 @@ Player(name="Bernard", first_name="Victorine", date_of_birth="17-07-1991", playe
 Player(name="Cousin", first_name="Violette", date_of_birth="17-07-1992", player_id="AT87698"),
 Player(name="Brebion", first_name="Vincent", date_of_birth="13-03-1973", player_id="AC45987")
 ]
+
 for p in all_players:
     print(f"---{p}---")
 
@@ -152,16 +156,114 @@ print("=" * 35)
 for i, participant in enumerate(sorted_players, 1):
     print(f"{i}. {participant['Player'].name:<15} {participant['Player'].first_name:<10} {participant['Player'].player_id:<10} {participant['Score']:<5}")
 
+#serialisation des joueurs
+all_players_data = [p.player_dict() for p in all_players]
+all_players_data_sorted = sorted(all_players_data,key=lambda x: (x["name"], x["first_name"]))
+with open("all_players_data.json", "w", encoding="utf-8") as jfile:
+    json.dump(all_players_data_sorted, jfile, ensure_ascii=False, indent=4)
+    jfile.write('\n')
+#Impression pour test
+for p in all_players:
+    print(f"!!!!!!!!{p}!!!!!")
 
+#serialisation tournois
 with open("tournament_data.json", "w", encoding="utf-8") as file:
     json.dump(tournament.tournament_dict(), file, ensure_ascii=False, indent=4)
     
-all_players_data = p.player_dict()
-for p in all_players:
-    with open("all_players_data.json", "w", encoding="utf-8") as jfile:
-        json.dump(all_players_data, jfile, ensure_ascii=False, indent=4)
-        jfile.write('\n')
-
-
-    
 print("================================données sauvegardées=====================================")
+
+"""Deserialisation"""
+# Charger les données des joueurs depuis un fichier JSON
+with open("all_players_data.json", "r", encoding="utf-8") as file:
+    players_data = json.load(file)
+
+# Recréer les objets Player
+all_players = [Player(
+    name=data["name"],
+    first_name=data["first_name"],
+    date_of_birth=data["date_of_birth"],
+    player_id=data["player_id"]
+) for data in players_data]
+
+#impression pour test
+for player in all_players:
+    print(f"Nom : {player.name}, Prénom : {player.first_name}, Date de naissance : {player.date_of_birth}, ID : {player.player_id}")
+    print((len(all_players)))
+    
+    
+# Charger les données du tournoi depuis un fichier JSON
+with open("tournament_data.json", "r", encoding="utf-8") as file:
+    tournament_data = json.load(file)
+
+def recreate_tournament(tournament_data, all_players):
+    # Recréer les participants
+    participant_tournois = []
+    for participant in tournament_data["participant_tournois"]:
+        player = next((p for p in all_players if p.player_id == participant["player"]), None)
+        if player:
+            participant_tournois.append({
+                "Player": player,
+                "Score": participant["score"],
+                "Adversaires": [next((p for p in all_players if p.player_id == adv), None) for adv in participant["adversaires"]]
+            })
+
+    # Recréer les rounds
+    rounds = [recreate_round(round_data, all_players) for round_data in tournament_data["rounds"]]
+
+    # Recréer l'objet Tournament
+    return Tournament(
+        name=tournament_data["name"],
+        location=tournament_data["location"],
+        date_initial=tournament_data["date_initial"],
+        date_end=tournament_data["date_end"],
+        nb_round=tournament_data["nb_round"],
+        description=tournament_data["description"]
+    ).update_tournament_data(participant_tournois, rounds)
+
+# Ajout d'une méthode pour mettre à jour les données du tournoi après création
+def update_tournament_data(self, participant_tournois, rounds):
+    self.participant_tournois = participant_tournois
+    self.rounds = rounds
+    #permet à la méthode de retourner l'objet une fois qu'elle a fini d'exécuter son travail.
+    return self
+
+Tournament.update_tournament_data = update_tournament_data
+def recreate_round(round_data, all_players):
+    matches = [recreate_match(match_data, all_players) for match_data in round_data["matches"]]
+    return Round(
+        round_number=round_data["round_number"],
+        round_name=round_data["round_name"],
+        start_time=round_data["start_time"],
+        end_time=round_data["end_time"],
+        matches=matches
+    )
+def print_tournament_details(tournament):
+    print("\n=== Tournoi ===")
+    print(f"Nom : {tournament.name}")
+    print(f"Lieu : {tournament.location}")
+    print(f"Date de début : {tournament.date_initial}")
+    print(f"Date de fin : {tournament.date_end}")
+    print(f"Description : {tournament.description}")
+    print(f"Nombre de rounds prévus : {tournament.nb_round}")
+    print("\n=== Participants ===")
+    for participant in tournament.participant_tournois:
+        player = participant["Player"]
+        print(f"- {player.name} {player.first_name} (ID : {player.player_id})")
+        print(f"  Score : {participant['Score']}")
+        adversaires = ", ".join(
+            [adversary.name for adversary in participant["Adversaires"] if adversary]
+        )
+        print(f"  Adversaires rencontrés : {adversaires if adversaires else 'Aucun'}")
+
+    print("\n=== Rounds ===")
+    for round_obj in tournament.rounds:
+        print(f"Round {round_obj.round_number}: {round_obj.round_name}")
+        print(f"  Début : {round_obj.start_time}")
+        print(f"  Fin : {round_obj.end_time}")
+        print("\n  Matches :")
+        for match in round_obj.matches:
+            print(f"    - {match.player1.name} vs {match.player2.name}")
+            print(f"      Scores : {match.player1_score} - {match.player2_score}")
+
+# Appeler la fonction pour afficher les détails
+print_tournament_details(tournament)
