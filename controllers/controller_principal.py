@@ -1,17 +1,27 @@
 """Define the principal controller."""
 
 from models.player_mod import Player
+import json
 
-class Controller:
+class ControllerPrincipal:
     """Principal controller."""
 
-    def __init__(self, view, all_players):
+    def __init__(self, all_players):
         """Has a view, a list of players ."""
-        # models
-        self.view = view
+        from view_user import View  # Importer la vue ici si elle est dans un autre fichier
+        self.view = view 
         self.all_players = all_players
         self.tournament = None  # Le tournoi courant
+    
+    def start(self):
+        """Méthode pour démarrer le programme."""
+        # Appeler l'entête principale
+        self.view.main_header()
+
+        # Afficher le menu principal
+        self.view.menu()
         
+
     def serialize_players(self):
         """Sérialise les joueurs dans un fichier JSON."""
         # Sérialisation des joueurs : création de la liste de dictionnaires
