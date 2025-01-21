@@ -1,6 +1,6 @@
 import datetime
 import random
-from player_mod import Player
+from models.player_mod import Player
 
 
 class Match:

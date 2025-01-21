@@ -1,7 +1,7 @@
 import random
-from player_mod import Player
-from match_mod import Match
-from round_mod import Round
+from models.player_mod import Player
+from models.match_mod import Match
+from models.round_mod import Round
 
 
 class Tournament:
