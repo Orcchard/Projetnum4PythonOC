@@ -1,27 +1,61 @@
 """Define the principal controller."""
-
+from views.view_users import View  # Importer la vue ici si elle est dans un autre fichier
 from models.player_mod import Player
 import json
 
 class ControllerPrincipal:
     """Principal controller."""
 
-    def __init__(self, all_players):
-        """Has a view, a list of players ."""
-        from view_user import View  # Importer la vue ici si elle est dans un autre fichier
-        self.view = view 
-        self.all_players = all_players
+    def __init__(self):
+        """Has a view, a list of players a tournament ."""
+        self.view = View()
+        self.all_players = [] 
         self.tournament = None  # Le tournoi courant
+    
+    def run(self): 
+        """Run the game."""
+        self.start()   
     
     def start(self):
         """Méthode pour démarrer le programme."""
         # Appeler l'entête principale
         self.view.main_header()
-
         # Afficher le menu principal
         self.view.menu()
         
+        
+    def get_players(self):
+        """Get some players."""
+        while len(self.all_players) < 8:  # nombre maxi 8 joueurs
+            player_datas = self.view.prompt_for_player()
 
+            if not player_datas:
+                print("Erreur : Les données fournies sont invalides. Veuillez réessayer.")
+                continue
+
+            # Création et ajout du joueur
+            try:
+                # Valider et créer le joueur
+                required_keys = ["name", "first_name", "player_id", "birth_date"]
+                missing_keys = [key for key in required_keys if key not in player_datas]
+
+                if missing_keys:
+                    print(f"Erreur : Clés manquantes dans les données du joueur : {', '.join(missing_keys)}.")
+                    continue
+
+                player = Player(
+                    name=player_datas["name"],
+                    first_name=player_datas["first_name"],
+                    player_id=player_datas["player_id"],
+                    birth_date=player_datas["birth_date"],
+                )
+
+                self.all_players.append(player)
+                print(f"Joueur {player.name} ajouté avec succès.")
+
+            except Exception as e:
+                print(f"Une erreur inattendue est survenue : {e}.")
+        
     def serialize_players(self):
         """Sérialise les joueurs dans un fichier JSON."""
         # Sérialisation des joueurs : création de la liste de dictionnaires
@@ -43,15 +77,28 @@ class ControllerPrincipal:
                 players_data = json.load(file)
 
             # Ajouter chaque joueur à la liste all_players
-            for player_data in players_data:
-                self.all_players.append(player_data)
+            for player_datas in players_data:
+                self.all_players.append(player_datas)
                 print(all_players)
                 
         except FileNotFoundError:
             print(f"Erreur : Le fichier '{json_file_path}' n'existe pas.")
         except json.JSONDecodeError as e:
-            print(f"Erreur lors du décodage du fichier JSON : {e}")   
-            
+            print(f"Erreur lors du décodage du fichier JSON : {e}")  
+        
+
+    def create_player():
+        # Récupération des infos du joueur
+        user_entries = CreatePlayer().display_menu()
+        pass
+        # Création du joueur
+        player = Player(
+            user_entries['name'],
+            user_entries['first_name'],
+            user_entries['date_of_birth']
+        )
+
+        
 """
 tournament = Tournament("Championnat 2024", location="Paris", date_initial="01/01/2025", date_end="30/01/2025", nb_round=4, description="Premier tournois dans la capitale")
 print("-" *120)
