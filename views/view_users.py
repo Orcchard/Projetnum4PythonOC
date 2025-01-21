@@ -1,11 +1,10 @@
-
 class View:
     def main_header(self):
         #Header before the main menu
         #self.clear_screen()
-        print("\t**********************")
-        print("\t* Tournois echec  *")
-        print("\t**********************\n")
+        print("\t**********************************************")
+        print("\t* Bienvenue dans le gestionnaire de tournoi  *")
+        print("\t********************************************\n")
         
     
     def menu(self):
@@ -25,19 +24,22 @@ class View:
         
     #@staticmethod
     
-    
-    def input_player_name(self):
-        """Input for new player's last name."""
-        return input("Nom du joueur : ").capitalize()
-
-    def player_first_name_update(self, first_name):
-        """Update player's first name."""
-        return input("Prénom om du joueur : ").capitalize()
-
-    def input_player_id(self):
-        """Input for player's ID"""
-        return input("\nIdentifiant du joueur (2 Lettres majuscules et 5 nombres): ").upper()
-    
-    def player_birth_date_update(self, birth_date):
-        """Update player's birth date."""
         """Condition dur format de la date de naissance a completer"""
+    def prompt_for_player(self):
+        """Collect all necessary player data and return as a dictionary."""
+        print("Veuillez entrer les informations du joueur :")
+        name = input("Nom du joueur : ").capitalize()
+        first_name = input("Prénom du joueur : ").capitalize()
+        player_id = input("\nIdentifiant du joueur (2 Lettres majuscules et 5 nombres) : ").upper()
+        birth_date = input("Date de naissance du joueur (format JJ/MM/AAAA) : ")
+
+        # Retourner un dictionnaire contenant toutes les informations
+        return {
+            "name": name,
+            "first_name": first_name,
+            "player_id": player_id,
+            "birth_date": birth_date,
+        }
+        
+    
+    
