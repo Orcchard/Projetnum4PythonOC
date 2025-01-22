@@ -11,6 +11,7 @@ class ControllerPrincipal:
         self.view = View()
         self.all_players = [] 
         self.tournament = None  # Le tournoi courant
+        self.players_file = "all_players_data.json"  # Fichier pour stocker les joueurs
     
     def run(self): 
         """Run the game."""
@@ -22,12 +23,71 @@ class ControllerPrincipal:
         self.view.main_header()
         # Afficher le menu principal
         self.view.menu()
+        self.view.first_prompt()
+        user_choice = input()
+        
+        if user_choice == "1":
+            self.player_add()
+            
+        
+    def player_add(self):
+        """Adding a new player and serialize in json file."""
+        self.view.new_player_header()
+        player_input_data = self.view.prompt_for_player()
+           # Créer une instance de Player
+        player = Player(
+            name=player_input_data["name"],
+            first_name=player_input_data["first_name"],
+            date_of_birth=player_input_data["birth_date"],
+            player_id=player_input_data["player_id"]
+        )
+
+        print(f"========{player}")
+        print("Le joueur a été ajouté avec succès.")
+        # Sérialiser les données du joueur
+        player_data = player.player_dict()
+        
+        self.save_player_to_file(player_data)
+        #Passe l'argument player_data à cette méthode save_player_to_file
         
         
-    def get_players(self):
-        """Get some players."""
-        while len(self.all_players) < 8:  # nombre maxi 8 joueurs
-            player_datas = self.view.prompt_for_player()
+    def save_player_to_file(self, player_data):
+        #Save player data to a JSON file, including existing players
+        try:
+            # Charger les données existantes du fichier JSON
+            try:
+                with open(self.players_file, "r", encoding="utf-8") as file:
+                    players = json.load(file)
+            except FileNotFoundError:
+                # Si le fichier n'existe pas, on crée une liste vide
+                players = []
+
+            # Ajouter le nouveau joueur
+            players.append(player_data)
+            #Trier les joueurs par nom 
+            players.sort(key=lambda x: x["name"].lower())  
+            # Réécrire les données dans le fichier JSON
+            with open(self.players_file, "w", encoding="utf-8") as file:
+                json.dump(players, file, ensure_ascii=False, indent=4)
+
+        except Exception as e:
+            print(f"Erreur lors de la sauvegarde du fichier : {e}")
+
+
+    
+        
+
+
+
+        
+        
+       
+        
+    """
+    #def get_players(self):
+        #Get some players
+       # while len(self.all_players) < 8:  # nombre maxi 8 joueurs
+            
 
             if not player_datas:
                 print("Erreur : Les données fournies sont invalides. Veuillez réessayer.")
@@ -57,49 +117,40 @@ class ControllerPrincipal:
                 print(f"Une erreur inattendue est survenue : {e}.")
         
     def serialize_players(self):
-        """Sérialise les joueurs dans un fichier JSON."""
+        #Sérialise les joueurs dans un fichier JSON
         # Sérialisation des joueurs : création de la liste de dictionnaires
-        all_players_data = [p.player_dict() for p in self.all_players]
+        #all_players_data = [p.player_dict() for p in self.all_players]
 
         # Trier les joueurs par nom et prénom
-        all_players_data_sorted = sorted(all_players_data, key=lambda x: (x["name"], x["first_name"]))
+        #all_players_data_sorted = sorted(all_players_data, key=lambda x: (x["name"], x["first_name"]))
 
         # Sauvegarder les données des joueurs dans un fichier JSON
-        with open("all_players_data.json", "w", encoding="utf-8") as jfile:
-            json.dump(all_players_data_sorted, jfile, ensure_ascii=False, indent=4)
+        #with open("all_players_data.json", "w", encoding="utf-8") as jfile:
+            #json.dump(all_players_data_sorted, jfile, ensure_ascii=False, indent=4)
         
         
-    def load_all_players_from_json(self, json_file_path="all_players_data.json"):   
-        """Charger les données des joueurs depuis un fichier JSON."""
-        try:
+    #def load_all_players_from_json(self, json_file_path="all_players_data.json"):   
+        #Charger les données des joueurs depuis un fichier JSON
+        #try:
             # Charger les données depuis le fichier JSON
-            with open(json_file_path, "r", encoding="utf-8") as file:
-                players_data = json.load(file)
+            #with open(json_file_path, "r", encoding="utf-8") as file:
+                #players_data = json.load(file)
 
             # Ajouter chaque joueur à la liste all_players
-            for player_datas in players_data:
-                self.all_players.append(player_datas)
-                print(all_players)
+            #for player_datas in players_data:
+                #self.all_players.append(player_datas)
+                #print(all_players)
                 
-        except FileNotFoundError:
-            print(f"Erreur : Le fichier '{json_file_path}' n'existe pas.")
-        except json.JSONDecodeError as e:
-            print(f"Erreur lors du décodage du fichier JSON : {e}")  
+        #except FileNotFoundError:
+            #print(f"Erreur : Le fichier '{json_file_path}' n'existe pas.")
+        #except json.JSONDecodeError as e:
+            #print(f"Erreur lors du décodage du fichier JSON : {e}")  
         
 
-    def create_player():
-        # Récupération des infos du joueur
-        user_entries = CreatePlayer().display_menu()
-        pass
-        # Création du joueur
-        player = Player(
-            user_entries['name'],
-            user_entries['first_name'],
-            user_entries['date_of_birth']
-        )
+    
 
         
-"""
+
 tournament = Tournament("Championnat 2024", location="Paris", date_initial="01/01/2025", date_end="30/01/2025", nb_round=4, description="Premier tournois dans la capitale")
 print("-" *120)
 print(tournament)
