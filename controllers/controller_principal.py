@@ -13,11 +13,51 @@ class ControllerPrincipal:
         self.tournament = None  # Le tournoi courant
         self.players_file = "all_players_data.json"  # Fichier pour stocker les joueurs
     
-    def run(self): 
-        """Run the game."""
-        self.start()   
+      
     
-    def start(self):
+    def run(self):
+        """Run the game"""
+        print("Chargement des joueurs...")
+        self.all_players = self.load_players_from_file()
+        
+        if not self.all_players:
+            print("Aucun joueur trouvé. Veuillez vérifier le fichier des joueurs.")
+            return
+        
+        
+        print(f"{len(self.all_players)} joueurs chargés avec succès.")
+        # Appeler le menu principal
+        self.display_menu()
+        self.display_all_players()
+        
+
+    
+    def load_players_from_file(self):
+        """Charge les joueurs depuis le fichier JSON."""
+        players_file = "all_players_data.json"
+        try:
+            with open(players_file, "r", encoding="utf-8") as file:
+                players_data = json.load(file)
+                # Retourner les données telles qu'elles sont ou les convertir en instances
+                return [Player.deserialize_player(data) for data in players_data]
+        except FileNotFoundError:
+            print("Erreur : fichier de données des joueurs introuvable.")
+            return []
+        except Exception as e:
+            print(f"Erreur lors du chargement des joueurs : {e}")
+            return []
+    
+    def display_all_players(self):
+        """Affiche tous les joueurs chargés."""
+        print("\nListe des joueurs :")
+        print(f"\nNombre total de joueurs : {len(self.all_players)}")
+        for player in self.all_players:
+            # Imprime le nombre total de joueurs
+            print(player)
+            
+            
+
+    def display_menu(self):
         """Méthode pour démarrer le programme."""
         # Appeler l'entête principale
         self.view.main_header()
