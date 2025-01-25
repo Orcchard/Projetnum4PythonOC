@@ -7,9 +7,10 @@ class Player:
         
 
     def __str__(self):
-        return f"Nom: {self.first_name}, Prenom: {self.name}, Date de Naissance: {self.date_of_birth}, ID: {self.player_id}"
+        return f"Nom: {self.name}, Prenom: {self.first_name}, Date de Naissance: {self.date_of_birth}, ID: {self.player_id}"
 
     """serialize les joueurs"""
+    
     def player_dict(self):
         return{
             "name" : self.name,
@@ -19,7 +20,6 @@ class Player:
         }
 
     
-
 
     def deserialize_player(data):
         return Player(
