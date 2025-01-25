@@ -4,15 +4,16 @@ import json
 import sys
 class View:
     
-    
     @staticmethod
     def clear_screen():
-        """Clear the display."""
-        os.system("cls" if sys.platform == "win32" else "clear")
-    
+        if sys.platform == 'win32':
+            os.system('cls')
+        else:
+            os.system('clear')
+      
+
     def main_header(self):
         #Header before the main menu
-        #self.clear_screen()
         print("\t**********************************************")
         print("\t* Bienvenue dans le gestionnaire de tournoi  *")
         print("\t********************************************\n")
@@ -29,9 +30,7 @@ class View:
         print("\n5. Quitter le programme")
         print()
     #si option 2 faire appel au controlleur qui fera appel a la vue player_input_tournois etc...
-    #def number_of_players(self, all_players):
-        """Récupère le nombre de joueurs"""
-        #return len(all_players)
+    
         
     
     
@@ -39,15 +38,13 @@ class View:
     def first_prompt():
         """Proposal to the user to make a choice."""
         print("\nFaites votre choix et pressez la touche [ENTREE] : ")
-        
-        
-        
-        
+      
     @staticmethod
     def new_player_header():
         """Header to add a New Player'."""
         View().clear_screen()
         
+
         
         print("\t**********************************************")
         print("\t*AJOUT D'UN NOUVEAU JOUEUR")
@@ -59,14 +56,15 @@ class View:
         name = input("Nom du joueur : ").capitalize()
         first_name = input("Prénom du joueur : ").capitalize()
         player_id = input("\nIdentifiant du joueur (2 Lettres majuscules et 5 nombres) : ").upper()
-        birth_date = input("Date de naissance du joueur (format JJ/MM/AAAA) : ")
+        date_of_birth = input("Date de naissance du joueur (format JJ/MM/AAAA) : ")
         # Créer un dictionnaire contenant toutes les informations
         player_input_data = {
             "name": name,
             "first_name": first_name,
             "player_id": player_id,
-            "birth_date": birth_date,
+            "date_of_birth": date_of_birth,
         }
+        #player_input_data =  Player.player_dict(player)
         return player_input_data
         
     
