@@ -120,6 +120,12 @@
         "player_id": "AA34567"
     },
     {
+        "name": "Jaoui",
+        "first_name": "Agnes",
+        "date_of_birth": "12/10/1965",
+        "player_id": "LL89098"
+    },
+    {
         "name": "Labia",
         "first_name": "Valérie",
         "date_of_birth": "17-07-1999",
@@ -148,12 +154,6 @@
         "first_name": "Catherine",
         "date_of_birth": "23-06-1978",
         "player_id": "AD66898"
-    },
-    {
-        "name": "Martin",
-        "first_name": "Camille",
-        "date_of_birth": "14-08-1980",
-        "player_id": "ZE23443"
     },
     {
         "name": "Martinez",
