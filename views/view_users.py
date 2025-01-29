@@ -2,6 +2,8 @@ import os
 from os import path
 import json
 import sys
+
+MAX_PLAYERS = 8
 class View:
     
     @staticmethod
@@ -38,17 +40,24 @@ class View:
     def first_prompt():
         """Proposal to the user to make a choice."""
         print("\nFaites votre choix et pressez la touche [ENTREE] : ")
-      
+    
+    
+    def prompt_for_player_prefix(self):
+        """Demande à l'utilisateur d'entrer les 3 premières lettres du nom du participant."""
+        return input(
+        "Entrez les 3 premières lettres du nom du participan t"
+        "puis pressez la touche [ENTER]: "
+        ).strip().lower()    
+    
+    
     @staticmethod
     def new_player_header():
         """Header to add a New Player'."""
         View().clear_screen()
         
-
-        
         print("\t**********************************************")
-        print("\t*AJOUT D'UN NOUVEAU JOUEUR")
-        print("\t********************************************\n")
+        print("\t*      AJOUT D'UN NOUVEAU JOUEUR             *")
+        print("\t*********************************************\n")
     
     def prompt_for_player(self):
         """Collect all necessary player data and return as a dictionary."""
@@ -64,7 +73,24 @@ class View:
             "player_id": player_id,
             "date_of_birth": date_of_birth,
         }
-        #player_input_data =  Player.player_dict(player)
+        
         return player_input_data
         
-    
+    def not_enough_players(self):
+        """Check the number of players."""
+        self.clear_screen()
+        num_of_players = self.number_of_player()
+        if num_of_players < MAX_PLAYERS:
+            print(
+                f"\nIl y a {num_of_players} joueurs disponibles. Veuillez en ajouter de nouveaux.\n"
+            )
+            
+    """
+    def number_of_player(self):
+        Retrieve the number of players in the database
+        if path.isfile(players_file) is False:
+            return 0
+        else:
+            obj = json.load(open(players_file))
+            num_of_players = len(obj)
+            return num_of_players"""

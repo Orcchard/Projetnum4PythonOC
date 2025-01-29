@@ -19,6 +19,7 @@ class ViewTournament:
     def tournament_new_header():
         """Header before new tournament menu."""
         ViewTournament().clear_screen()
+        
         print("\t**************************")
         print("\t* CREATION D'UN TOURNOI  *")
         print("\t************************\n")
@@ -43,4 +44,5 @@ class ViewTournament:
             "description": description
         }
         return tournament_input_data
+        self.prompt_for_player_prefix()
     
