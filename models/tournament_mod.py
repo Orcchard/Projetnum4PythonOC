@@ -15,7 +15,7 @@ class Tournament:
         self.date_end = date_end
         self.nb_round = nb_round
         self.description = description
-        self.participant_tournois = []  # Liste pour stocker les 8 joueurs ajoutes au tournois
+        self.participant_tournament = []  # Liste pour stocker les 8 joueurs ajoutes au tournois
         self.adversaires = [] # quels sont les adversaires que le joueur a rencontré pendant un tournois.
         self.rounds = [] # 1 round contient 4 matches
         
@@ -37,13 +37,13 @@ class Tournament:
             "date_end":self.date_end, 
             "nb_round":self.nb_round,
             "description":self.description,
-            "participant_tournois":[
+            "participant_tournament":[
                 {"player":participant["Player"].player_id,
                  "score":participant["Score"],
                  "adversaires":[adversary.player_id for adversary in participant["Adversaires"]]
                     
                 }
-                for participant in self.participant_tournois
+                for participant in self.participant_tournament
             ],
             "rounds": [round.round_dict() for round in self.rounds],
             
