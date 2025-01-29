@@ -24,6 +24,9 @@ class ViewTournament:
         print("\t* CREATION D'UN TOURNOI  *")
         print("\t************************\n")
         
+        
+        
+        
     def prompt_for_new_tournament(self):
         """Collect data return as a dictionary."""
         print("Veuillez entrer les informations du tournois :")

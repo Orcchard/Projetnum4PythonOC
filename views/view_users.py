@@ -3,7 +3,7 @@ from os import path
 import json
 import sys
 
-MAX_PLAYERS = 8
+
 class View:
     
     @staticmethod
@@ -45,7 +45,7 @@ class View:
     def prompt_for_player_prefix(self):
         """Demande à l'utilisateur d'entrer les 3 premières lettres du nom du participant."""
         return input(
-        "Entrez les 3 premières lettres du nom du participan t"
+        "Entrez les 3 premières lettres du nom du participant"
         "puis pressez la touche [ENTER]: "
         ).strip().lower()    
     
