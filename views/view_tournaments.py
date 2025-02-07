@@ -1,15 +1,13 @@
 import os
 import sys
 import json
-
-#players_data_file = "data/players.json"
-#tournaments_data_file = "data/tournaments.json"
+"""
+players_data_file = "data/players.json
+tournaments_data_file = "data/tournaments.json
+"""
 
 
 class ViewTournament:
-    
-        
-
     @staticmethod
     def clear_screen():
         """Clear the display."""
@@ -19,14 +17,10 @@ class ViewTournament:
     def tournament_new_header():
         """Header before new tournament menu."""
         ViewTournament().clear_screen()
-        
         print("\t**************************")
         print("\t* CREATION D'UN TOURNOI  *")
         print("\t************************\n")
-        
-        
-        
-        
+
     def prompt_for_new_tournament(self):
         """Collect data return as a dictionary."""
         print("Veuillez entrer les informations du tournois :")
@@ -36,7 +30,6 @@ class ViewTournament:
         date_end = input("Date de fin du tournoi (format JJ/MM/AAAA) : ")
         nb_round = input("Nombre de round : ")
         description = input("Description du tournoi : ")
-        
         # Créer un dictionnaire contenant toutes les informations
         tournament_input_data = {
             "name": name,
@@ -48,4 +41,15 @@ class ViewTournament:
         }
         return tournament_input_data
         self.prompt_for_player_prefix()
-    
+        
+    def tournament_start_prompt(self):
+        """Input to start the new tournament."""
+        choice = input("\nVoulez-vous commencer ce tournoi ? (O/N) ").casefold()
+        if choice == "O":
+            return "ok"
+        elif choice != "N":
+            print("Wrong input")
+            self.tournament_start_prompt()
+            return None
+        else:
+            return "bye"
