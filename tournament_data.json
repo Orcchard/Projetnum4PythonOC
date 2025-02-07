@@ -1,212 +1,32 @@
-{
-    "name": "Championnat 2024",
-    "location": "Paris",
-    "date_initial": "01/01/2025",
-    "date_end": "30/01/2025",
-    "nb_round": 4,
-    "description": "Premier tournois dans la capitale",
-    "participant_tournois": [
-        {
-            "player": "AT45398",
-            "score": 4.0,
-            "adversaires": [
-                "AV57867",
-                "AN57888",
-                "AB27654",
-                "AT63567"
-            ]
-        },
-        {
-            "player": "AT63567",
-            "score": 2.0,
-            "adversaires": [
-                "AX67990",
-                "AB27654",
-                "AN57888",
-                "AT45398"
-            ]
-        },
-        {
-            "player": "AB27654",
-            "score": 2.5,
-            "adversaires": [
-                "AC45987",
-                "AT63567",
-                "AT45398",
-                "AN57888"
-            ]
-        },
-        {
-            "player": "AN57888",
-            "score": 1.5,
-            "adversaires": [
-                "AV09789",
-                "AT45398",
-                "AT63567",
-                "AB27654"
-            ]
-        },
-        {
-            "player": "AV09789",
-            "score": 2.5,
-            "adversaires": [
-                "AN57888",
-                "AV57867",
-                "AX67990",
-                "AX67990"
-            ]
-        },
-        {
-            "player": "AX67990",
-            "score": 1.5,
-            "adversaires": [
-                "AT63567",
-                "AC45987",
-                "AV09789",
-                "AV09789"
-            ]
-        },
-        {
-            "player": "AV57867",
-            "score": 1.0,
-            "adversaires": [
-                "AT45398",
-                "AV09789",
-                "AC45987",
-                "AC45987"
-            ]
-        },
-        {
-            "player": "AC45987",
-            "score": 1.0,
-            "adversaires": [
-                "AB27654",
-                "AX67990",
-                "AV57867",
-                "AV57867"
-            ]
-        }
-    ],
-    "rounds": [
-        {
-            "round_number": 1,
-            "round_name": "====Round numéro: 1====",
-            "matches": [
-                {
-                    "player1": "AT45398",
-                    "player2": "AV57867",
-                    "player1_score": 1.0,
-                    "player2_score": 0.0
-                },
-                {
-                    "player1": "AN57888",
-                    "player2": "AV09789",
-                    "player1_score": 1.0,
-                    "player2_score": 0.0
-                },
-                {
-                    "player1": "AB27654",
-                    "player2": "AC45987",
-                    "player1_score": 1.0,
-                    "player2_score": 0.0
-                },
-                {
-                    "player1": "AT63567",
-                    "player2": "AX67990",
-                    "player1_score": 1.0,
-                    "player2_score": 0.0
-                }
-            ]
-        },
-        {
-            "round_number": 2,
-            "round_name": "====Round numéro: 2====",
-            "matches": [
-                {
-                    "player1": "AT45398",
-                    "player2": "AN57888",
-                    "player1_score": 1.0,
-                    "player2_score": 0.0
-                },
-                {
-                    "player1": "AB27654",
-                    "player2": "AT63567",
-                    "player1_score": 0.5,
-                    "player2_score": 0.5
-                },
-                {
-                    "player1": "AV57867",
-                    "player2": "AV09789",
-                    "player1_score": 0.0,
-                    "player2_score": 1.0
-                },
-                {
-                    "player1": "AC45987",
-                    "player2": "AX67990",
-                    "player1_score": 0.0,
-                    "player2_score": 1.0
-                }
-            ]
-        },
-        {
-            "round_number": 3,
-            "round_name": "====Round numéro: 3====",
-            "matches": [
-                {
-                    "player1": "AT45398",
-                    "player2": "AB27654",
-                    "player1_score": 1.0,
-                    "player2_score": 0.0
-                },
-                {
-                    "player1": "AT63567",
-                    "player2": "AN57888",
-                    "player1_score": 0.5,
-                    "player2_score": 0.5
-                },
-                {
-                    "player1": "AV09789",
-                    "player2": "AX67990",
-                    "player1_score": 0.5,
-                    "player2_score": 0.5
-                },
-                {
-                    "player1": "AV57867",
-                    "player2": "AC45987",
-                    "player1_score": 1.0,
-                    "player2_score": 0.0
-                }
-            ]
-        },
-        {
-            "round_number": 4,
-            "round_name": "====Round numéro: 4====",
-            "matches": [
-                {
-                    "player1": "AT45398",
-                    "player2": "AT63567",
-                    "player1_score": 1.0,
-                    "player2_score": 0.0
-                },
-                {
-                    "player1": "AB27654",
-                    "player2": "AN57888",
-                    "player1_score": 1.0,
-                    "player2_score": 0.0
-                },
-                {
-                    "player1": "AV09789",
-                    "player2": "AX67990",
-                    "player1_score": 1.0,
-                    "player2_score": 0.0
-                },
-                {
-                    "player1": "AV57867",
-                    "player2": "AC45987",
-                    "player1_score": 0.0,
-                    "player2_score": 1.0
-                }
-            ]
-        }
-    ]
-}
+[
+    {
+        "name": "Cocorico",
+        "location": "Parigi",
+        "date_initial": "",
+        "date_end": "",
+        "nb_round": "4",
+        "description": "CA NE FONCTIONNE PAS",
+        "participant_tournament": [],
+        "rounds": []
+    },
+    {
+        "name": "E/.d.d",
+        "location": "Eee",
+        "date_initial": "",
+        "date_end": "",
+        "nb_round": "EEEEE",
+        "description": "",
+        "participant_tournament": [],
+        "rounds": []
+    },
+    {
+        "name": "Que le meilleurs gagne",
+        "location": "Roma",
+        "date_initial": "",
+        "date_end": "",
+        "nb_round": "4",
+        "description": "AVENIR",
+        "participant_tournament": [],
+        "rounds": []
+    }
+]
