@@ -120,12 +120,6 @@
         "player_id": "AA34567"
     },
     {
-        "name": "Jaoui",
-        "first_name": "Agnes",
-        "date_of_birth": "12/10/1965",
-        "player_id": "LL89098"
-    },
-    {
         "name": "Labia",
         "first_name": "Valérie",
         "date_of_birth": "17-07-1999",
@@ -150,16 +144,16 @@
         "player_id": "AZ36873"
     },
     {
+        "name": "Marchewska",
+        "first_name": "Carole",
+        "date_of_birth": "12/09/1961",
+        "player_id": "OI78543"
+    },
+    {
         "name": "Martin",
         "first_name": "Catherine",
         "date_of_birth": "23-06-1978",
         "player_id": "AD66898"
-    },
-    {
-        "name": "Martin",
-        "first_name": "Frederique",
-        "date_of_birth": "13/04/1978",
-        "player_id": "NN45665"
     },
     {
         "name": "Martinez",
@@ -210,6 +204,12 @@
         "player_id": "AC12675"
     },
     {
+        "name": "TESTNOM",
+        "first_name": "TESTPRENOM",
+        "date_of_birth": "15-12-1999",
+        "player_id": "AZ5657"
+    },
+    {
         "name": "Totem",
         "first_name": "Louise",
         "date_of_birth": "04- 07-1938",
@@ -252,7 +252,7 @@
         "player_id": "AM39675"
     },
     {
-        "name": "Vitta",
+        "name": "Vita",
         "first_name": "Marguerite",
         "date_of_birth": "07-02-2000",
         "player_id": "AV57858"
