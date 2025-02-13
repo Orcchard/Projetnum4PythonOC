@@ -1,10 +1,5 @@
 import os
 import sys
-import json
-"""
-players_data_file = "data/players.json
-tournaments_data_file = "data/tournaments.json
-"""
 
 
 class ViewTournament:
@@ -41,15 +36,3 @@ class ViewTournament:
         }
         return tournament_input_data
         self.prompt_for_player_prefix()
-        
-    def tournament_start_prompt(self):
-        """Input to start the new tournament."""
-        choice = input("\nVoulez-vous commencer ce tournoi ? (O/N) ").casefold()
-        if choice == "O":
-            return "ok"
-        elif choice != "N":
-            print("Wrong input")
-            self.tournament_start_prompt()
-            return None
-        else:
-            return "bye"

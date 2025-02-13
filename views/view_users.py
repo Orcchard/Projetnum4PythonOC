@@ -1,7 +1,5 @@
-import os
-from os import path
-import json
 import sys
+import os
 MAX_PLAYERS = 8
 
 
@@ -87,18 +85,3 @@ class View:
                 f"\nIl y a {num_of_players} joueurs disponibles. "
                 f"Veuillez en ajouter de nouveaux.\n"
             )
-
-
-"""
-    def display_no_players_found():
-
-
-    def number_of_player(self):
-        Retrieve the number of players in the database
-        if path.isfile(players_file) is False:
-            return 0
-        else:
-            obj = json.load(open(players_file))
-            num_of_players = len(obj)
-            return num_of_players
-            """
