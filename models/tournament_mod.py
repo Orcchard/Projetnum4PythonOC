@@ -35,20 +35,17 @@ class Tournament:
                     "player": participant["Player"].player_id,
                     "score": participant["Score"],
                     "adversaires": [
-                        adversary.player_id
-                        for adversary in participant["Adversaires"]
-                        ],
+                        adversary.player_id for adversary in
+                        participant["Adversaires"]
+                    ],
                 }
                 for participant in self.participant_tournament
             ],
-            "rounds": [
-                round.round_dict()
-                for round in self.rounds
-            ],
+            "rounds": [round.round_dict() for round in self.rounds]
         }
 
-    def recreate_tournament(tournament_data,all_players):
-        return Tournament(
+    def recreate_tournament(tournament_data, all_players):
+        tournament = Tournament(
             name=tournament_data["name"],
             location=tournament_data["location"],
             date_initial=tournament_data["date_initial"],
@@ -56,3 +53,29 @@ class Tournament:
             nb_round=tournament_data["nb_round"],
             description=tournament_data["description"]
         )
+        """
+        Reconstituer les participants du tournoi
+        avec les adversaires et les scores
+        """
+        tournament.participant_tournament = [
+            {
+                "Player": next(
+                    (player for player in all_players
+                        if player.player_id == participant["player"]), None),
+                "Score": participant["score"],
+                "Adversaires": [
+                    next(
+                        (player for player in all_players if
+                            player.player_id == adv_id), None
+                    ) for adv_id in participant["adversaires"]
+                ]
+            }
+            for participant in tournament_data.get(
+                "participant_tournament", []
+                )
+        ]
+        tournament.rounds = [
+            Round.recreate_round(round_data, all_players)
+            for round_data in tournament_data.get("rounds", [])
+            ]
+        return tournament
