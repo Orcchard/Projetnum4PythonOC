@@ -12,7 +12,7 @@ class ControllerPrincipal:
     """Principal controller."""
 
     def __init__(self):
-        """Has a view, a list of players a tournament ."""
+        """Initialise le controler avec une vue et ses attributs ."""
         self.view = View()
         self.view_tournaments = ViewTournament()
         self.all_players = []
@@ -21,10 +21,10 @@ class ControllerPrincipal:
 
         """Le tournoi courant"""
         self.players_file = "all_players_data.json"
-        """Fichier pour stocker les joueurs"""
+        self.tournaments_file = "tournaments_data.json"
 
     def run(self):
-        """Run the game"""
+        """Run the main program"""
         print("Chargement des joueurs...")
         self.all_players = self.load_players_from_js_file()
         """Chargement de la liste de joueurs dans all_players"""
@@ -35,7 +35,8 @@ class ControllerPrincipal:
             )
             print(f"{len(self.all_players)} joueurs chargés avec succès.")
         # Charger les tournois existants
-        self.load_tournament_from_json()  # Charger les tournois à ce moment
+        self.load_tournaments_from_json()
+        """Charger les tournois stockés dans fichier json"""
         self.display_menu()
         """Appeler le menu principal"""
 
@@ -92,20 +93,17 @@ class ControllerPrincipal:
     def record_new_player(self, player_data):
         """Met à jour le fichier all_players en ajoutant un nouveau joueur."""
         try:
-            # Charger les données existantes du fichier JSON afin de les lire
-            try:
+            players = []
+            if os.path.exists(self.players_file):
                 with open(self.players_file, "r", encoding="utf-8") as file:
                     players = json.load(file)
-            except FileNotFoundError:
-                # Si le fichier n'existe pas, on crée une liste vide
-                players = []
-            # Ajouter le nouveau joueur
+                    """Charge les données existantes du fichier JSON"""
             players.append(player_data)
-            """Trier les joueurs par nom"""
             players.sort(key=lambda x: x["name"].lower())
-            # Réécrire les données dans le fichier JSON
+            """Trier les joueurs par nom"""
             with open(self.players_file, "w", encoding="utf-8") as file:
                 json.dump(players, file, ensure_ascii=False, indent=4)
+
         except Exception as e:
             print(f"Erreur lors de la sauvegarde du fichier: {e}")
 
@@ -116,99 +114,75 @@ class ControllerPrincipal:
             self.view_tournaments.prompt_for_new_tournament()
             )
         # Créer une instance de Tournament
-        self.tournament = Tournament(
-            name=tournament_input_data["name"],
-            location=tournament_input_data["location"],
-            date_initial=tournament_input_data["date_initial"],
-            date_end=tournament_input_data["date_end"],
-            description=tournament_input_data["description"],
-            nb_round=tournament_input_data["nb_round"]
-        )
+        self.tournament = Tournament.recreate_tournament(
+            tournament_input_data, self.all_players)
+        print(self.tournament)
         print(f"========{self.tournament}")
         print("Le tournoi a été créé avec succès.")
         print()
-        """Charger les tournois existants"""
-        self.save_tournament_to_json()
         """Sauvegarder tous les tournois, y compris le nouveau"""
-        self.load_tournament_from_json()
+        self.select_participants_tournament()
+        """Sélectionne les participants immédiatement
+        après la création du tournoi
+        """
 
-    def save_tournament_to_json(self, filename="tournament_data.json"):
+    def save_tournaments_to_json(self):
         """
         Sauvegarde la liste des tournois dans un fichier JSON.
         Utilise la méthode tournament_dict() de la classe Tournament.
         """
         try:
             tournaments = []
-            """charger les anciens tournois"""
-            if os.path.exists(filename):
-                with open(filename, "r", encoding="utf-8") as file:
-                    try:
-                        data = json.load(file)
-                        if isinstance(data, list):
-                            """Vérifie si c'est une liste"""
-                            tournaments = data
-                        else:
-                            print(
-                                "Format de fichier incorrect,réinitialisation."
-                                )
-                    except json.JSONDecodeError:
-                        print("Erreur de décodage JSON, fichier corrompu.")
-
-            """Ajouter le tournoi actuel à la liste"""
-            tournaments.append(self.tournament.tournament_dict())
-
-            """ Sauvegarder les tournois (anciens + nouveau)."""
-            with open(filename, "w", encoding="utf-8") as file:
+            """stock les anciens tournois"""
+            if os.path.exists(self.tournaments_file):
+                with open(
+                    self.tournaments_file, "r", encoding="utf-8"
+                        ) as file:
+                    tournaments = json.load(file)
+                    """ajoute le tournoi actuel à la liste"""
+            """Converti l'objet Tournament
+            en dictionnaire avant de l'ajouter
+            """
+            tournament_dict = self.tournament.tournament_dict()
+            tournaments.append(tournament_dict)
+            with open(
+                self.tournaments_file, "w", encoding="utf-8"
+                    ) as file:
                 json.dump(tournaments, file, ensure_ascii=False, indent=4)
-
-            print(f"Données sauvegardées avec succès dans {filename}.")
+                """ Sauvegarder les tournois (anciens + nouveau)."""
+            print(
+                f"Le tournois {self.tournament.name} et les participants "
+                f"sauvegardés avec succès"
+                )
+            """Appeler le menu principal"""
         except Exception as e:
             print(f"Erreur lors de la sauvegarde du fichier : {e}")
-            # Sauvegarder les données dans un fichier JSON
 
-    def load_tournament_from_json(self, filename="tournament_data.json"):
+    def load_tournaments_from_json(self):
         """
         Charge les données du tournoi depuis un fichier JSON.
         Utilise la méthode recreate_tournament de la classe Tournament.
         """
         try:
-            with open(filename, "r", encoding="utf-8") as file:
-                raw_data = file.read()
-                print(f"Contenu brut du fichier : {raw_data}")
-                """
-                Ajout pour le debug
-                data = json.loads(raw_data)
-                Utiliser `loads` pour voir si ça plante ici
-                """
-                data = json.load(file)
-            if not isinstance(data, list):
-                print("Le format du fichier est invalide.")
-                return
-            self.tournaments = []
-            """ Stocke tous les tournois chargés"""
-            for tournament_data in data:
-                tournament = Tournament.recreate_tournament(tournament_data)
+            if os.path.exists(self.tournaments_file):
+                with open(
+                    self.tournaments_file, "r", encoding="utf-8"
+                        ) as file:
+                    data = json.load(file)
+                self.tournaments = [Tournament.recreate_tournament(
+                    t, self.all_players) for t in data]
                 """recréer les joueurs associés au tournois"""
-                if "participant_tournament" in tournament_data:
-                    tournament.participant_tournament = [
-                        Player.recreate_player(player_data) for player_data
-                        in tournament_data["participant_tournament"]
-                    ]
-                self.tournament.append(tournament)
-            if self.tournaments:
-                """Assigner les précédents tournois chargés"""
-                self.tournament = self.tournaments[-1]
+                if self.tournaments:
+                    self.tournament = self.tournaments[-1]
                 """ Prend le dernier tournoi chargé"""
                 print(
                     f"{len(self.tournaments)}"
-                    "tournois chargés depuis {filename}."
+                    "tournois chargés depuis {self.tournaments_file}."
                 )
-            print(f"Données chargées avec succès depuis {filename}.")
         except FileNotFoundError:
-            print(f"Erreur : le fichier {filename} est introuvable.")
+            print(f"Erreur : le fichier {self.tournaments_file} introuvable.")
         except Exception as e:
             print(f"Erreur lors du chargement du fichier : {e}")
-        self.select_participants_tournament()
 
     def select_participants_tournament(self):
         """
@@ -219,7 +193,7 @@ class ControllerPrincipal:
             print("Aucun tournoi n'a été créé.")
             return
 
-        while len(self.participant_tournament) < MAX_PLAYERS:
+        while len(self.tournament.participant_tournament) < MAX_PLAYERS:
             """Demander les 3 premières lettres du nom du participant"""
             prefix = self. view.prompt_for_player_prefix()
             """
@@ -242,19 +216,29 @@ class ControllerPrincipal:
             for index, player in enumerate(matching_players, start=1):
                 print(f"{index}. {player}")
 
-            """Demander à l'utilisateur de choisir un joueur par numéro"""
+            """Demander à l'utilisateur de choisir un joueur selon numéro"""
             try:
                 selection = int(
                     input(
                         f"Choisissez un joueur (1 à {len(matching_players)}),"
-                        f"saisis : {len(self.participant_tournament)}/8 : "
+                        f"saisis : {
+                            len(self.tournament.participant_tournament)}/8 : "
                         )
                     )
                 if 1 <= selection <= len(matching_players):
                     selected_player = matching_players[selection - 1]
                     """Les listes en Python sont indexées à partir de 0"""
-                    if selected_player not in self.participant_tournament:
-                        self.participant_tournament.append(selected_player)
+                    if selected_player not in [
+                        p["Player"] for p in
+                        self.tournament.participant_tournament
+                    ]:
+                        self.tournament.participant_tournament.append(
+                            {
+                                "Player": selected_player,
+                                "Score": 0,
+                                "Adversaires": []
+                                }
+                            )
                         print(
                             f"Joueur ({selected_player.name}) "
                             f"({selected_player.first_name}) sélectionné."
@@ -265,14 +249,13 @@ class ControllerPrincipal:
                     print("Sélection invalide.")
             except ValueError:
                 print("Veuillez entrer un nombre valide.")
-        # Ajouter les participants au tournoi
-        self.tournament.players = self.participant_tournament
-        # Afficher les joueurs sélectionnés
+        """Afficher les joueurs sélectionnés"""
         print("\nJoueurs sélectionnés :")
-        for player in self.participant_tournament:
+        for participant in self.tournament.participant_tournament:
+            player = participant["Player"]
             print(
                 f"({player.name} {player.first_name})"
                 f"(ID : {player.player_id})"
                 )
         # Sauvegarder le tournoi avec les participants
-        self.save_tournament_to_json
+        self.save_tournaments_to_json()

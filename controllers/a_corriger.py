@@ -30,7 +30,7 @@ class ControllerPrincipal:
         """Chargement de la liste de joueurs dans all_players"""
         if not self.all_players:
             print("Aucun joueur trouvé. Veuillez vérifier le fichier des joueurs.")
-            
+
         print(f"{len(self.all_players)} joueurs chargés avec succès.")
         self.display_menu()
         """Appeler le menu principal"""
