@@ -128,7 +128,7 @@
     {
         "name": "Lachaise",
         "first_name": "Gertrude",
-        "date_of_birth": "04- 04-1965",
+        "date_of_birth": "04-04-1965",
         "player_id": "VB34523"
     },
     {
@@ -140,14 +140,8 @@
     {
         "name": "Marceau",
         "first_name": "Yvette",
-        "date_of_birth": "23- 07-1958",
+        "date_of_birth": "23-07-1958",
         "player_id": "AZ36873"
-    },
-    {
-        "name": "Marchewska",
-        "first_name": "Carole",
-        "date_of_birth": "12/09/1961",
-        "player_id": "OI78543"
     },
     {
         "name": "Martin",
@@ -204,15 +198,21 @@
         "player_id": "AC12675"
     },
     {
-        "name": "TESTNOM",
-        "first_name": "TESTPRENOM",
-        "date_of_birth": "15-12-1999",
-        "player_id": "AZ5657"
+        "name": "Revlon",
+        "first_name": "Brigitte",
+        "date_of_birth": "12/09/1957",
+        "player_id": "BB57671"
+    },
+    {
+        "name": "Testify",
+        "first_name": "Test",
+        "date_of_birth": "",
+        "player_id": "TE56789"
     },
     {
         "name": "Totem",
         "first_name": "Louise",
-        "date_of_birth": "04- 07-1938",
+        "date_of_birth": "04-07-1938",
         "player_id": "AB67854"
     },
     {
@@ -266,7 +266,7 @@
     {
         "name": "Zidi",
         "first_name": "Dahlia",
-        "date_of_birth": "14- 06-1960",
+        "date_of_birth": "14-06-1960",
         "player_id": "AA98765"
     }
 ]
