@@ -4,7 +4,7 @@ class Tournament:
         date_end, nb_round=4, description=""
     ):
         """
-        Initialise un tournois avec ses details et une liste vide de joueurs.
+        Initialise un tournoi avec ses details et une liste vide de joueurs.
         """
         self.name = name
         self.location = location
@@ -17,8 +17,8 @@ class Tournament:
         self.rounds = []
 
     def __str__(self):
-        """Renvoie une representation textuelle du tournois."""
-        return (f"Tournois: {self.name}, Lieu: {self.location}, "
+        """Renvoie une representation textuelle du tournoi."""
+        return (f"Tournoi: {self.name}, Lieu: {self.location}, "
                 f"Debut: {self.date_initial}, Fin: {self.date_end}, "
                 f"Description: {self.description}")
 
@@ -54,7 +54,7 @@ class Tournament:
             description=tournament_data["description"]
         )
         """
-        Reconstituer les participants du tournoi
+        Reconstitue les participants du tournoi
         avec les adversaires et les scores
         """
         tournament.participant_tournament = [
