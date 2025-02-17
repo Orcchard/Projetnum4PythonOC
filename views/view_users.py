@@ -26,7 +26,8 @@ class View:
         print("2. Créer un tournoi")
         print("3. Editer un rapport")
         print("4. Supprimer un joueur ")
-        print("\n5. Quitter le programme")
+        print("5. Reprendre un tournoi ")
+        print("\n6. Quitter le programme")
         print()
     """
     si option 2 faire appel au controlleur qui fera
