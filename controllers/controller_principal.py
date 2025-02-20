@@ -34,22 +34,22 @@ class ControllerPrincipal:
         """Chargement de la liste de joueurs dans all_players"""
         if not self.all_players:
             print(
-                "Aucun joueur trouvé."
+                "Aucun joueur trouvé"
                 "Veuillez vérifier le fichier des joueurs"
             )
             print(f"{len(self.all_players)} joueurs chargés avec succès.")
-        # Charger les tournois existants
+        """ Charge les tournois existants"""
         self.load_tournaments_from_json()
-        """Charger les tournois stockés dans fichier json"""
+        """Charge les tournois stockés dans fichier json"""
         self.display_menu_principal()
-        """Appeler le menu principal"""
+        """Appele le menu principal"""
 
     def load_players_from_js_file(self):
         """Charge les joueurs depuis le fichier JSON."""
         try:
             with open(self.players_file, "r", encoding="utf-8") as file:
                 players_data = json.load(file)
-                # Retourne les données  en instances
+                """ Retourne les données  en instances"""
                 return [Player.recreate_player(data)
                         for data in players_data
                         ]
@@ -61,40 +61,41 @@ class ControllerPrincipal:
             return []
 
     def display_menu_principal(self):
-        """Méthode pour démarrer le programme."""
-        """Affiche le menu principal"""
-        while True:
-            self.view.clear_screen()
-            self.view.main_header()
-            self.view.menu()
-            self.view.first_prompt()
-            user_choice = input()
-            if user_choice == "1":
-                self.player_add_input()
-            elif user_choice == "2":
-                self.new_tournament_input()
-            elif user_choice == "3":
-                pass
-            elif user_choice == "4":
-                pass
-            elif user_choice == "5":
-                self.select_list_saved_tournaments()
-            elif user_choice == "6":
-                print("à completer")
-            else:
-                print("Mauvaise saisie")
+        """
+        Méthode pour démarrer le programme.
+        Affiche le menu principal
+        """
+        """while True:"""
+        self.view.clear_screen()
+        self.view.main_header()
+        self.view.menu()
+        self.view.first_prompt()
+        user_choice = input()
+        if user_choice == "1":
+            self.player_add_input()
+        elif user_choice == "2":
+            self.new_tournament_input()
+        elif user_choice == "3":
+            pass
+        elif user_choice == "4":
+            pass
+        elif user_choice == "5":
+            self.select_list_saved_tournaments()
+        elif user_choice == "6":
+            print("à completer")
+        else:
+            print("Mauvaise saisie")
 
     def player_add_input(self):
         """Adding a new player."""
         self.view.new_player_header()
         player_input_data = self.view.prompt_for_player()
-        # Créer une instance de Player en utilisant recreate_player
+        """ Crée une instance de Player en utilisant recreate_player"""
         player = Player.recreate_player(player_input_data)
         print(f"========{player}")
         print("Le joueur a été ajouté avec succès.")
-        # Sérialiser les données du joueur
+        """ Sérialise les données du joueur"""
         player_data = player.player_dict()
-        # Mettre à jour le fichier all_players avec le nouveau joueur
         self.record_new_player(player_data)
 
     def record_new_player(self, player_data):
@@ -107,7 +108,7 @@ class ControllerPrincipal:
                     """Charge les données existantes du fichier JSON"""
             players.append(player_data)
             players.sort(key=lambda x: x["name"].lower())
-            """Trier les joueurs par nom"""
+            """Trie les joueurs par nom"""
             with open(self.players_file, "w", encoding="utf-8") as file:
                 json.dump(players, file, ensure_ascii=False, indent=4)
 
@@ -120,7 +121,7 @@ class ControllerPrincipal:
         tournament_input_data = (
             self.view_tournaments.prompt_for_new_tournament()
             )
-        # Créer une instance de Tournament
+        """Crée une instance de Tournament"""
         self.tournament = Tournament.recreate_tournament(
             tournament_input_data, self.all_players)
         print(self.tournament)
@@ -153,12 +154,11 @@ class ControllerPrincipal:
                 self.tournaments_file, "w", encoding="utf-8"
                     ) as file:
                 json.dump(tournaments, file, ensure_ascii=False, indent=4)
-                """ Sauvegarder les tournois (anciens + nouveau)."""
+                """ Sauvegarde les tournois (anciens + nouveau)."""
             print(
                 f"Le tournois {self.tournament.name} et les participants "
                 f"sauvegardés avec succès"
                 )
-            """Appeler le menu principal"""
         except Exception as e:
             print(f"Erreur lors de la sauvegarde du fichier : {e}")
 
@@ -175,7 +175,7 @@ class ControllerPrincipal:
                     data = json.load(file)
                 self.tournaments = [Tournament.recreate_tournament(
                     t, self.all_players) for t in data]
-                """recréer les joueurs associés au tournois"""
+                """recrée les joueurs associés au tournois"""
                 if self.tournaments:
                     self.tournament = self.tournaments[-1]
                 """ Prend le dernier tournoi chargé"""
@@ -198,7 +198,7 @@ class ControllerPrincipal:
             return
 
         while len(self.tournament.participant_tournament) < MAX_PLAYERS:
-            """Demander les 3 premières lettres du nom du participant"""
+            """Demande les 3 premières lettres du nom du participant"""
             prefix = self. view.prompt_for_player_prefix()
             """
             Appel à la méthode prompt_for_player_prefix pour
@@ -215,7 +215,7 @@ class ControllerPrincipal:
                     "Veuillez réessayer."
                     )
                 continue
-            # Afficher les joueurs correspondants avec un numéro incrémenté
+            """Affiche les joueurs correspondants avec un numéro incrémenté"""
             print("\nJoueurs correspondants :")
             for index, player in enumerate(matching_players, start=1):
                 print(f"{index}. {player}")
@@ -253,7 +253,7 @@ class ControllerPrincipal:
                     print("Sélection invalide.")
             except ValueError:
                 print("Veuillez entrer un nombre valide.")
-        """Afficher les joueurs sélectionnés"""
+        """Affiche les joueurs sélectionnés"""
         print("\nJoueurs sélectionnés :")
         for participant in self.tournament.participant_tournament:
             player = participant["Player"]
@@ -261,7 +261,7 @@ class ControllerPrincipal:
                 f"({player.name} {player.first_name})"
                 f"(ID : {player.player_id})"
                 )
-        # Sauvegarder le tournoi avec les participants
+        """Sauvegarde le tournoi avec les participants"""
         self.save_tournaments_to_json()
 
     def select_list_saved_tournaments(self):
@@ -277,11 +277,11 @@ class ControllerPrincipal:
             if not existing_tournaments:
                 print("Aucun tournoi trouvé dans le fichier.")
                 return None
-            # Afficher les tournois existants
+            """ Affiche les tournois existants"""
             print("\nTournois existants :")
             for index, tournament in enumerate(existing_tournaments, start=1):
                 print(f"{index}. {tournament['name']}")
-            # Demander à l'utilisateur de sélectionner un tournoi
+            """Demande à l'utilisateur de sélectionner un tournoi"""
             try:
                 tournament_index = int(
                     input("Entrez le numéro du tournoi à sélectionner : ")
@@ -294,11 +294,11 @@ class ControllerPrincipal:
                         f"Tournoi {selected_tournament['name']} "
                         f"sélectionné avec succès."
                     )
-                    # Convertir le dictionnaire en instance de Tournament
+                    """Converti le dictionnaire en instance de Tournament"""
                     self.tournament = Tournament.recreate_tournament(
                         selected_tournament, self.all_players
                     )
-                    # Afficher les informations du tournoi sélectionné
+                    """Affiche les informations du tournoi sélectionné"""
                     self.display_tournament_info()
                     return selected_tournament
                 else:
@@ -312,12 +312,9 @@ class ControllerPrincipal:
 
     def display_tournament_info(self):
         """
-        Affiche les informations du tournoi sélectionné et propose
-        d'ajouter un round selon les scores.
+        Affiche les informations du tournoi sélectionné et propose d'ajouter un round selon les scores.
         """
-        if not self.tournament:
-            print("Aucun tournoi n'est actuellement sélectionné.")
-            return
+        self.view_tournaments.display_tournament_tabulate()
         print("\nInformations du tournoi sélectionné :")
         print(f"Nom du tournoi : {self.tournament.name}")
         print(f"Lieu : {self.tournament.location}")
@@ -326,7 +323,9 @@ class ControllerPrincipal:
         print(f"Description : {self.tournament.description}")
         if self.tournament.participant_tournament:
             print("\nParticipants :")
-            """Affiche les participants du tournoi"""
+            """
+            Affiche les participants du tournoi
+            """
             for participant in self.tournament.participant_tournament:
                 player = participant["Player"]
                 score = participant["Score"]
@@ -334,18 +333,46 @@ class ControllerPrincipal:
                     f"- {player.name} {player.first_name} "
                     f"(ID : {player.player_id}) : {score} points"
                     )
-                self.next_round()
         else:
             print("\nAucun participant n'a été ajouté")
-            
-        
         if hasattr(self.tournament, "rounds") and self.tournament.rounds:
             print("\nRounds :")
-            for round_index, round_data in enumerate(self.tournament.rounds, start=1):
+            for round_index, round_data in enumerate(
+                self.tournament.rounds, start=1
+                    ):
                 print(f"Round {round_index} :")
                 for match in round_data["matches"]:
                     player1 = match["player1"]
                     player2 = match["player2"]
-                    result = match["result"]
-                    print(f"  {player1.name} vs {player2.name} - Résultat : {result}")
+                    print(f"  {player1.name} vs {player2.name} - ")
+                    print(
+                        f" Scores : {match.player1_score} - "
+                        f"{match.player2_score}")
 
+    def next_round(self):
+        if not self.tournament:
+            print("Aucun tournois selectionné")
+            return
+        current_round_number = len(self.tournament.rounds) + 1
+        """Vérification du nombre maximal de rounds"""
+        if current_round_number > int(self.tournament.nb_round):
+            print("Tous les rounds ont déjà été joués !")
+            return
+        """Création du round"""
+        round_name = f"Round {current_round_number}"
+        new_round = Round(
+            round_number=current_round_number,
+            name=round_name,
+            start_time=None,
+            end_time=None
+            )
+        if current_round_number == 1:
+            random.shuffle(self.tournament.participant_tournament)
+            print(f" le round en cours est le numéro: {current_round_number}")
+        else:
+            """Trie joueurs par ordre décroissant des scores"""
+            self.tournament.participant_tournament = sorted(
+                self.tournament.participant_tournament,
+                key=lambda x: x["Score"],
+                reverse=True
+            )
