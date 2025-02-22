@@ -311,54 +311,49 @@ class ControllerPrincipal:
             print(f"Erreur lors de la sélection du tournoi : {e}")
 
     def display_tournament_info(self):
-        """
-        Affiche les informations du tournoi sélectionné et propose d'ajouter un round selon les scores.
-        """
-        self.view_tournaments.display_tournament_tabulate()
-        print("\nInformations du tournoi sélectionné :")
-        print(f"Nom du tournoi : {self.tournament.name}")
-        print(f"Lieu : {self.tournament.location}")
-        print(f"Date de début : {self.tournament.date_initial}")
-        print(f"Date de fin : {self.tournament.date_end}")
-        print(f"Description : {self.tournament.description}")
-        if self.tournament.participant_tournament:
-            print("\nParticipants :")
-            """
-            Affiche les participants du tournoi
-            """
-            for participant in self.tournament.participant_tournament:
-                player = participant["Player"]
-                score = participant["Score"]
-                print(
-                    f"- {player.name} {player.first_name} "
-                    f"(ID : {player.player_id}) : {score} points"
-                    )
+        if not self.tournament:
+            self.view_tournaments.not_tournament()
+            return
         else:
-            print("\nAucun participant n'a été ajouté")
-        if hasattr(self.tournament, "rounds") and self.tournament.rounds:
-            print("\nRounds :")
-            for round_index, round_data in enumerate(
-                self.tournament.rounds, start=1
-                    ):
-                print(f"Round {round_index} :")
-                for match in round_data["matches"]:
-                    player1 = match["player1"]
-                    player2 = match["player2"]
-                    print(f"  {player1.name} vs {player2.name} - ")
+            tournament_data = self.tournament.tournament_dict()
+            self.view_tournaments.display_tournament_tabulate()
+            if self.tournament.participant_tournament:
+                print("\nParticipants :")
+                for participant in self.tournament.participant_tournament:
+                    player = participant["Player"]
+                    score = participant["Score"]
                     print(
-                        f" Scores : {match.player1_score} - "
-                        f"{match.player2_score}")
-
+                        f"- {player.name} {player.first_name} "
+                        f"(ID : {player.player_id}) : {score} points"
+                        )
+            if hasattr(self.tournament, "rounds") and self.tournament.rounds:
+                print("\nRounds :")
+                for round_index, round_data in enumerate(
+                    self.tournament.rounds, start=1
+                        ):
+                    print(f"Round {round_index} :")
+                    for match in round_data["matches"]:
+                        player1 = match["player1"]
+                        player2 = match["player2"]
+                        print(f"  {player1.name} vs {player2.name} - ")
+                        print(
+                            f" Scores : {match.player1_score} - "
+                            f"{match.player2_score}")
+            """
     def next_round(self):
         if not self.tournament:
             print("Aucun tournois selectionné")
             return
         current_round_number = len(self.tournament.rounds) + 1
+        """
         """Vérification du nombre maximal de rounds"""
+        """
         if current_round_number > int(self.tournament.nb_round):
             print("Tous les rounds ont déjà été joués !")
             return
+            """
         """Création du round"""
+        """
         round_name = f"Round {current_round_number}"
         new_round = Round(
             round_number=current_round_number,
@@ -370,9 +365,12 @@ class ControllerPrincipal:
             random.shuffle(self.tournament.participant_tournament)
             print(f" le round en cours est le numéro: {current_round_number}")
         else:
-            """Trie joueurs par ordre décroissant des scores"""
+        """
+        """Trie joueurs par ordre décroissant des scores"""
+        """
             self.tournament.participant_tournament = sorted(
                 self.tournament.participant_tournament,
                 key=lambda x: x["Score"],
                 reverse=True
             )
+            """
