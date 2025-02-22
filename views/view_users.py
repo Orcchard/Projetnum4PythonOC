@@ -1,5 +1,6 @@
 import sys
 import os
+from tabulate import tabulate
 MAX_PLAYERS = 8
 
 

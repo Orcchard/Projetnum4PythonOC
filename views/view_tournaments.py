@@ -1,5 +1,6 @@
 import os
 import sys
+from tabulate import tabulate
 
 
 class ViewTournament:
@@ -36,3 +37,21 @@ class ViewTournament:
         }
         return tournament_input_data
         self.prompt_for_player_prefix()
+
+    @staticmethod
+    def display_tournament_tabulate():
+        """ Informations du tournoi"""
+        print(tabulate(self.tournament_info, tablefmt="grid"))
+        """Affichage du tournois s'il y en a"""
+        headers = [
+            "Nom du tournoi", "Lieu", "Date de début",
+            "Date de fin", "Nombre de round", "Description"
+            ]
+        print(
+            tabulate(self.participants_table, headers=headers, tablefmt="grid")
+            )
+        print("\nParticipants :")
+
+    @staticmethod
+    def not_tournament():
+        print("\nAucun participant n'a été ajouté")
