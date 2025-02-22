@@ -34,9 +34,7 @@ class Round:
             start_time=round_data["start_time"],
             end_time=round_data["end_time"],
         )
-        """Reconstituer les matches"""
-        matches = [
-        recreate_match(match_data, all_players)
-        for match_data in round_data["matches"]
-            ]
-        matches = matches
+        """Reconstituer les matches
+        matches = [recreate_match(match_data, all_players) 
+        for match_data in round_data["matches"]]
+        matches = matches"""

@@ -14,3 +14,4 @@ class Match:
             "player1_score": self.player1_score,
             "player2_score": self.player2_score
             }
+    """ a faire Recrée l'objet Match à partir d'un dictionnaire"""

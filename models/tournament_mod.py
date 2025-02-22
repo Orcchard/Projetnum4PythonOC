@@ -74,8 +74,10 @@ class Tournament:
                 "participant_tournament", []
                 )
         ]
+        """
         tournament.rounds = [
             Round.recreate_round(round_data, all_players)
             for round_data in tournament_data.get("rounds", [])
             ]
         return tournament
+        """
