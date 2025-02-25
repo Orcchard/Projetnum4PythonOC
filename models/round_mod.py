@@ -26,7 +26,7 @@ class Round:
             "round_name": self.round_name,
             "matches": [match.match_dict() for match in self.matches]
         }
-
+    
     def recreate_round(round_data, all_players):
         return Round(
             round_number=round_data["round_number"],
@@ -34,7 +34,8 @@ class Round:
             start_time=round_data["start_time"],
             end_time=round_data["end_time"],
         )
-        """Reconstituer les matches
-        matches = [recreate_match(match_data, all_players) 
+        """Reconstituer les matches"""
+        matches = [recreate_match(match_data, all_players)
         for match_data in round_data["matches"]]
-        matches = matches"""
+        matches = matches
+

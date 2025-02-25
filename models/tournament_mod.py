@@ -53,10 +53,7 @@ class Tournament:
             nb_round=tournament_data["nb_round"],
             description=tournament_data["description"]
         )
-        """
-        Reconstitue les participants du tournoi
-        avec les adversaires et les scores
-        """
+
         tournament.participant_tournament = [
             {
                 "Player": next(
@@ -74,10 +71,4 @@ class Tournament:
                 "participant_tournament", []
                 )
         ]
-        """
-        tournament.rounds = [
-            Round.recreate_round(round_data, all_players)
-            for round_data in tournament_data.get("rounds", [])
-            ]
         return tournament
-        """
