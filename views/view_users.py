@@ -14,26 +14,22 @@ class View:
             os.system('clear')
 
     def main_header(self):
-        """Header before the main menu"""
-        print("\t**********************************************")
-        print("\t* Bienvenue dans le gestionnaire de tournoi  *")
-        print("\t********************************************\n")
+        title_table = [["Bienvenue dans le gestionnaire de tournoi"]]
+        print(tabulate(title_table, tablefmt="grid"))
 
     def menu(self):
-        """Display the main menu with some data info"""
-        """num_of_players = self.number_of_player()"""
-        print("\nMENU PRINCIPAL")
-        print("1. Créer un joueur")
-        print("2. Créer un tournoi")
-        print("3. Editer un rapport")
-        print("4. Supprimer un joueur ")
-        print("5. Reprendre un tournoi ")
-        print("\n6. Quitter le programme")
-        print()
-    """
-    si option 2 faire appel au controlleur qui fera
-    appel a la vue player_input_tournois etc...
-    """
+        """Affiche le menu principal"""
+        header = ["MENU PRINCIPAL"]
+        options = [
+            ["1", "Créer un joueur"],
+            ["2", "Créer un tournoi"],
+            ["3", "Éditer un rapport"],
+            ["4", "Supprimer un joueur"],
+            ["5", "Reprendre un tournoi"],
+            ["6", "Quitter le programme"],
+        ]
+        print("\n" + tabulate([], headers=header, tablefmt="grid"))  # Afficher le titre encadré
+        print(tabulate(options, tablefmt="plain"))  # Afficher le menu sans bordures pour plus de clarté
 
     @staticmethod
     def first_prompt():
@@ -87,3 +83,6 @@ class View:
                 f"\nIl y a {num_of_players} joueurs disponibles. "
                 f"Veuillez en ajouter de nouveaux.\n"
             )
+
+    def prompt_begining_of_the_name(self):
+        pass
