@@ -45,6 +45,7 @@ class Tournament:
         }
 
     def recreate_tournament(tournament_data, all_players):
+        """Reconstitution du tournois"""
         tournament = Tournament(
             name=tournament_data["name"],
             location=tournament_data["location"],
@@ -53,7 +54,7 @@ class Tournament:
             nb_round=tournament_data["nb_round"],
             description=tournament_data["description"]
         )
-
+        """Reconstitution des participants"""
         tournament.participant_tournament = [
             {
                 "Player": next(

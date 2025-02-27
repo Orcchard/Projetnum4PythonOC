@@ -9,8 +9,8 @@ class Round:
         """Initialisation d'un round"""
         self.round_number = round_number
         self.round_name = round_name
-        self.start_time = datetime.now()
-        self.end_time = (self.start_time + timedelta(hours=4))
+        self.start_time = start_time
+        self.end_time = end_time
         self.matches = []
 
     def __str__(self):
@@ -24,9 +24,11 @@ class Round:
         return {
             "round_number": self.round_number,
             "round_name": self.round_name,
+            "start_time": self.start_time,
+            "end_time": self.end_time,
             "matches": [match.match_dict() for match in self.matches]
         }
-    
+
     def recreate_round(round_data, all_players):
         return Round(
             round_number=round_data["round_number"],
@@ -35,7 +37,12 @@ class Round:
             end_time=round_data["end_time"],
         )
         """Reconstituer les matches"""
-        matches = [recreate_match(match_data, all_players)
-        for match_data in round_data["matches"]]
+        matches = [
+            recreate_match(match_data, all_players)
+            for match_data in round_data["matches"]
+            ]
         matches = matches
 
+    def add_match(self, match):
+        """Ajouter un match au round"""
+        self.matches.append(match)
