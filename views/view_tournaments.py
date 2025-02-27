@@ -5,6 +5,29 @@ from tabulate import tabulate
 
 class ViewTournament:
     @staticmethod
+    def get_scores_from_user(round_instance):
+        """
+        Demande à l'utilisateur de saisir les scores pour chaque match du round.
+        Retourne une liste de tuples (score1, score2).
+        """
+        scores = []
+        print(
+            f"\nSaisie des scores pour {round_instance.round_name} "
+            f"(débuté à {round_instance.start_time}) :"
+            )
+        for i, match in enumerate(round_instance.matches, start=1):
+            print(f"\nMatch {i} : {match.player1.name} vs {match.player2.name}")
+            while True:
+                try:
+                    score1 = float(input(f"Score de {match.player1.name} : "))
+                    score2 = float(input(f"Score de {match.player2.name} : "))
+                    scores.append((score1, score2))
+                    break
+                except ValueError:
+                    print("Erreur : veuillez saisir un nombre valide pour le score.")
+            return scores
+
+    @staticmethod
     def clear_screen():
         """Clear the display."""
         os.system("cls" if sys.platform == "win32" else "clear")
@@ -16,13 +39,6 @@ class ViewTournament:
         # Créer un tableau avec une seule ligne pour le titre
         title_table = [["CREATION D'UN TOURNOIS"]]
         print(tabulate(title_table, tablefmt="grid"))
-
-    def prompt_to_user_select_tournament(self):
-        """
-        Demande à l'utilisateur de sélectionner
-        un tournoi voir controleur
-        """
-        pass
 
     def prompt_for_new_tournament(self):
         """Collect data return as a dictionary."""
@@ -58,7 +74,6 @@ class ViewTournament:
             ["Date de fin", tournament_data['date_end']],
             ["Description", tournament_data['description']],
         ]
-    
         """Afficher les détails du tournoi"""
         print("\nDétails du tournoi :")
         print(tabulate(tournament_info, tablefmt="pretty"))
@@ -69,6 +84,13 @@ class ViewTournament:
         print("\nParticipants :")
         print(tabulate(participants_table, headers=headers, tablefmt="pretty"))
 
+    def ask_start_round(self):
+        response = input("Souhaitez-vous démarrer un round ? (O/N) ").strip().lower()
+        if response in ["o", "n"]:
+            """La vue renvoie la réponse au contrôleur."""
+            return response
+        print("❌ Entrée invalide. Veuillez répondre par 'O' ou 'N'.")
+
     @staticmethod
     def not_tournament():
         print("\nAucun tournois selectionné")
@@ -76,7 +98,7 @@ class ViewTournament:
     def display_message(self, message):
         """Affiche un message générique (succès, erreur, info)."""
         print(f"\n🔹 {message}")
-    
+
     def display_alerte(self, message):
         """Affiche un message générique (Alerte)."""
         print(f"\n ❌ {message}")
@@ -87,5 +109,30 @@ class ViewTournament:
             print("\n❌ Aucun tournoi sélectionné")
             return
         print("\n Liste des tournois sauvegardés :")
-        for index, existing_tournaments in enumerate(existing_tournaments, start=1):
-            print(f"{index}. {existing_tournaments['name']} ({existing_tournaments['location']})")
+        for index, existing_tournaments in enumerate(
+            existing_tournaments, start=1
+                ):
+            print(
+                f"{index}. {existing_tournaments['name']} "
+                f"({existing_tournaments['location']})"
+                )
+
+    def display_matches(self, round_instance):
+        """
+        Affiche la liste des matches pour le round donné.
+        """
+        print(f"\nMatches du {round_instance.round_name} (débuté à {round_instance.start_time}) :")
+        for i, match in enumerate(round_instance.matches, start=1):
+            print(f"Match {i} : {match.player1.name} vs {match.player2.name}")
+        else:
+            print("Erreur")
+
+    def display_round_matches(self, matches):
+        """
+        Affiche les matchs du round sous forme de tableau.
+        :param matches: Liste des matchs contenant les joueurs.
+        """
+        headers = ["Match", "Joueur 1", "Joueur 2"]
+        table = [[i + 1, match.player1.name, match.player2.name] for i, match in enumerate(matches)]
+        print("\n Liste des matchs du round :")
+        print(tabulate(table, headers=headers, tablefmt="pretty"))

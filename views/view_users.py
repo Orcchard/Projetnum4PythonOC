@@ -28,8 +28,10 @@ class View:
             ["5", "Reprendre un tournoi"],
             ["6", "Quitter le programme"],
         ]
-        print("\n" + tabulate([], headers=header, tablefmt="grid"))  # Afficher le titre encadré
-        print(tabulate(options, tablefmt="plain"))  # Afficher le menu sans bordures pour plus de clarté
+        print("\n" + tabulate([], headers=header, tablefmt="grid"))
+        """Affiche le titre encadré"""
+        print(tabulate(options, tablefmt="plain"))
+        """Afficher le menu sans bordures pour plus de clarté"""
 
     @staticmethod
     def first_prompt():
@@ -83,6 +85,3 @@ class View:
                 f"\nIl y a {num_of_players} joueurs disponibles. "
                 f"Veuillez en ajouter de nouveaux.\n"
             )
-
-    def prompt_begining_of_the_name(self):
-        pass
