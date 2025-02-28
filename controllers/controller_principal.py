@@ -103,11 +103,10 @@ class ControllerPrincipal:
         self.view_tournaments.display_message(
             "Le joueur a été ajouté avec succès."
             )
-        return None
-
         """ Sérialise les données du joueur"""
         player_data = player.player_dict()
         self.record_new_player(player_data)
+        return None
 
     def record_new_player(self, player_data):
         """Met à jour le fichier all_players en ajoutant un nouveau joueur."""
@@ -252,7 +251,7 @@ class ControllerPrincipal:
             try:
                 selection = int(
                     input(
-                        f"Choisissez un joueur (1 à {len(matching_players)}),"
+                        f"Choisissez un joueur de (1 à {len(matching_players)}),"
                         f"saisis : {
                             len(self.tournament.participant_tournament)}/8 : "
                         )
@@ -285,7 +284,7 @@ class ControllerPrincipal:
                         )
             except ValueError:
                 self.view_tournaments.display_message(
-                    "Veuillez entrer un nombre valide"
+                    "Veuillez entrer un nombre valide+++"
                     )
                 return None
         """Affiche les joueurs sélectionnés"""
@@ -335,7 +334,7 @@ class ControllerPrincipal:
                         selected_tournament, self.all_players
                     )
                     """Affiche les informations du tournoi sélectionné"""
-                    self.display_tournament_info(self)
+                    self.display_tournament_info(self.selected_tournament)
                     return self.selected_tournament
 
                 else:
@@ -379,15 +378,13 @@ class ControllerPrincipal:
             self.view_tournaments.display_tournament_tabulate(
                 tournament_data, participants_table
                 )
-            """La vue Demande à l'utilisateur s'il souhaite démarrer un round"""
+            """
+            La vue Demande à l'utilisateur
+            s'il souhaite démarrer un round
+            """
             response = self.view_tournaments.ask_start_round()
             if response == "o":
-                """ Démarrer le round"""
-                round_number = len(self.tournament.rounds) + 1
-                round_name = f"==== Round numéro: {round_number} ===="
-                new_round = self.start_new_round(round_number, round_name)
-                print(f"\nNouveau round démarré : {new_round.round_name} à {new_round.start_time}")
-                self.view_tournaments.display_matches(new_round)
+                self.create_rounds(selected_tournament)
                 #scores = self.view_tournaments.get_scores_from_user(new_round)
                 #self.enter_scores(new_round, scores)
         else:
@@ -399,6 +396,59 @@ class ControllerPrincipal:
         new_round.start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.tournament.rounds.append(new_round)
         return new_round
+
+    def create_rounds(self, tournament):
+        players = [p["Player"] for p in tournament.participant_tournament]
+        """
+        Crée tous les rounds du tournoi.
+        tournament.participant_tournament est une
+        liste de dictionnaires, où chaque dictionnaire
+        représente un participant du tournoi avec :
+        Player → l'objet joueur (Player)
+        Score → son score actuel
+        Adversaires → la liste de ses adversaires passés
+        """
+        """Stocke les adversaires des rounds précédents"""
+        adversaires = {p.player_id: set() for p in players}
+        """
+        Nom du dictionnaire : adversaires
+        Clés : les player_id des joueurs
+        Valeurs : des ensembles vides
+        """
+        for round_number in range(1, int(self.tournament.nb_round) + 1):
+            round_name = f"==== Round numéro: {round_number} ===="
+            round_i = Round(round_number, round_name)
+            """Ajoute le round au tournoi"""
+            """ Premier round : Mélange des joueurs"""
+            if round_number == 1:
+                random.shuffle(players)
+            else:
+                """Rounds suivants : Trie les joueurs par score décroissant"""
+                players.sort(key=lambda p: next(
+                    (entry["Score"] for entry in self.tournament.participant_tournament
+                        if entry["Player"] == p), 0), reverse=True
+                    )
+            new_matches = []
+            available_players = players.copy()
+            while available_players:
+                player1 = available_players.pop(0)
+                """Cherche un adversaire qui n'a pas encore joué contre player1"""
+                for i, player2 in enumerate(available_players):
+                    if player2.player_id not in adversaires[player1.player_id]:
+                        match = Match(player1, player2)
+                        new_matches.append(match)
+                        """Mettre à jour l'historique des adversaires"""
+                        adversaires[player1.player_id].add(player2.player_id)
+                        adversaires[player2.player_id].add(player1.player_id)
+                        available_players.pop(i)
+                        break
+            round_i.matches = new_matches
+            tournament.rounds.append(round_i)
+        self.view_tournaments.display_round_matches(round_i.matches)
+        self.save_tournaments_to_json()
+        self.enter_scores()
+        print(f"Rounds sauvegardés: {[round.round_name for round in self.tournament.rounds]}")
+        print(f"Nombre de rounds créés: {len(self.tournament.rounds)}")
 
     def enter_scores(self, round_instance, scores):
         """permet la saisie de score d'un round et valide l'heure de fin"""
@@ -413,49 +463,4 @@ class ControllerPrincipal:
             else:
                 match.player1.points += 0.5
                 match.player2.points += 0.5
-        round_instance.end_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    def create_rounds(self, tournament):
-        players = [p["Player"] for p in tournament.participant_tournament]
-        """
-        Crée tous les rounds du tournoi.
-        tournament.participant_tournament est une
-        liste de dictionnaires, où chaque dictionnaire
-        représente un participant du tournoi avec :
-        Player → l'objet joueur (Player)
-        Score → son score actuel
-        Adversaires → la liste de ses adversaires passés
-        """
-        """Stocke les adversaires des rounds précédents"""
-        adversaires = {
-            p.player_id: set() for p in players
-            }
-        for round_number in range(1, int(self.tournament.nb_round) + 1):
-            round_name = f"==== Round numéro: {round_number} ===="
-            round_i = Round(round_number, round_name)
-
-        """ Premier round : Mélange des joueurs"""
-        if round_number == 1:
-            random.shuffle(players)
-        else:
-            """Rounds suivants : Trie les joueurs par score décroissant"""
-            players.sort(key=lambda p: next(
-                (entry["Score"] for entry in tournament.participant_tournament
-                    if entry["Player"] == p), 0), reverse=True
-                )
-        new_matches = []
-        available_players = players.copy()
-        while available_players:
-            player1 = available_players.pop(0)
-            """Cherche un adversaire qui n'a pas encore joué contre player1"""
-            for i, player2 in enumerate(available_players):
-                if player2.player_id not in adversaires[player1.player_id]:
-                    match = Match(player1, player2)
-                    new_matches.append(match)
-                    """Mettre à jour l'historique des adversaires"""
-                    adversaires[player1.player_id].add(player2.player_id)
-                    adversaires[player2.player_id].add(player1.player_id)
-                    available_players.pop(i)
-                    break
-        round_i.matches = new_matches
-        tournament.rounds.append(round_i)
+        round_instance.end_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")        
