@@ -44,6 +44,7 @@ class Tournament:
             "rounds": [round.round_dict() for round in self.rounds]
         }
 
+    @staticmethod
     def recreate_tournament(tournament_data, all_players):
         """Reconstitution du tournois"""
         tournament = Tournament(
