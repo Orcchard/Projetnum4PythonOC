@@ -7,7 +7,8 @@ class ViewTournament:
     @staticmethod
     def get_scores_from_user(round_instance):
         """
-        Demande à l'utilisateur de saisir les scores pour chaque match du round.
+        Demande à l'utilisateur de saisir les 
+        scores pour chaque match du round.
         Retourne une liste de tuples (score1, score2).
         """
         scores = []
@@ -134,5 +135,7 @@ class ViewTournament:
         """
         headers = ["Match", "Joueur 1", "Joueur 2"]
         table = [[i + 1, match.player1.name, match.player2.name] for i, match in enumerate(matches)]
+        print(f"Matches reçus : {matches}")  
+        """Debugging"""
         print("\n Liste des matchs du round :")
         print(tabulate(table, headers=headers, tablefmt="pretty"))
