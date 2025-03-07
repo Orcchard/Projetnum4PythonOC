@@ -8,12 +8,14 @@ class View:
 
     @staticmethod
     def clear_screen():
+        """Missing"""
         if sys.platform == 'win32':
             os.system('cls')
         else:
             os.system('clear')
 
     def main_header(self):
+        """Missing"""
         title_table = [["Bienvenue dans le gestionnaire de tournoi"]]
         print(tabulate(title_table, tablefmt="grid"))
 
@@ -36,7 +38,7 @@ class View:
     @staticmethod
     def first_prompt():
         """Proposal to the user to make a choice."""
-        print("\nFaites votre choix et pressez la touche [ENTREE] : ")
+        print("\nFaites votre choix et pressez la touche [ENTREE]: ")
 
     def prompt_for_player_prefix(self):
         """
@@ -58,14 +60,14 @@ class View:
 
     def prompt_for_player(self):
         """Collect all necessary player data and return as a dictionary."""
-        print("Veuillez entrer les informations du joueur :")
-        name = input("Nom du joueur : ").capitalize()
-        first_name = input("Prénom du joueur : ").capitalize()
+        print("Veuillez entrer les informations du joueur:")
+        name = input("Nom du joueur: ").capitalize()
+        first_name = input("Prénom du joueur: ").capitalize()
         player_id = input(
-            "\nIdentifiant du joueur (2 Lettres majuscules et 5 nombres) : "
+            "\nIdentifiant du joueur (2 Lettres majuscules et 5 nombres): "
             ).upper()
         date_of_birth = input(
-            "Date de naissance du joueur (format JJ/MM/AAAA) : "
+            "Date de naissance du joueur (format JJ/MM/AAAA): "
             )
         # Créer un dictionnaire contenant toutes les informations
         player_input_data = {
