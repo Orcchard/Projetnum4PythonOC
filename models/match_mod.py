@@ -7,6 +7,7 @@ class Match:
         self.player2_score = player2_score
 
     def match_dict(self):
+        """retourne les données sous forme de dictionnaire"""
         return {
             "player1": self.player1.player_id,
             "player2": self.player2.player_id,

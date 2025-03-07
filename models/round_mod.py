@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+"""Initialisation d'un round"""
 
 
 class Round:
@@ -6,7 +6,6 @@ class Round:
         self, round_number, round_name,
         start_time=None, end_time=None
     ):
-        """Initialisation d'un round"""
         self.round_number = round_number
         self.round_name = round_name
         self.start_time = start_time
@@ -18,9 +17,10 @@ class Round:
         return (
             f"Round({self.round_number} - {self.round_name}) - "
             f"{self.start_time} - {self.end_time} - {len(self.matches)} matchs"
-            )
+        )
 
     def round_dict(self):
+        """Sérialise le round en dictionnaire"""
         return {
             "round_number": self.round_number,
             "round_name": self.round_name,
@@ -29,19 +29,16 @@ class Round:
             "matches": [match.match_dict() for match in self.matches]
         }
 
+    @staticmethod
     def recreate_round(round_data, all_players):
-        return Round(
+        """Reconstitue un round à partir des données sérialisées"""
+        new_round = Round(
             round_number=round_data["round_number"],
             round_name=round_data["round_name"],
             start_time=round_data["start_time"],
             end_time=round_data["end_time"],
         )
-        """Reconstituer les matches"""
-        matches = [
-            recreate_match(match_data, all_players)
-            for match_data in round_data["matches"]
-            ]
-        matches = matches
+        return new_round
 
     def add_match(self, match):
         """Ajouter un match au round"""

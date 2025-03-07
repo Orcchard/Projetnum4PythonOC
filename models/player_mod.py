@@ -6,6 +6,7 @@ class Player:
         self.player_id = player_id
 
     def __str__(self):
+        """Missing"""
         return (
                 f"Nom: ({self.name}, Prenom: {self.first_name},"
                 f" Date de Naissance: ({self.date_of_birth},"
@@ -14,6 +15,7 @@ class Player:
 
     """serialize les joueurs"""
     def player_dict(self):
+        """Missing"""
         return {
             "name": self.name,
             "first_name": self.first_name,
@@ -22,6 +24,7 @@ class Player:
         }
 
     def recreate_player(data):
+        """Missing"""
         return Player(
             name=data["name"],
             first_name=data["first_name"],
