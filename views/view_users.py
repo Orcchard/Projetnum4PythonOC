@@ -87,3 +87,14 @@ class View:
                 f"\nIl y a {num_of_players} joueurs disponibles. "
                 f"Veuillez en ajouter de nouveaux.\n"
             )
+
+    def display_players_list(self, players, title=""):
+        """Affiche une liste de joueurs formatée avec des numéros."""
+        message = f"\n{title}\n" if title else "\n"
+        for idx, player in enumerate(players, start=1):
+            message += f"{idx}. {player.name} {player.first_name}\n"
+        self.display_message(message)
+
+    def display_message(self, message):
+        """Affiche un message générique (succès, erreur, info)."""
+        print(f"\n🔹 {message}")

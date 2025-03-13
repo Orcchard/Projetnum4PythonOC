@@ -4,29 +4,7 @@ from tabulate import tabulate
 
 
 class ViewTournament:
-    @staticmethod
-    def get_scores_from_user(round_instance):
-        """
-        Demande à l'utilisateur de saisir les
-        scores pour chaque match du round.
-        Retourne une liste de tuples (score1, score2).
-        """
-        scores = []
-        print(
-            f"\nSaisie des scores pour {round_instance.round_name} "
-            f"(débuté à {round_instance.start_time}):"
-            )
-        for i, match in enumerate(round_instance.matches, start=1):
-            print(f"\nMatch {i}: {match.player1.name} vs {match.player2.name}")
-            while True:
-                try:
-                    score1 = float(input(f"Score de {match.player1.name}: "))
-                    score2 = float(input(f"Score de {match.player2.name}: "))
-                    scores.append((score1, score2))
-                    break
-                except ValueError:
-                    print("Erreur: veuillez saisir un nombre valide pour le score.")
-            return scores
+    
 
     @staticmethod
     def clear_screen():
@@ -52,8 +30,6 @@ class ViewTournament:
         description = input("Description du tournoi: ")
         #print(f"Infos saisies: {name}, {location}, {date_initial},")
         #print(f" {date_end}, {nb_round}, {description}")
-
-        # Créer un dictionnaire contenant toutes les informations
         tournament_input_data = {
             "name": name,
             "location": location,
@@ -62,6 +38,7 @@ class ViewTournament:
             "nb_round": nb_round,
             "description": description
         }
+        """Crée un dictionnaire contenant toutes les informations"""
         return tournament_input_data
 
     def display_tournament_tabulate(self, tournament_data_table, participants_table):
@@ -117,23 +94,34 @@ class ViewTournament:
                 f"({existing_tournaments['location']})"
                 )
 
-    def display_matches(self, round_instance):
-        """
-        Affiche la liste des matches pour le round donné.
-        """
-        print(f"\nMatches du {round_instance.round_name} (débuté à {round_instance.start_time}):")
-        for i, match in enumerate(round_instance.matches, start=1):
+    @staticmethod
+    def get_scores_from_user(round_i):
+        """Demande à l'utilisateur de saisir les scores du round terminé"""
+        scores = []
+        print(
+            f"\nSaisie des scores pour {round_i.round_name} "
+            f"(débuté à {round_i.start_time}):"
+            )
+        for i, match in enumerate(round_i.matches, start=1):
+            print(f"\nMatch {i}: {match.player1.name} vs {match.player2.name}")
+            while True:
+                try:
+                    score1 = float(input(f"Score de {match.player1.name}: "))
+                    score2 = float(input(f"Score de {match.player2.name}: "))
+                    scores.append((score1, score2))
+                    break
+                except ValueError:
+                    print("Erreur: veuillez saisir un nombre valide pour le score.")
+        return scores
+    
+    @staticmethod
+    def display_matches(self, round_i):
+        """Affiche la liste des matches pour le round donné."""
+        print(f"\nMatches du {round_i.round_name} (débuté à {round_i.start_time}):")
+        for i, match in enumerate(round_i.matches, start=1):
             print(f"Match {i}: {match.player1.name} vs {match.player2.name}")
-        else:
             print("Erreur")
 
-    def display_round_matches(self, matches):
-        """
-        Affiche les matchs du round sous forme de tableau.
-        """
-        headers = ["Match", "Joueur 1", "Joueur 2"]
-        table = [[i + 1, match.player1.name, match.player2.name] for i, match in enumerate(matches)]
-        print(f"Matches reçus: {matches}")
-        """Debugging"""
-        print("\n Liste des matchs du round66: {self.round_name}")
-        print(tabulate(table, headers=headers, tablefmt="pretty"))
+
+
+
