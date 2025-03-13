@@ -358,10 +358,7 @@ class ControllerPrincipal:
             return
         round_name = f"Round {round_number}"
         round_i = Round(round_number, round_name)
-        if not round_i.matches:
-            print("Aucun match n'a été créé pour ce round.")
-            print(round_i.matches)
-            #return
+        # Enregistrer l'heure de début du round
         round_i.start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.view_tournaments.display_message(
             f"\n Début du {round_name} à {round_i.start_time}\n"
@@ -397,37 +394,11 @@ class ControllerPrincipal:
         # Afficher les matchs du round
         if round_i.matches:
             for match in round_i.matches:
-                print(f"{match.player1.name} VS {match.player2.name}")
+                print(f"{match.player1.name} {match.player1.first_name} VS  {match.player2.name} {match.player2.first_name}")
             # Appel de la saisie des scores
             self.enter_scores(round_i, selected_tournament)
-        #print("Aucun match n'a été créé pour ce round.")
-
-    def reconstruct_rounds_and_matches(self, selected_tournament):
-        """Reconstruit les rounds et les matchs du tournoi rappelé."""
-        if not selected_tournament.rounds:
-            self.view_tournaments.display_message("ℹ️ Aucun round trouvé à reconstruire.")
-            return
-        for round_data in selected_tournament.rounds:
-            # Recréer le round
-            reconstructed_round = Round(
-                round_number=round_data["round_number"],
-                round_name=round_data["round_name"],
-                start_time=round_data.get("start_time", ""),
-                end_time=round_data.get("end_time", ""),
-            )
-
-            # Recréer les matchs
-            for match_data in round_data["matches"]:
-                player1 = self.find_player_by_id(match_data["player1.player_id"])
-                player2 = self.find_player_by_id(match_data["player2.player_id"])
-                if player1 and player2:
-                    match = Match(player1, player2)
-                    match.player1_score = match_data.get("score_player1", 0)
-                    match.player2_score = match_data.get("score_player2", 0)
-                    reconstructed_round_i.matches.append(match)
-            # Ajouter le round reconstruit au tournoi
-            selected_tournament.rounds.append(reconstructed_round)
-        self.view_tournaments.display_message("Rounds et matchs reconstruits avec succès !")
+        else:
+            print("Aucun match n'a été créé pour ce round.")
 
     def enter_scores(self, round_i, selected_tournament):
         """Permet la saisie des scores d'un round et met à jour les joueurs."""
