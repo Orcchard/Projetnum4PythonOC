@@ -14,7 +14,7 @@ class Match:
             "player1_score": self.player1_score,
             "player2_score": self.player2_score
             }
-
+    """"""
     @staticmethod
     def recreate_match(match_data, all_players):
         """Recrée un objet Match à partir d'un dictionnaire"""
@@ -41,3 +41,4 @@ class Match:
             player1_score=match_data["player1_score"],
             player2_score=match_data["player2_score"],
         )
+

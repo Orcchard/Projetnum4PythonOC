@@ -23,7 +23,7 @@ class Tournament:
                 f"Description: {self.description}")
 
     def tournament_dict(self):
-        """Missing"""
+        """Sérialise le tournoi en dictionnaire"""
         return {
             "name": self.name,
             "location": self.location,
@@ -75,10 +75,3 @@ class Tournament:
                 )
         ]
         return tournament
-        """
-        Ajout de la reconstitution des rounds
-        tournament.rounds = [
-            Round.recreate_round(round_data) for
-            round_data in tournament_data.get("rounds", [])]
-        """
-        
