@@ -228,14 +228,20 @@ class ControllerPrincipal:
 
     def save_tournament_to_json(self, tournament):
         """Enregiste ou met à jour un tournoi"""
+        print(f"Rounds dans le tournoi avant sauvegarde: {self.rounds}")
         try:
             """Charge les tournois existants"""
             tournaments = self.load_tournaments_from_json()
             """Converti l'objet Tournament en dictionnaire avant de l'ajouter"""
             tournament_dict_data = tournament.tournament_dict()
-            """Ajout du nouveau tournoi à la liste"""
+            #Verifie si le tournois existe déjà dans la liste
+            exist_tournament = next((
+                t for t in tournaments if t["name"] == tournament.name), None
+                                    )
+            if exist_tournament:
+                # Si le tournoi existe déjà, on met à jour les données
+                tournaments.remove(exist_tournament)
             tournaments.append(tournament_dict_data)
-            # Sauvegarder les tournois mis à jour
             self.dump_tournaments(tournaments)
             self.view_tournaments.display_message(
                 f"Le tournoi {tournament.name} et ses données ont été sauvegardés avec succès."
@@ -344,15 +350,13 @@ class ControllerPrincipal:
         """Crée et démarre les rounds du tournoi"""
         # Vérifier que les joueurs sont bien des objets Player
         players = [
-            p["Player"] for p in selected_tournament.participant_tournament 
+            p["Player"] for p in self.selected_tournament.participant_tournament
             if isinstance(p["Player"], Player)
             ]
-        for p in players:
-            print(type(p), p)
         if not players:
             print("Erreur : Aucun joueur valide trouvé dans le tournoi.")
             return
-        round_number = len(selected_tournament.rounds) + 1
+        round_number = len(self.selected_tournament.rounds) + 1
         if round_number > int(selected_tournament.nb_round):
             print("Le nombre maximum de rounds a été atteint.")
             return
@@ -385,16 +389,24 @@ class ControllerPrincipal:
                 print(player2)
                 available_players.remove(player2)
                 round_i.matches.append(Match(player1, player2))
-                print(f"Matchs créés pour le Round : {[(match.player1.player_id, match.player2.player_id) for match in round_i.matches]}")
+                print(
+                    f"Matchs créés pour le Round : {[
+                        (match.player1.player_id, match.player2.player_id)
+                        for match in round_i.matches
+                    ]}"
+                )
                 """Mettre à jour l'historique des adversaires"""
                 adversaires[player1.player_id].add(player2.player_id)
                 adversaires[player2.player_id].add(player1.player_id)
             # Ajouter le round au tournoi
-        selected_tournament.rounds.append(round_i)
+        self.selected_tournament.rounds.append(round_i)
         # Afficher les matchs du round
         if round_i.matches:
             for match in round_i.matches:
-                print(f"{match.player1.name} {match.player1.first_name} VS  {match.player2.name} {match.player2.first_name}")
+                print(
+                    f"{match.player1.name} {match.player1.first_name}"
+                    f" VS  {match.player2.name} {match.player2.first_name}"
+                    )
             # Appel de la saisie des scores
             self.enter_scores(round_i, selected_tournament)
         else:
@@ -421,20 +433,3 @@ class ControllerPrincipal:
         print(f"\n✅ Fin du {round_i.round_name} à {round_i.end_time}\n")
         # Sauvegarde du tournoi après chaque round
         self.save_tournament_to_json(selected_tournament)
-
-    def find_player_by_id(self, player_id):
-        """Retrouve un joueur par son ID dans la liste all_players."""
-        for player in self.all_players:
-            if player.player_id == player_id:
-                return player
-        return None
-
-    def check_duplicate_tournament_name(self, tournament_name):
-        """Vérifie si un tournoi avec ce nom existe déjà."""
-        try:
-            with open(self.tournaments_file, "r", encoding="utf-8") as file:
-                existing_tournaments = json.load(file)
-            return any(t["name"] == tournament_name for t in existing_tournaments)
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            print(f"Erreur lors de la vérification des doublons : {e}")
-            return False  # On considère qu'aucun tournoi n'existe en cas d'erreur
