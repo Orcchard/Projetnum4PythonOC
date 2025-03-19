@@ -137,6 +137,7 @@ class ControllerPrincipal:
             )
             return
         """Crée une instance de Tournament"""
+        self.
         tournament = Tournament.recreate_tournament(
             tournament_input_data, self.all_players
             )
@@ -228,7 +229,6 @@ class ControllerPrincipal:
 
     def save_tournament_to_json(self, tournament):
         """Enregiste ou met à jour un tournoi"""
-        print(f"Rounds dans le tournoi avant sauvegarde: {self.rounds}")
         try:
             """Charge les tournois existants"""
             tournaments = self.load_tournaments_from_json()
@@ -256,6 +256,10 @@ class ControllerPrincipal:
             with open(
                 self.tournaments_file, "r", encoding="utf-8"
                     ) as file:
+                print(
+                    f"🔄 Tournoi rechargé : "
+                    f"{len(self.selected_tournament.rounds)} rounds chargés après chargement"
+                    )
                 return json.load(file)
         return []
 
@@ -347,7 +351,14 @@ class ControllerPrincipal:
                 print("Démarrage de round annulé.")
 
     def create_rounds(self, selected_tournament):
+        tournament_data = selected_tournament.tournament_dict()
+        selected_tournament = Tournament.recreate_tournament(
+            tournament_data, self.all_players, Round, Match
+            )
         """Crée et démarre les rounds du tournoi"""
+        if len(self.selected_tournament.rounds) >= int(self.selected_tournament.nb_round):
+            print("✅ Tous les rounds ont déjà été joués.")
+            return  # On sort de la méthode immédiatement
         # Vérifier que les joueurs sont bien des objets Player
         players = [
             p["Player"] for p in self.selected_tournament.participant_tournament
@@ -356,61 +367,61 @@ class ControllerPrincipal:
         if not players:
             print("Erreur : Aucun joueur valide trouvé dans le tournoi.")
             return
-        round_number = len(self.selected_tournament.rounds) + 1
-        if round_number > int(selected_tournament.nb_round):
-            print("Le nombre maximum de rounds a été atteint.")
-            return
-        round_name = f"Round {round_number}"
-        round_i = Round(round_number, round_name)
-        # Enregistrer l'heure de début du round
-        round_i.start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.view_tournaments.display_message(
-            f"\n Début du {round_name} à {round_i.start_time}\n"
-            )
-        if round_number == 1:
-            random.shuffle(players)
-        else:
-            """Rounds suivants: Trie les joueurs par score décroissant"""
-            players.sort(key=lambda p: next(
-                (entry["Score"] for entry in self.tournament.participant_tournament
-                    if entry["Player"] == p), 0), reverse=True
+        while len(self.selected_tournament.rounds) < int(selected_tournament.nb_round):
+            print(f" --{len(self.selected_tournament.rounds)}/ {self.selected_tournament.nb_round} ")
+            round_number = len(self.selected_tournament.rounds) + 1
+            round_name = f"Round {round_number}"
+            round_i = Round(round_number, round_name)
+            # Enregistre l'heure de début du round
+            round_i.start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            self.view_tournaments.display_message(
+                f"\n Début du {round_name} à {round_i.start_time}\n"
                 )
-        # Gestion des adversaires
-        adversaires = {p.player_id: set() for p in players}
-        available_players = players.copy()
-        while available_players:
-            player1 = available_players.pop(0)
-            player2 = next((
-                p for p in available_players if p.player_id
-                not in adversaires[player1.player_id]), None)
-            """Cherche un adversaire qui n'a pas encore joué contre player1"""
-            if player2:
-                print(player1)
-                print(player2)
-                available_players.remove(player2)
-                round_i.matches.append(Match(player1, player2))
-                print(
-                    f"Matchs créés pour le Round : {[
-                        (match.player1.player_id, match.player2.player_id)
-                        for match in round_i.matches
-                    ]}"
-                )
-                """Mettre à jour l'historique des adversaires"""
-                adversaires[player1.player_id].add(player2.player_id)
-                adversaires[player2.player_id].add(player1.player_id)
-            # Ajouter le round au tournoi
-        self.selected_tournament.rounds.append(round_i)
-        # Afficher les matchs du round
-        if round_i.matches:
-            for match in round_i.matches:
-                print(
-                    f"{match.player1.name} {match.player1.first_name}"
-                    f" VS  {match.player2.name} {match.player2.first_name}"
+            if round_number == 1:
+                random.shuffle(players)
+            else:
+                """Rounds suivants: Trie les joueurs par score décroissant"""
+                players.sort(key=lambda p: next(
+                    (entry["Score"] for entry in self.selected_tournament.participant_tournament
+                        if entry["Player"] == p), 0), reverse=True
                     )
+            round_i.matches = self.generate_matches(players)
+            # Ajoute le round au tournoi
+            self.selected_tournament.rounds.append(round_i)
+            # self.view_tournaments.display_message(f"Round {round_number} créé avec succès.")
+            # Afficher les matchs du round
+            if round_i.matches:
+                print("n Matchs de ce round: ")
+                for match in round_i.matches:
+                    print(
+                        f"{match.player1.name} {match.player1.first_name}"
+                        f" VS  {match.player2.name} {match.player2.first_name}"
+                        )
+            # Attendre la confirmation de l'utilisateur pour terminer le round
+            while True:
+                confirmation = input("n Le round est-il terminé? (o/n): ").strip().lower()
+                if confirmation == "o":
+                    break
+                print(" En attente de la fin du round")
             # Appel de la saisie des scores
             self.enter_scores(round_i, selected_tournament)
-        else:
-            print("Aucun match n'a été créé pour ce round.")
+            # Affichage du résumé du round
+            print("n résumé du round terminé:")
+            for match in round_i.matches:
+                print(
+                    f"{match.player1.name} {match.player1.first_name} ({match.player1_score}) "
+                    f"VS  {match.player2.name} {match.player2.first_name} ({match.player2_score})"
+                    )
+            # Demander à l'utilisateur s'il veut continuer
+            if round_number < int(selected_tournament.nb_round):
+                continuer = input("\nSouhaitez-vous démarrer le prochain round ? (o/n) : ").strip().lower()
+                if continuer != "o":
+                    print("🏆 Tournoi interrompu. Sauvegarde en cours...")
+                    self.save_tournament_to_json(selected_tournament)
+                    return
+            print("\n🎉 Tous les rounds sont terminés ! Tournoi finalisé !")
+            self.save_tournament_to_json(selected_tournament)
+        print("Vous avez atteint le nombre de round maximum soit 4.")
 
     def enter_scores(self, round_i, selected_tournament):
         """Permet la saisie des scores d'un round et met à jour les joueurs."""
@@ -433,3 +444,27 @@ class ControllerPrincipal:
         print(f"\n✅ Fin du {round_i.round_name} à {round_i.end_time}\n")
         # Sauvegarde du tournoi après chaque round
         self.save_tournament_to_json(selected_tournament)
+
+    def generate_matches(self, players):
+        """Génère les matchs en évitant les adversaires déjà affrontés."""
+        matches = []
+        adversaires = {p.player_id: set() for p in players}
+        available_players = players.copy()
+        while available_players:
+            player1 = available_players.pop(0)
+            player2 = next(
+                (p for p in available_players if p.player_id not in adversaires[player1.player_id]), 
+                None
+            )
+            if player2:
+                available_players.remove(player2)
+                matches.append(Match(player1, player2))
+                # Mettre à jour l'historique des adversaires
+                adversaires[player1.player_id].add(player2.player_id)
+                adversaires[player2.player_id].add(player1.player_id)
+        return matches
+
+    @staticmethod
+    def deserialize_tournament(tournament_data, all_players):
+        """Désérialise un tournoi à partir des données stockées."""
+        return Tournament.recreate_tournament(tournament_data, all_players, Round, Match)
