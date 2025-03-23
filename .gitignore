@@ -4,7 +4,12 @@ test_main.py
 match_mod.py
 main_old.py
 main_old_old.py
-tournamentus_data.json
-tournamentas_data.json
 maintest.py
 maintest.json
+controllers/__pycache__/controller_principal.cpython-312.pyc
+models/__pycache__/match_mod.cpython-312.pyc
+models/__pycache__/player_mod.cpython-312.pyc
+models/__pycache__/tournament_mod.cpython-312.pyc
+.flake8
+.pylintrc
+models/controllercopy.py
