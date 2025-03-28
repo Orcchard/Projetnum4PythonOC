@@ -23,8 +23,8 @@ class Player:
             "player_id": self.player_id
         }
 
-    def recreate_player(data):
-        """Missing"""
+    def recreate_player(self, data):
+        """Reconstruction des objets players"""
         return Player(
             name=data["name"],
             first_name=data["first_name"],

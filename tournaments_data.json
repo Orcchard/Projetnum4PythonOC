@@ -9,32 +9,32 @@
         "participant_tournament": [
             {
                 "player": "AN57888",
-                "score": 0,
+                "score": 3,
                 "adversaires": []
             },
             {
                 "player": "AT63208",
-                "score": 0,
+                "score": 1,
                 "adversaires": []
             },
             {
                 "player": "AZ36873",
-                "score": 0,
+                "score": 2,
                 "adversaires": []
             },
             {
                 "player": "AA87698",
-                "score": 0,
+                "score": 2,
                 "adversaires": []
             },
             {
                 "player": "AV73789",
-                "score": 0,
+                "score": 2,
                 "adversaires": []
             },
             {
                 "player": "AA98765",
-                "score": 0,
+                "score": 2,
                 "adversaires": []
             },
             {
@@ -44,6 +44,354 @@
             },
             {
                 "player": "AC98456",
+                "score": 4,
+                "adversaires": []
+            }
+        ],
+        "rounds": [
+            {
+                "round_number": 1,
+                "round_name": "Round N°: 1",
+                "start_time": "2025-03-24 12:02:24",
+                "end_time": "2025-03-24 12:02:38",
+                "matches": [
+                    {
+                        "player1": "AC98456",
+                        "player2": "AA98765",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AN57888",
+                        "player2": "AA87698",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AZ36873",
+                        "player2": "AT63208",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AV73789",
+                        "player2": "AV57855",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    }
+                ]
+            },
+            {
+                "round_number": 2,
+                "round_name": "Round N°: 2",
+                "start_time": "2025-03-24 12:03:31",
+                "end_time": "2025-03-24 12:04:04",
+                "matches": [
+                    {
+                        "player1": "AC98456",
+                        "player2": "AN57888",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AZ36873",
+                        "player2": "AV73789",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AA98765",
+                        "player2": "AA87698",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AT63208",
+                        "player2": "AV57855",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    }
+                ]
+            },
+            {
+                "round_number": 3,
+                "round_name": "Round N°: 3",
+                "start_time": "2025-03-24 12:04:21",
+                "end_time": "2025-03-24 12:04:53",
+                "matches": [
+                    {
+                        "player1": "AC98456",
+                        "player2": "AZ36873",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AN57888",
+                        "player2": "AV73789",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AA98765",
+                        "player2": "AT63208",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AA87698",
+                        "player2": "AV57855",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    }
+                ]
+            },
+            {
+                "round_number": 4,
+                "round_name": "Round N°: 4",
+                "start_time": "2025-03-24 12:04:55",
+                "end_time": "2025-03-24 12:05:12",
+                "matches": [
+                    {
+                        "player1": "AC98456",
+                        "player2": "AZ36873",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AN57888",
+                        "player2": "AA98765",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AV73789",
+                        "player2": "AT63208",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AA87698",
+                        "player2": "AV57855",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Tournois du printemps",
+        "location": "Roma",
+        "date_initial": "24/03/2025",
+        "date_end": "30/03/2025",
+        "nb_round": "4",
+        "description": "RAS",
+        "participant_tournament": [
+            {
+                "player": "AT78654",
+                "score": 4,
+                "adversaires": []
+            },
+            {
+                "player": "AX66990",
+                "score": 2,
+                "adversaires": []
+            },
+            {
+                "player": "AV57855",
+                "score": 3,
+                "adversaires": []
+            },
+            {
+                "player": "VB34523",
+                "score": 1,
+                "adversaires": []
+            },
+            {
+                "player": "AA87698",
+                "score": 3,
+                "adversaires": []
+            },
+            {
+                "player": "AZ65373",
+                "score": 3,
+                "adversaires": []
+            },
+            {
+                "player": "AV73789",
+                "score": 3,
+                "adversaires": []
+            },
+            {
+                "player": "AA98765",
+                "score": 1,
+                "adversaires": []
+            }
+        ],
+        "rounds": [
+            {
+                "round_number": 1,
+                "round_name": "Round N°: 1",
+                "start_time": "2025-03-24 13:55:06",
+                "end_time": "2025-03-24 13:55:32",
+                "matches": [
+                    {
+                        "player1": "AA87698",
+                        "player2": "AV57855",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AZ65373",
+                        "player2": "AX66990",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "VB34523",
+                        "player2": "AT78654",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AV73789",
+                        "player2": "AA98765",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "A que cela ienne",
+        "location": "Vierzon",
+        "date_initial": "24/03/2025",
+        "date_end": "30/03/2025",
+        "nb_round": "4",
+        "description": "OOOOOOOO",
+        "participant_tournament": [
+            {
+                "player": "AN57898",
+                "score": 1,
+                "adversaires": []
+            },
+            {
+                "player": "AZ36873",
+                "score": 0,
+                "adversaires": []
+            },
+            {
+                "player": "AT63208",
+                "score": 1,
+                "adversaires": []
+            },
+            {
+                "player": "AT45398",
+                "score": 1,
+                "adversaires": []
+            },
+            {
+                "player": "AC45987",
+                "score": 0,
+                "adversaires": []
+            },
+            {
+                "player": "AC98459",
+                "score": 0,
+                "adversaires": []
+            },
+            {
+                "player": "AX67990",
+                "score": 0,
+                "adversaires": []
+            },
+            {
+                "player": "AX66890",
+                "score": 1,
+                "adversaires": []
+            }
+        ],
+        "rounds": [
+            {
+                "round_number": 1,
+                "round_name": "Round N°: 1",
+                "start_time": "2025-03-24 18:12:22",
+                "end_time": "2025-03-24 18:12:54",
+                "matches": [
+                    {
+                        "player1": "AN57898",
+                        "player2": "AC45987",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AT45398",
+                        "player2": "AX67990",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AX66890",
+                        "player2": "AC98459",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AT63208",
+                        "player2": "AZ36873",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Arriverdeci",
+        "location": "Torino",
+        "date_initial": "27/03/2023",
+        "date_end": "30/03/2025",
+        "nb_round": "4",
+        "description": "RRR",
+        "participant_tournament": [
+            {
+                "player": "AV57867",
+                "score": 0,
+                "adversaires": []
+            },
+            {
+                "player": "AN67898",
+                "score": 0,
+                "adversaires": []
+            },
+            {
+                "player": "AD67898",
+                "score": 0,
+                "adversaires": []
+            },
+            {
+                "player": "AV57855",
+                "score": 0,
+                "adversaires": []
+            },
+            {
+                "player": "AA98765",
+                "score": 0,
+                "adversaires": []
+            },
+            {
+                "player": "AT78674",
+                "score": 0,
+                "adversaires": []
+            },
+            {
+                "player": "AX66990",
+                "score": 0,
+                "adversaires": []
+            },
+            {
+                "player": "VB34523",
                 "score": 0,
                 "adversaires": []
             }

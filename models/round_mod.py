@@ -13,7 +13,7 @@ class Round:
         self.matches = []
 
     def __str__(self):
-        """Retourner une représentation lisible de l'objet Round"""
+        """Retourne une représentation lisible de l'objet Round"""
         return (
             f"Round({self.round_number} - {self.round_name}) - "
             f"{self.start_time} - {self.end_time} - {len(self.matches)} matchs"
@@ -36,10 +36,6 @@ class Round:
             round_number=round_data["round_number"],
             round_name=round_data["round_name"],
             start_time=round_data["start_time"],
-            end_time=round_data["end_time"],
+            end_time=round_data["end_time"]
         )
         return new_round
-
-    def add_match(self, match):
-        """Ajouter un match au round"""
-        self.matches.append(match)

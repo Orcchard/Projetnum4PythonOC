@@ -3,6 +3,9 @@ import json
 import os
 import random
 from datetime import datetime
+from collections import defaultdict
+from datetime import datetime
+
 
 from views.view_users import View
 from views.view_tournaments import ViewTournament
@@ -252,6 +255,10 @@ class ControllerPrincipal:
                 # Si le tournoi existe déjà, on met à jour les données
                 tournaments.remove(exist_tournament)
             tournaments.append(tournament_dict_data)
+            print("Debug - Structure des participants avant sauvegarde:")
+            for p in tournament.participant_tournament:
+                print(f"Joueur: {p['Player'].name}")
+                print(f"Adversaires: {[a.player_id for a in p['Adversaires']]}")
             self.dump_tournaments(tournaments)
             self.view_tournaments.display_message(
                 f"Le tournoi {tournament.name} et ses données ont été sauvegardés avec succès."
@@ -337,12 +344,17 @@ class ControllerPrincipal:
                 player = participant["Player"]
                 score = participant["Score"]
                 """Récupére les player_id des adversaires"""
-                adversaires_ids = [
-                    adv.player_id for adv in participant["Adversaires"]]
+                adversaires_ids = []
+                if "Adversaires" in participant:
+                    for adv in participant["Adversaires"]:
+                        if isinstance(adv, int):  # Si c'est déjà un ID
+                            adversaires_ids.append(adv)
+                        elif hasattr(adv, 'player_id'):  # Si c'est un objet Player
+                            adversaires_ids.append(adv.player_id)
                 participants_table.append([
-                    player.name, player.first_name,
-                    player.player_id, score, adversaires_ids
-                ])
+                player.name, player.first_name,
+                player.player_id, score, adversaires_ids
+            ])
             """Envoie les données à la vue"""
             tournament_data_table = self.selected_tournament.tournament_dict()
             self.view_tournaments.display_tournament_tabulate(
@@ -350,10 +362,9 @@ class ControllerPrincipal:
                 )
             """ La vue Demande à l'utilisateur s'il souhaite démarrer un round """
             response = self.view_tournaments.ask_start_round()
-            if response == "o":
+            if response.lower == "o":
                 self.create_rounds(selected_tournament)
-            else:
-                print("Démarrage de round annulé.")
+            print("Démarrage de round annulé.")
 
     def create_rounds(self, selected_tournament):
         # tournament_data = selected_tournament.tournament_dict()
@@ -389,7 +400,7 @@ class ControllerPrincipal:
                     (entry["Score"] for entry in selected_tournament.participant_tournament
                         if entry["Player"] == p), 0), reverse=True
                     )
-                print(f" 21-03 {round_i}")
+                print(f" {round_i}")
             round_i.matches = self.generate_matches(players)
             # Ajoute le round au tournoi
             selected_tournament.rounds.append(round_i)
@@ -441,11 +452,10 @@ class ControllerPrincipal:
             match.player1_score = score1
             match.player2_score = score2
             for participant in selected_tournament.participant_tournament:
-                if participant["Player"] == match.player1:
-                    participant["Score"] += int(score1)
-                if participant["Player"] == match.player2:
-                    participant["Score"] += int(score2)
-
+                if participant["Player"].player_id == match.player1.player_id:
+                    participant["Score"] += score1
+                elif participant["Player"].player_id == match.player2.player_id:
+                    participant["Score"] += score2
         round_i.end_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"\n✅ Fin du {round_i.round_name} à {round_i.end_time}\n")
         # Sauvegarde du tournoi après chaque round

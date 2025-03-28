@@ -1,4 +1,5 @@
 class Tournament:
+    """ Definition de la classe tournament"""
     def __init__(
         self, name, location, date_initial,
         date_end, nb_round=4, description=""
@@ -37,8 +38,7 @@ class Tournament:
                     "score": participant["Score"],
                     "adversaires": [
                         adversary.player_id for adversary in
-                        participant["Adversaires"]
-                    ],
+                        participant["Adversaires"]]
                 }
                 for participant in self.participant_tournament
             ],
@@ -56,22 +56,25 @@ class Tournament:
             nb_round=tournament_data["nb_round"],
             description=tournament_data["description"]
         )
+        # Optimisation: création d'un dictionnaire {player_id: Player}
+        players_dict = {p.player_id: p for p in all_players}    
         """Reconstitution des participants"""
-        tournament.participant_tournament = [
-            {
-                "Player": next(
-                    (player for player in all_players
-                        if player.player_id == participant["player"]), None),
-                "Score": participant["score"],
-                "Adversaires": [
-                    next(
-                        (player for player in all_players if
-                            player.player_id == adv_id), None
-                    ) for adv_id in participant["adversaires"]
+        tournament.participant_tournament = []
+        for participant_data in tournament_data.get("participant_tournament", []):
+            try:
+                # Récupération du joueur principal
+                player = players_dict[participant_data["player"]]            
+                # Récupération des adversaires
+                adversaires = [
+                    players_dict[adv_id]
+                    for adv_id in participant_data["adversaires"]
                 ]
-            }
-            for participant in tournament_data.get(
-                "participant_tournament", []
-                )
-        ]
+                # Ajout du participant avec son score et ses adversaires
+                tournament.participant_tournament.append({
+                    "Player": player,  # Objet Player
+                    "Score": participant_data["score"],  # Désérialisation du score
+                    "Adversaires": adversaires  # Liste d'objets Player
+                })
+            except KeyError as e:
+                raise ValueError(f"Joueur ID {e.args[0]} introuvable.") from None    
         return tournament
