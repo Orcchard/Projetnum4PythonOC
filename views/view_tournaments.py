@@ -124,3 +124,8 @@ class ViewTournament:
         for i, match in enumerate(round_i.matches, start=1):
             print(f"Match {i}: {match.player1.name} vs {match.player2.name}")
         print("Erreur")
+        
+    def get_user_choice(self):
+        """Demande à l'utilisateur de choisir une action."""
+        choice = input("Tapez 'r' pour revenir à la liste des tournois, 'q' pour quitter, ou 'c' pour créer des rounds: ").lower()
+        return choice
