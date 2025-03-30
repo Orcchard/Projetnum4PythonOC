@@ -30,7 +30,6 @@ class Match:
                 if player.player_id == match_data["player2"]
                 ), None
         )
-
         if player1 is None or player2 is None:
             raise ValueError(
                 "Un ou plusieurs joueurs du match sont introuvables."

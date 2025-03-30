@@ -76,5 +76,7 @@ class Tournament:
                     "Adversaires": adversaires  # Liste d'objets Player
                 })
             except KeyError as e:
-                raise ValueError(f"Joueur ID {e.args[0]} introuvable.") from None    
+                raise ValueError(f"Joueur ID {e.args[0]} introuvable.") from None
+        # Vérifie le type avant de retourner
+        print(f"Type de tournament recréé: {type(tournament)}")  
         return tournament
