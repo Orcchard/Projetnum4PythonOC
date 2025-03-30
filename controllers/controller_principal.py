@@ -4,7 +4,7 @@ import os
 import random
 from datetime import datetime
 from collections import defaultdict
-from datetime import datetime
+
 
 
 from views.view_users import View
@@ -28,7 +28,7 @@ class ControllerPrincipal:
         self.all_players = []
         self.tournament = None
         self.participant_tournament = []
-        # self.selected_tournament = None
+        self.selected_tournament = None
         self.rounds = []
         """Le tournoi courant"""
         self.players_file = "all_players_data.json"
@@ -164,6 +164,7 @@ class ControllerPrincipal:
         """
         if not self.tournament:
             self.view_tournaments.display_alerte("Aucun tournoi n'a été créé.")
+            print(f"Rounds chargés pour {self.tournament.name} : {len(self.tournament.rounds)}")
             return
         while len(self.tournament.participant_tournament) < MAX_PLAYERS:
             prefix = self.get_valid_prefix()
@@ -301,15 +302,20 @@ class ControllerPrincipal:
                 tournament_index = int(
                     input("Entrez le numéro du tournoi à sélectionner: ")) - 1
                 if 0 <= tournament_index < len(existing_tournaments):
-                    selected_tournament = existing_tournaments[
+                    selected_tournament= existing_tournaments[
                         tournament_index]
                     self.view_tournaments.display_message(
                         f"Tournoi {selected_tournament["name"]} sélectionné avec succès !"
                     )
-                    """recrée l'objet Tournament"""
+                    # Recrée l'objet Tournament
                     self.selected_tournament = Tournament.recreate_tournament(
                         selected_tournament, self.all_players
-                        )
+                )
+                    # Recrée les rounds sans utiliser la classe Match
+                    self.selected_tournament.rounds = [
+                        self.create_rounds(round_data)
+                        for round_data in self.selected_tournament.rounds
+                    ]
                     if not self.selected_tournament:
                         self.view_tournaments.display_message(
                             "Erreur : le tournoi n'a pas pu être recréé."
@@ -333,14 +339,15 @@ class ControllerPrincipal:
 
     def display_tournament_info(self, selected_tournament):
         """
-        Récupère les informations du tournoi et les envoie à la vue. """
-        if not self.selected_tournament:
+        Récupère les informations du tournoi et les envoie à la vue.
+        """
+        if not selected_tournament:
             self.view_tournaments.not_tournament()
             return
         """Prépare les participants pour l'affichage"""
         participants_table = []
-        if self.selected_tournament.participant_tournament:
-            for participant in self.selected_tournament.participant_tournament:
+        if selected_tournament.participant_tournament:
+            for participant in selected_tournament.participant_tournament:
                 player = participant["Player"]
                 score = participant["Score"]
                 """Récupére les player_id des adversaires"""
@@ -356,18 +363,14 @@ class ControllerPrincipal:
                 player.player_id, score, adversaires_ids
             ])
             """Envoie les données à la vue"""
-            tournament_data_table = self.selected_tournament.tournament_dict()
+            tournament_data_table = selected_tournament.tournament_dict()
             self.view_tournaments.display_tournament_tabulate(
                 tournament_data_table, participants_table
                 )
-            """ La vue Demande à l'utilisateur s'il souhaite démarrer un round """
-            response = self.view_tournaments.ask_start_round()
-            if response.lower == "o":
-                self.create_rounds(selected_tournament)
-            print("Démarrage de round annulé.")
 
-    def create_rounds(self, selected_tournament):
-        # tournament_data = selected_tournament.tournament_dict()
+    def create_rounds(self, round_data):
+        """Missing"""
+        #tournament_data = selected_tournament.tournament_dict()
         # selected_tournament = Tournament.recreate_tournament(
         # tournament_data, self.all_players)
         """Crée et démarre les rounds du tournoi"""
@@ -407,15 +410,15 @@ class ControllerPrincipal:
             # self.view_tournaments.display_message(f"Round {round_number} créé avec succès.")
             # Afficher les matchs du round
             if round_i.matches:
-                print(f" Matchs de ce round: {round_number} ")
+                print(f" Matchs de ce round numéro: {round_number} ")
                 for match in round_i.matches:
                     print(
-                        f"{match.player1.name} {match.player1.first_name} ({match.player1_score}) "
-                        f"VS  {match.player2.name} {match.player2.first_name} ({match.player2_score})"
+                        f"{match.player1.name} {match.player1.first_name} "
+                        f"VS  {match.player2.name} {match.player2.first_name}"
                         )
             # Attendre la confirmation de l'utilisateur pour terminer le round
             while True:
-                confirmation = input("n Le round est-il terminé? (o/n): ").strip().lower()
+                confirmation = input("\n Lorsque le match est terminé vous pouvez entre les scores... (o/n): ").strip().lower()
                 if confirmation == "o":
                     break
                 print(" En attente de la fin du round")
