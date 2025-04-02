@@ -124,8 +124,39 @@ class ViewTournament:
         for i, match in enumerate(round_i.matches, start=1):
             print(f"Match {i}: {match.player1.name} vs {match.player2.name}")
         print("Erreur")
-        
+
     def get_user_choice(self):
         """Demande à l'utilisateur de choisir une action."""
-        choice = input("Tapez 'r' pour revenir à la liste des tournois, 'q' pour quitter, ou 'c' pour créer des rounds: ").lower()
+        choice = input(
+            "Tapez 'r' pour revenir à la liste des tournois, 'q' pour quitter "
+            ).lower()
         return choice
+
+    def display_tournament_info(self, tournament):
+        """
+        Affiche les informations détaillées du tournoi.
+        :param tournament: L'objet Tournament contenant les informations du tournoi.
+        """
+        # Affichage des informations du tournoi
+        print(f"\nTournoi: {tournament['name']}")
+        print(f"Date: {tournament['date_initial']}")
+        print("Participants:")
+        for participant in tournament.get('players', []):
+            print(f"- {participant}")
+
+    def display_rounds(self, round_data):
+        """
+        Affiche les rounds du tournoi sous forme de tableau.
+        :param round_data: Liste de dictionnaires contenant les informations des rounds.
+        """
+        headers = ["Round", "Match", "Joueur 1", "Joueur 2"]
+        table = []
+        for round_info in round_data:
+            for match in round_info.get('matches', []):
+                table.append([
+                    f"Round {round_info['number']}",
+                    f"Match {match['number']}",
+                    match.get('player1', 'Inconnu'),
+                    match.get('player2', 'Inconnu')
+                ])
+        print(tabulate(table, headers=headers, tablefmt="grid"))
