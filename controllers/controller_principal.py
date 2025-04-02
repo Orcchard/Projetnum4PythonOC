@@ -3,7 +3,6 @@ import json
 import os
 import random
 from datetime import datetime
-from collections import defaultdict
 
 
 
@@ -297,45 +296,69 @@ class ControllerPrincipal:
                 return None
             """ Affiche les tournois existants"""
             self.view_tournaments.display_tournament_list(existing_tournaments)
-            """Demande à l'utilisateur de sélectionner un tournoi"""
-            try:
-                tournament_index = int(
+            # Boucle de sélection du tournoi
+            while True:
+                try:
+                    tournament_index = int(
                     input("Entrez le numéro du tournoi à sélectionner: ")) - 1
-                if 0 <= tournament_index < len(existing_tournaments):
-                    selected_tournament= existing_tournaments[
-                        tournament_index]
-                    self.view_tournaments.display_message(
-                        f"Tournoi {selected_tournament["name"]} sélectionné avec succès !"
-                    )
-                    # Recrée l'objet Tournament
-                    self.selected_tournament = Tournament.recreate_tournament(
-                        selected_tournament, self.all_players
+                    if 0 <= tournament_index < len(existing_tournaments):
+                        selected_tournament= existing_tournaments[
+                                tournament_index]
+                        # Vérifie la présence des clés essentielles
+                        if "date_initial" not in selected_tournament:
+                            self.view_tournaments.display_message(
+                                "Erreur : Clé 'date' manquante dans les données du tournoi."
+                                )
+                            continue
+                        self.view_tournaments.display_tournament_info(selected_tournament)
+                        # Recrée l'objet Tournament
+                        self.selected_tournament = Tournament.recreate_tournament(
+                            selected_tournament, self.all_players
+                        )
+                        if not self.selected_tournament:
+                            self.view_tournaments.display_message(
+                                "Erreur : le tournoi n'a pas pu être recréé."
+                                )
+                            return None
+                        # Recrée les rounds en s'assurant que `rounds` est bien une liste
+                        if isinstance(self.selected_tournament.rounds, list):
+                            self.selected_tournament.rounds = [
+                                self.create_rounds(round_data) for round_data 
+                                in self.selected_tournament.rounds
+                            ]
+                        # Affiche les informations du tournoi sélectionné
+                        self.display_tournament_info(self.selected_tournament)
+                        # Propose de revenir à la liste des tournois  ou de créer un round
+                        # Utilisation de ta méthode ask_start_round()
+                        user_choice = self.view_tournaments.ask_start_round()
+                        if user_choice == "o":
+                            self.create_rounds(self.selected_tournament)
+                            return  # Sort après avoir démarré le round
+                        elif user_choice == "n":
+                            print("Retour au menu principal.")
+                            return None  # Quitte la sélection
+                    else:
+                        self.view_tournaments.display_message("Numéro de tournoi invalide.")
+                except ValueError:
+                    self.view_tournaments.display_message("Veuillez entrer un nombre valide.")
+        except FileNotFoundError:
+            self.view_tournaments.display_message(
+                "Le fichier des tournois est introuvable."
                 )
-                    # Recrée les rounds sans utiliser la classe Match
-                    self.selected_tournament.rounds = [
-                        self.create_rounds(round_data)
-                        for round_data in self.selected_tournament.rounds
-                    ]
-                    if not self.selected_tournament:
-                        self.view_tournaments.display_message(
-                            "Erreur : le tournoi n'a pas pu être recréé."
-                            )
-                        return None
-                    """Affiche les informations du tournoi sélectionné"""
-                    self.display_tournament_info(self.selected_tournament)
-                    return self.selected_tournament
-                self.view_tournaments.display_message("Numéro de tournoi invalide.")
-                return None
-            except ValueError:
-                self.view_tournaments.display_message(
-                    "Veuillez entrer un nombre valide."
-                    )
-                return None
+        except json.JSONDecodeError:
+            self.view_tournaments.display_message(
+                "Erreur lors de la lecture du fichier JSON. Il semble corrompu."
+                )
+        except KeyError as e:
+            self.view_tournaments.display_message(
+                f"Erreur : clé manquante dans les données du tournoi ({e})."
+                )
         except Exception as e:
             self.view_tournaments.display_message(
-                f"Erreur lors de la sélection du tournoi: {e}"
+                f"Une erreur inattendue est survenue : {e}"
                 )
-            return None
+        return None
+
 
     def display_tournament_info(self, selected_tournament):
         """
@@ -352,7 +375,8 @@ class ControllerPrincipal:
                 score = participant["Score"]
                 """Récupére les player_id des adversaires"""
                 adversaires_ids = []
-                if "Adversaires" in participant:
+                # Vérifie si c'est bien une liste
+                if isinstance(participant.get("Adversaires"), list):
                     for adv in participant["Adversaires"]:
                         if isinstance(adv, int):  # Si c'est déjà un ID
                             adversaires_ids.append(adv)
@@ -362,17 +386,13 @@ class ControllerPrincipal:
                 player.name, player.first_name,
                 player.player_id, score, adversaires_ids
             ])
-            """Envoie les données à la vue"""
+            # Envoie les données à la vue"""
             tournament_data_table = selected_tournament.tournament_dict()
             self.view_tournaments.display_tournament_tabulate(
                 tournament_data_table, participants_table
                 )
 
-    def create_rounds(self, round_data):
-        """Missing"""
-        #tournament_data = selected_tournament.tournament_dict()
-        # selected_tournament = Tournament.recreate_tournament(
-        # tournament_data, self.all_players)
+    def create_rounds(self, selected_tournament):
         """Crée et démarre les rounds du tournoi"""
         if len(selected_tournament.rounds) >= int(selected_tournament.nb_round):
             print("✅ Tous les rounds ont déjà été joués.")
