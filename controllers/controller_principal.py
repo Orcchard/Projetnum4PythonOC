@@ -323,13 +323,12 @@ class ControllerPrincipal:
                         # Recrée les rounds en s'assurant que `rounds` est bien une liste
                         if isinstance(self.selected_tournament.rounds, list):
                             self.selected_tournament.rounds = [
-                                self.create_rounds(round_data) for round_data 
+                                self.recreate_round(round_data, self.all_players) for round_data
                                 in self.selected_tournament.rounds
                             ]
                         # Affiche les informations du tournoi sélectionné
                         self.display_tournament_info(self.selected_tournament)
                         # Propose de revenir à la liste des tournois  ou de créer un round
-                        # Utilisation de ta méthode ask_start_round()
                         user_choice = self.view_tournaments.ask_start_round()
                         if user_choice == "o":
                             self.create_rounds(self.selected_tournament)
@@ -427,8 +426,6 @@ class ControllerPrincipal:
             round_i.matches = self.generate_matches(players)
             # Ajoute le round au tournoi
             selected_tournament.rounds.append(round_i)
-            # self.view_tournaments.display_message(f"Round {round_number} créé avec succès.")
-            # Afficher les matchs du round
             if round_i.matches:
                 print(f" Matchs de ce round numéro: {round_number} ")
                 for match in round_i.matches:
@@ -438,7 +435,9 @@ class ControllerPrincipal:
                         )
             # Attendre la confirmation de l'utilisateur pour terminer le round
             while True:
-                confirmation = input("\n Lorsque le match est terminé vous pouvez entre les scores... (o/n): ").strip().lower()
+                confirmation = input(
+                    "\n Lorsque le match est terminé vous pouvez entre les scores... (o/n): "
+                    ).strip().lower()
                 if confirmation == "o":
                     break
                 print(" En attente de la fin du round")
@@ -459,9 +458,9 @@ class ControllerPrincipal:
                     print("Tournoi interrompu. Sauvegarde en cours...")
                     self.save_tournament_to_json(selected_tournament)
                     return
-        print("\n Tous les rounds sont terminés ! Tournoi finalisé !")
-        print("Vous avez atteint le nombre de round maximum soit 4.")
-        self.save_tournament_to_json(selected_tournament)
+            print("\n Tous les rounds sont terminés ! Tournoi finalisé !")
+            print("Vous avez atteint le nombre de round maximum soit 4.")
+            self.save_tournament_to_json(selected_tournament)
 
     def enter_scores(self, round_i, selected_tournament):
         """Permet la saisie des scores d'un round et met à jour les joueurs."""
@@ -493,8 +492,7 @@ class ControllerPrincipal:
             player1 = available_players.pop(0)
             player2 = next(
                 (p for p in available_players if p.player_id not in adversaires[player1.player_id]),
-                None
-            )
+                None)
             if player2:
                 available_players.remove(player2)
                 matches.append(Match(player1, player2))
@@ -502,3 +500,36 @@ class ControllerPrincipal:
                 adversaires[player1.player_id].add(player2.player_id)
                 adversaires[player2.player_id].add(player1.player_id)
         return matches
+    def recreate_round(self, round_data, all_players):
+        """Recrée un round à partir des données JSON."""
+        round_i = Round(round_data["round_number"], round_data["round_name"])
+        round_i.start_time = round_data["start_time"]
+        round_i.end_time = round_data["end_time"]
+        # Recréer les matchs à partir des données json"""
+        for match_data in round_data["matches"]:
+            match = self.recreate_match(match_data, all_players)  # Appel à la méthode du contrôleur
+            round_i.matches.append(match)
+        return round_i
+
+    def recreate_match(self, match_data, all_players):
+        """Recrée un match à partir des données JSON."""
+        player1 = next(p for p in all_players if p.player_id == match_data["player1_id"])
+        player2 = next(p for p in all_players if p.player_id == match_data["player2_id"])
+        match = Match(player1, player2)
+        match.player1_score = match_data["player1_score"]
+        match.player2_score = match_data["player2_score"]
+        return match
+
+    def recreate_tournament_controlleur(self, tournament_data, all_players):
+        """Reconstitue un tournoi """
+        try:
+            tournament = Tournament.recreate_tournament(tournament_data, all_players)
+            """Reconstruction des rounds via le contrôleur"""
+            tournament.rounds = [
+                self.recreate_round(round_data, all_players)
+                for round_data in tournament_data.get("rounds", [])
+            ]
+            return tournament
+        except Exception as e:
+            print("Erreur lors de la reconstruction du tournoi :", e)
+            return None
