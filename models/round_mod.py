@@ -19,7 +19,7 @@ class Round:
             f"{self.start_time} - {self.end_time} - {len(self.matches)} matchs"
         )
 
-    def round_dict(self, all_players):
+    def round_dict(self):
         """Sérialise le round en dictionnaire"""
         return {
             "round_number": self.round_number,
@@ -29,13 +29,6 @@ class Round:
             "matches": [match.match_dict() for match in self.matches]
         }
 
-    @staticmethod
-    def recreate_round(self, round_data, all_players):
-        """Reconstitue un round à partir des données sérialisées"""
-        new_round = Round(
-            round_number=round_data["round_number"],
-            round_name=round_data["round_name"],
-            start_time=round_data["start_time"],
-            end_time=round_data["end_time"]
-        )
-        return new_round
+    def add_match(self, match):
+        """Ajoute un match à la liste des matchs du round."""
+        self.matches.append(match)

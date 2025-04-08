@@ -42,7 +42,7 @@ class Tournament:
                 }
                 for participant in self.participant_tournament
             ],
-            "rounds": [round.round_dict() for round in self.rounds]
+            "rounds": [tourn_round.round_dict() for tourn_round in self.rounds]
         }
 
     @staticmethod
@@ -57,26 +57,22 @@ class Tournament:
             description=tournament_data["description"]
         )
         # Optimisation: création d'un dictionnaire {player_id: Player}
-        players_dict = {p.player_id: p for p in all_players}    
+        players_dict = {p.player_id: p for p in all_players}
         """Reconstitution des participants"""
         tournament.participant_tournament = []
         for participant_data in tournament_data.get("participant_tournament", []):
-            try:
-                # Récupération du joueur principal
-                player = players_dict[participant_data["player"]]            
-                # Récupération des adversaires
-                adversaires = [
-                    players_dict[adv_id]
-                    for adv_id in participant_data["adversaires"]
-                ]
-                # Ajout du participant avec son score et ses adversaires
-                tournament.participant_tournament.append({
-                    "Player": player,  # Objet Player
-                    "Score": participant_data["score"],  # Désérialisation du score
-                    "Adversaires": adversaires  # Liste d'objets Player
-                })
-            except KeyError as e:
-                raise ValueError(f"Joueur ID {e.args[0]} introuvable.") from None
-        # Vérifie le type avant de retourner
-        print(f"Type de tournament recréé: {type(tournament)}")  
+            # Récupération du joueur principal
+            player = players_dict[participant_data["player"]]
+            # Récupération des adversaires
+            adversaires = [
+                players_dict[adv_id]
+                for adv_id in participant_data["adversaires"]
+            ]
+            # Ajout du participant avec son score et ses adversaires
+            tournament.participant_tournament.append({
+                "Player": player,  # Objet Player
+                "Score": participant_data["score"],  # Désérialisation du score
+                "Adversaires": adversaires  # Liste d'objets Player
+            })
+        print("Participants reconstitués:", tournament.participant_tournament)
         return tournament
