@@ -81,7 +81,8 @@ class ControllerPrincipal:
             elif user_choice == "2":
                 self.new_tournament_input()
             elif user_choice == "3":
-                self.select_list_saved_tournaments(action_type="view")  # L'utilisateur choisit un tournoi
+                self.select_list_saved_tournaments(action_type="view")
+                # L'utilisateur choisit un tournoi
             elif user_choice == "4":
                 pass
             elif user_choice == "5":
@@ -152,7 +153,7 @@ class ControllerPrincipal:
             f"{len(self.all_players)} sélectionnez 8 participants"
             )
         self.tournament = tournament
-        self.view_tournaments.display_message(f"\{self.tournament}")
+        self.view_tournaments.display_message(f"\n {self.tournament}")
         self.view_tournaments.display_message("Le tournoi a été créé avec succès.")
         self.select_participants_tournament()
         """
@@ -249,7 +250,6 @@ class ControllerPrincipal:
 
     def save_tournament_to_json(self, tournament):
         """Enregiste ou met à jour un tournoi"""
-        print(f"Rounds dans le tournoi avant sauvegarde: {self.rounds}")
         try:
             """Charge les tournois existants"""
             tournaments = self.load_tournaments_from_json()
@@ -262,10 +262,6 @@ class ControllerPrincipal:
                 # Si le tournoi existe déjà, on met à jour les données
                 tournaments.remove(exist_tournament)
             tournaments.append(tournament_dict_data)
-            print("Debug - Structure des participants avant sauvegarde:")
-            for p in tournament.participant_tournament:
-                print(f"Joueur: {p['Player'].name}")
-                print(f"Adversaires: {[a.player_id for a in p['Adversaires']]}")
             self.dump_tournaments(tournaments)
             self.view_tournaments.display_message(
                 f"Le tournoi {tournament.name} et ses données ont été sauvegardés avec succès."
@@ -456,20 +452,21 @@ class ControllerPrincipal:
             # Attendre la confirmation de l'utilisateur pour terminer le round
             while True:
                 confirmation = input(
-                    "\n Lorsque le match est terminé saisir (o/n): pour saisir les scores"
+                    "\n Lorsque le match est terminé saisir (o/n): pour saisir les scores :"
                     ).strip().lower()
                 if confirmation == "o":
                     break
                 print(" En attente de la fin du round")
             # Appel de la saisie des scores
             self.enter_scores(round_i, selected_tournament)
-            # Affichage du résumé du round
+            self.display_tournament_info(selected_tournament)
+            """ # Affichage du résumé du round
             print("\n résumé du round terminé:")
             for match in round_i.matches:
                 print(
                     f"{match.player1.name} {match.player1.first_name} ({match.player1_score}) "
                     f"VS  {match.player2.name} {match.player2.first_name} ({match.player2_score})"
-                    )
+                    )"""
             # Demander à l'utilisateur s'il veut continuer
             if round_number < int(selected_tournament.nb_round):
                 continuer = input(
@@ -593,8 +590,10 @@ class ControllerPrincipal:
         for tourn_round in tournament.rounds:
             print(tabulate([[
                 f"Round {tourn_round.round_number}",
-                    f"DÉMARRÉ LE {tourn_round.start_time}" if tourn_round.start_time else "Non démarré",
-                    f"TERMINÉ LE {tourn_round.end_time}" if tourn_round.end_time else "En cours"
+                    f"DÉMARRÉ LE {tourn_round.start_time}" if
+                    tourn_round.start_time else "Non démarré",
+                    f"TERMINÉ LE {tourn_round.end_time}" if 
+                    tourn_round.end_time else "En cours"
                 ]],
                 headers=["", "", ""],
                 tablefmt="fancy_grid"
