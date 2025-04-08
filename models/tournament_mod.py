@@ -76,3 +76,4 @@ class Tournament:
             })
         print("Participants reconstitués:", tournament.participant_tournament)
         return tournament
+
