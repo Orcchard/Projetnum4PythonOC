@@ -109,15 +109,22 @@ class ViewTournament:
             f"(débuté à {round_i.start_time}):"
             )
         for i, match in enumerate(round_i.matches, start=1):
-            print(f"\nMatch {i}: {match.player1.name} vs {match.player2.name}")
+            print(f"\nMatch {i}: {match.player1.name}  vs {match.player2.name}")
+            print("1. Victoire du joueur 1")
+            print("2. Victoire du joueur 2")
+            print("3. Match nul")
             while True:
-                try:
-                    score1 = float(input(f"Score de {match.player1.name}: "))
-                    score2 = float(input(f"Score de {match.player2.name}: "))
-                    scores.append((score1, score2))
+                choice = input("Votre choix (1-3): ").strip()
+                if choice == "1":
+                    scores.append((1.0, 0.0))
                     break
-                except ValueError:
-                    print("Erreur: veuillez saisir un nombre valide pour le score.")
+                if choice == "2":
+                    scores.append((0.0, 1.0))
+                    break
+                if choice == "3":
+                    scores.append((0.5, 0.5))
+                    break
+                print("Erreur: choix invalide. Veuillez saisir 1, 2 ou 3.")
         return scores
 
     @staticmethod
