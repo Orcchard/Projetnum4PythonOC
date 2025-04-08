@@ -44,7 +44,6 @@ class ViewTournament:
 
     def display_tournament_tabulate(self, tournament_data_table, participants_table):
         """ Informations du tournoi et affichage sous forme de tableau"""
-        """Préparer les détails du tournoi sous forme de tableau"""
         tournament_info = [
             ["Nom", tournament_data_table['name']],
             ["Lieu", tournament_data_table['location']],
@@ -55,12 +54,14 @@ class ViewTournament:
         """Afficher les détails du tournoi"""
         print("\nDétails du tournoi:")
         print(tabulate(tournament_info, tablefmt="pretty"))
+        # On trie les participants par score décroissant (meilleur score en premier)
+        sorted_participants = sorted(participants_table, key=lambda x: x[3], reverse=True)
 
         # Définir les en-têtes de tableau pour les participants
         headers = ['Nom', 'Prénom', 'ID', 'Score', 'Adversaires IDs']
         # Afficher les participants sous forme de tableau
         print("\nParticipants*****:")
-        print(tabulate(participants_table, headers=headers, tablefmt="pretty"))
+        print(tabulate(sorted_participants, headers=headers, tablefmt="pretty"))
 
     def ask_start_round(self):
         """Missing"""
@@ -92,9 +93,11 @@ class ViewTournament:
         for index, existing_tournaments in enumerate(
             existing_tournaments, start=1
                 ):
+            rounds_count = len(existing_tournaments.get("rounds", []))
             print(
                 f"{index}. {existing_tournaments['name']} "
-                f"({existing_tournaments['location']})"
+                f" Se déroulant à {existing_tournaments['location']}"
+                f" ({rounds_count} rounds)"
                 )
 
     @staticmethod
@@ -118,7 +121,7 @@ class ViewTournament:
         return scores
 
     @staticmethod
-    def display_matches(self, round_i):
+    def display_matches(round_i):
         """Affiche la liste des matches pour le round donné."""
         print(f"\nMatches xxxxx du {round_i.round_name} (débuté à {round_i.start_time}):")
         for i, match in enumerate(round_i.matches, start=1):
