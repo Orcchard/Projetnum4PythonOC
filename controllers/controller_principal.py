@@ -3,6 +3,10 @@ import json
 import os
 import random
 from datetime import datetime
+from tabulate import tabulate
+# import pprint
+# from pprint import PrettyPrinter
+
 
 
 
@@ -77,12 +81,12 @@ class ControllerPrincipal:
             elif user_choice == "2":
                 self.new_tournament_input()
             elif user_choice == "3":
-                pass
+                self.select_list_saved_tournaments(action_type="view")  # L'utilisateur choisit un tournoi
             elif user_choice == "4":
                 pass
             elif user_choice == "5":
                 self.view.clear_screen()
-                self.select_list_saved_tournaments()
+                self.select_list_saved_tournaments(action_type="create_round")
             elif user_choice == "6":
                 self.view_tournaments.display_message("à completer")
             else:
@@ -213,9 +217,12 @@ class ControllerPrincipal:
         if self.tournament is None:
             self.view_tournaments.display_message("Aucun tournoi sélectionné.")
             return
-
-        if not hasattr(self.tournament, 'participant_tournament') or not self.tournament.participant_tournament:
-            self.view_tournaments.display_message("Aucun joueur sélectionné pour ce tournoi.")
+        if not hasattr(
+            self.tournament, 'participant_tournament'
+            ) or not self.tournament.participant_tournament:
+            self.view_tournaments.display_message(
+                "Aucun joueur sélectionné pour ce tournoi."
+                )
             return
         """Affiche les participants sélectionnés."""
         self.view_tournaments.display_message("\nJoueurs sélectionnés:")
@@ -281,7 +288,7 @@ class ControllerPrincipal:
         with open(self.tournaments_file, "w", encoding="utf-8") as file:
             json.dump(tournaments, file, ensure_ascii=False, indent=4)
 
-    def select_list_saved_tournaments(self):
+    def select_list_saved_tournaments(self, action_type="view"):
         """Sélectionne un tournoi sauvegardé parmi une liste."""
         if not os.path.exists(self.tournaments_file):
             self.view_tournaments.display_message("Aucun fichier de tournois trouvé")
@@ -310,32 +317,32 @@ class ControllerPrincipal:
                                 "Erreur : Clé 'date' manquante dans les données du tournoi."
                                 )
                             continue
-                        self.view_tournaments.display_tournament_info(selected_tournament)
                         # Recrée l'objet Tournament
-                        self.selected_tournament = Tournament.recreate_tournament(
+                        self.selected_tournament = self.recreate_tournament_controlleur(
                             selected_tournament, self.all_players
-                        )
+                            )
                         if not self.selected_tournament:
                             self.view_tournaments.display_message(
                                 "Erreur : le tournoi n'a pas pu être recréé."
                                 )
                             return None
-                        # Recrée les rounds en s'assurant que `rounds` est bien une liste
-                        if isinstance(self.selected_tournament.rounds, list):
-                            self.selected_tournament.rounds = [
-                                self.recreate_round(round_data, self.all_players) for round_data
-                                in self.selected_tournament.rounds
-                            ]
                         # Affiche les informations du tournoi sélectionné
-                        self.display_tournament_info(self.selected_tournament)
-                        # Propose de revenir à la liste des tournois  ou de créer un round
-                        user_choice = self.view_tournaments.ask_start_round()
-                        if user_choice == "o":
-                            self.create_rounds(self.selected_tournament)
-                            return  # Sort après avoir démarré le round
-                        elif user_choice == "n":
-                            print("Retour au menu principal.")
-                            return None  # Quitte la sélection
+                        self.view_tournaments.display_tournament_info(selected_tournament)
+                        # self.display_tournament_info(self.selected_tournament)
+                        if action_type == "view":
+                            # Affichage des rounds et des matchs avec scores
+                            self.display_tournament_rounds_and_matches(self.selected_tournament)
+                            return None  # Quitte après avoir affiché les données
+                        if action_type == "create_round":
+                            # Propose de revenir à la liste des tournois  ou de créer un round
+                            self.display_tournament_info(self.selected_tournament)
+                            user_choice = self.view_tournaments.ask_start_round()
+                            if user_choice == "o":
+                                self.create_rounds(self.selected_tournament)
+                                return  # Sort après avoir démarré le round
+                            if user_choice == "n":
+                                print("Retour au menu principal.")
+                                return None  # Quitte la sélection
                     else:
                         self.view_tournaments.display_message("Numéro de tournoi invalide.")
                 except ValueError:
@@ -357,7 +364,6 @@ class ControllerPrincipal:
                 f"Une erreur inattendue est survenue : {e}"
                 )
         return None
-
 
     def display_tournament_info(self, selected_tournament):
         """
@@ -429,6 +435,20 @@ class ControllerPrincipal:
             if round_i.matches:
                 print(f" Matchs de ce round numéro: {round_number} ")
                 for match in round_i.matches:
+                    p1 = match.player1
+                    p2 = match.player2
+                    p1_data = next(
+                        p for p in selected_tournament.participant_tournament if
+                        p["Player"].player_id == p1.player_id
+                        )
+                    p2_data = next(
+                        p for p in selected_tournament.participant_tournament if 
+                        p["Player"].player_id == p2.player_id
+                        )
+                    if p2 not in p1_data["Adversaires"]:
+                        p1_data["Adversaires"].append(p2)
+                    if p1 not in p2_data["Adversaires"]:
+                        p2_data["Adversaires"].append(p1)
                     print(
                         f"{match.player1.name} {match.player1.first_name} "
                         f"VS  {match.player2.name} {match.player2.first_name}"
@@ -436,7 +456,7 @@ class ControllerPrincipal:
             # Attendre la confirmation de l'utilisateur pour terminer le round
             while True:
                 confirmation = input(
-                    "\n Lorsque le match est terminé vous pouvez entre les scores... (o/n): "
+                    "\n Lorsque le match est terminé saisir (o/n): pour saisir les scores"
                     ).strip().lower()
                 if confirmation == "o":
                     break
@@ -500,6 +520,7 @@ class ControllerPrincipal:
                 adversaires[player1.player_id].add(player2.player_id)
                 adversaires[player2.player_id].add(player1.player_id)
         return matches
+
     def recreate_round(self, round_data, all_players):
         """Recrée un round à partir des données JSON."""
         round_i = Round(round_data["round_number"], round_data["round_name"])
@@ -507,18 +528,14 @@ class ControllerPrincipal:
         round_i.end_time = round_data["end_time"]
         # Recréer les matchs à partir des données json"""
         for match_data in round_data["matches"]:
-            match = self.recreate_match(match_data, all_players)  # Appel à la méthode du contrôleur
+            match = self.recreate_match_controlleur(match_data, all_players)
+            # Appel à la méthode du contrôleur
             round_i.matches.append(match)
         return round_i
 
-    def recreate_match(self, match_data, all_players):
-        """Recrée un match à partir des données JSON."""
-        player1 = next(p for p in all_players if p.player_id == match_data["player1_id"])
-        player2 = next(p for p in all_players if p.player_id == match_data["player2_id"])
-        match = Match(player1, player2)
-        match.player1_score = match_data["player1_score"]
-        match.player2_score = match_data["player2_score"]
-        return match
+    def recreate_match_controlleur(self, match_data, all_players):
+        """Orchestre la reconstruction d'un match via la méthode statique de Match."""
+        return Match.recreate_match(match_data, all_players)
 
     def recreate_tournament_controlleur(self, tournament_data, all_players):
         """Reconstitue un tournoi """
@@ -532,4 +549,66 @@ class ControllerPrincipal:
             return tournament
         except Exception as e:
             print("Erreur lors de la reconstruction du tournoi :", e)
+            print("Données en échec:", tournament_data)
             return None
+
+    def print_tournament_details(self, tournament):
+        """Affiche tous les détails du tournoi de manière structurée"""
+        print("\n" + "="*50)
+        print(f"TOURNOI: {tournament.name.upper()}")
+        print(f"Lieu: {tournament.location} | Dates: {tournament.date_initial} → {tournament.date_end}")
+        print(f"Description: {tournament.description}")
+        print(f"Nombre de rounds: {len(tournament.rounds)}/{tournament.nb_round}")
+        print("="*50 + "\n")
+        # 1. Participants et scores
+        print("\n► PARTICIPANTS")
+        for participant in tournament.participant_tournament:
+            player = participant["Player"]
+            print(f"\nJoueur {player.player_id}: {player.firstname} {player.lastname}")
+            print(f"Score total: {participant['Score']}")
+            print("Adversaires rencontrés:")
+            for adversary in participant["Adversaires"]:
+                print(f"  - {adversary.firstname} {adversary.lastname} (ID: {adversary.player_id})")
+        # 2. Rounds et matchs
+        print("\n" + "="*50)
+        print("► DÉTAIL DES ROUNDS")
+        for i, round_obj in enumerate(tournament.rounds, 1):
+            print(f"\nRound {i}: {round_obj.round_name}")
+            print(f"Début: {round_obj.start_time} | Fin: {round_obj.end_time}")
+            print("Matchs:")
+            for j, match in enumerate(round_obj.matches, 1):
+                p1 = match.player1
+                p2 = match.player2
+                print(f"  Match {j}: {p1.firstname} vs {p2.firstname}")
+                print(f"    Score: {match.player1_score} - {match.player1_score}")
+        print("\n" + "="*50)
+        print("SYNTHÈSE")
+        print(f"Total participants: {len(tournament.participant_tournament)}")
+        print(f"Total matchs joués: {sum(len(r.matches) for r in tournament.rounds)}")
+        print("="*50)
+
+    def display_tournament_rounds_and_matches(self, tournament):
+        """missing"""
+        print("\n" + " o o o | TOURNOI : " + tournament.name.upper() + " | o o o\n")
+        for tourn_round in tournament.rounds:
+            print(tabulate([[
+                f"Round {tourn_round.round_number}",
+                    f"DÉMARRÉ LE {tourn_round.start_time}" if tourn_round.start_time else "Non démarré",
+                    f"TERMINÉ LE {tourn_round.end_time}" if tourn_round.end_time else "En cours"
+                ]],
+                headers=["", "", ""],
+                tablefmt="fancy_grid"
+            ))
+            match_table = []
+            for match in tourn_round.matches:
+                match_table.append([
+                    f"{match.player1.name} {match.player1.first_name}",
+                    match.player1_score,
+                    f"{match.player2.name} {match.player2.first_name}",
+                    match.player2_score
+                ])
+            print(tabulate(
+                match_table,
+                headers=["Joueur 1", "Score J1", "Joueur 2", "Score J2"],
+                tablefmt="fancy_grid"
+            ))
