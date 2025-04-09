@@ -1,5 +1,5 @@
 class Match:
-    """Missing"""
+    """Définition de la classe tournament"""
     def __init__(self, player1, player2, player1_score=0, player2_score=0):
         """Initialisation des joueurs et des scores"""
         self.player1 = player1

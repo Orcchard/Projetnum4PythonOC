@@ -6,7 +6,7 @@ class Player:
         self.player_id = player_id
 
     def __str__(self):
-        """Missing"""
+        """Retourne une représentation lisible de l'objet joueur"""
         return (
                 f"Nom: ({self.name}, Prenom: {self.first_name},"
                 f" Date de Naissance: ({self.date_of_birth},"
@@ -15,7 +15,7 @@ class Player:
 
     """serialize les joueurs"""
     def player_dict(self):
-        """Missing"""
+        """Serialisation des données du joueur"""
         return {
             "name": self.name,
             "first_name": self.first_name,

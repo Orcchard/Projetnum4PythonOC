@@ -1,5 +1,5 @@
 class Tournament:
-    """ Definition de la classe tournament"""
+    """ Définition de la classe tournament"""
     def __init__(
         self, name, location, date_initial,
         date_end, nb_round=4, description=""
@@ -74,6 +74,5 @@ class Tournament:
                 "Score": participant_data["score"],  # Désérialisation du score
                 "Adversaires": adversaires  # Liste d'objets Player
             })
-        print("Participants reconstitués:", tournament.participant_tournament)
+        # print("Participants reconstitués:", tournament.participant_tournament)
         return tournament
-
