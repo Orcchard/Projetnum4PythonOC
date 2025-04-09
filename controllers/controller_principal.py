@@ -4,10 +4,6 @@ import os
 import random
 from datetime import datetime
 from tabulate import tabulate
-# import pprint
-# from pprint import PrettyPrinter
-
-
 
 
 from views.view_users import View
@@ -49,7 +45,7 @@ class ControllerPrincipal:
             )
             print(f"{len(self.all_players)} joueurs chargés avec succès.")
         self.display_menu_principal()
-        """AppeL le le menu principal"""
+        """AppeL le menu principal"""
 
     def load_players_from_js_file(self):
         """Charge les joueurs depuis le fichier JSON."""
@@ -214,7 +210,7 @@ class ControllerPrincipal:
             self.view_tournaments.display_message("Entrée invalide.")
 
     def display_selected_players(self):
-        """Missing"""
+        """Affichages des joueurs selectionnés"""
         if self.tournament is None:
             self.view_tournaments.display_message("Aucun tournoi sélectionné.")
             return
@@ -268,8 +264,6 @@ class ControllerPrincipal:
                 )
         except Exception as e:
             print(f"Erreur lors de la sauvegarde du fichier : {e}")
-            # self.display_menu_principal()  # Retour au menu principal en cas d'erreur
-
     def load_tournaments_from_json(self):
         """Charge les données du tournoi depuis un fichier JSON."""
         if os.path.exists(self.tournaments_file):
@@ -438,7 +432,7 @@ class ControllerPrincipal:
                         p["Player"].player_id == p1.player_id
                         )
                     p2_data = next(
-                        p for p in selected_tournament.participant_tournament if 
+                        p for p in selected_tournament.participant_tournament if
                         p["Player"].player_id == p2.player_id
                         )
                     if p2 not in p1_data["Adversaires"]:
@@ -585,29 +579,29 @@ class ControllerPrincipal:
         print("="*50)
 
     def display_tournament_rounds_and_matches(self, tournament):
-        """missing"""
+        """Affichage des rounds et Matches pour un tournois """
         print("\n" + " o o o | TOURNOI : " + tournament.name.upper() + " | o o o\n")
         for tourn_round in tournament.rounds:
-            print(tabulate([[
-                f"Round {tourn_round.round_number}",
-                    f"DÉMARRÉ LE {tourn_round.start_time}" if
-                    tourn_round.start_time else "Non démarré",
-                    f"TERMINÉ LE {tourn_round.end_time}" if 
-                    tourn_round.end_time else "En cours"
-                ]],
-                headers=["", "", ""],
-                tablefmt="fancy_grid"
-            ))
+            round_header = (
+                f"Round {tourn_round.round_number}\n"
+                f"DÉMARRÉ LE {tourn_round.start_time if tourn_round.start_time else 'Non démarré'}\n"
+                f"TERMINÉ LE {tourn_round.end_time if tourn_round.end_time else 'En cours'}\n")
+            print(tabulate([
+                [round_header]],
+                            headers=[""],
+                            tablefmt="fancy_grid",
+                            colalign=("center",))
+                )
+            # Construction du tableau des matchs
             match_table = []
             for match in tourn_round.matches:
                 match_table.append([
-                    f"{match.player1.name} {match.player1.first_name}",
+                    f"{match.player1.name} {match.player1.first_name} {match.player1.player_id} ",
                     match.player1_score,
-                    f"{match.player2.name} {match.player2.first_name}",
+                    f"{match.player2.name} {match.player2.first_name} {match.player2.player_id} ",
                     match.player2_score
                 ])
             print(tabulate(
                 match_table,
                 headers=["Joueur 1", "Score J1", "Joueur 2", "Score J2"],
-                tablefmt="fancy_grid"
-            ))
+                tablefmt="fancy_grid", colalign=("left", "center", "left", "center")))
