@@ -1,11 +1,11 @@
-"""Missing"""
+"""Affichage lié aux tournois"""
 import os
 import sys
 from tabulate import tabulate
 
 
 class ViewTournament:
-    """Missing"""
+    """Gère l'affichage des informations liées aux tournois."""
 
     @staticmethod
     def clear_screen():
@@ -64,7 +64,7 @@ class ViewTournament:
         print(tabulate(sorted_participants, headers=headers, tablefmt="pretty"))
 
     def ask_start_round(self):
-        """Missing"""
+        """Création d'un round ou pas: choix de l'utilisateur"""
         response = input("Souhaitez-vous démarrer un round ? (O/N) ").strip().lower()
         if response in ["o", "n"]:
             """La vue renvoie la réponse au contrôleur."""
@@ -73,7 +73,7 @@ class ViewTournament:
 
     @staticmethod
     def not_tournament():
-        """Missing"""
+        """ Affiche un message indiquant qu'aucun tournoi n'a été sélectionné."""
         print("\n Aucun tournois selectionné")
 
     def display_message(self, message):

@@ -1,3 +1,4 @@
+"""Affichages liés aux joueurs"""
 import sys
 import os
 from tabulate import tabulate
@@ -5,17 +6,18 @@ MAX_PLAYERS = 8
 
 
 class View:
+    """gère l'affichage lié aux joueurs"""
 
     @staticmethod
     def clear_screen():
-        """Missing"""
+        """Efface l'affichage à l'écran en cours pour passer à une autre mire"""
         if sys.platform == 'win32':
             os.system('cls')
         else:
             os.system('clear')
 
     def main_header(self):
-        """Missing"""
+        """Affiche le titre principal du gestionnaire de tournoi dans un tableau formaté"""
         title_table = [["Bienvenue dans le gestionnaire de tournoi"]]
         print(tabulate(title_table, tablefmt="grid"))
 
