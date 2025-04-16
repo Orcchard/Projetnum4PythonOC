@@ -1,4 +1,4 @@
-"""Define the report controller."""
+"""Define the reports ."""
 import json
 import os
 import random
@@ -6,6 +6,7 @@ from datetime import datetime
 from tabulate import tabulate
 
 
+from views.view_reports import ViewReports
 from views.view_users import View
 from views.view_tournaments import ViewTournament
 from views.view_reports import ViewReports
@@ -13,8 +14,6 @@ from models.player_mod import Player
 from models.tournament_mod import Tournament
 from models.round_mod import Round
 from models.match_mod import Match
-
-
 
 
 class ControllerReports:
@@ -26,30 +25,26 @@ class ControllerReports:
         self.view_tournaments = ViewTournament()
         self.view_reports = ViewReports()
 
-
-    def display_menu_principal(self):
-        """
-        Méthode pour démarrer le programme.Affiche le menu"""
+    def display_report_choice(self):
+        """Méthode pour démarrer le programme.Affiche le menu"""
         while True:
-            self.view.clear_screen()
-            self.view.main_header()
-            self.view.menu()
-            self.view.first_prompt()
-            user_choice = input()
-            if user_choice == "1":
-                self.player_add_input()
-            elif user_choice == "2":
-                self.new_tournament_input()
-            elif user_choice == "3":
-                self.select_list_saved_tournaments(action_type="view")
-                # L'utilisateur choisit un tournoi
-            elif user_choice == "4":
+            self.view_reports.reports_new_header()
+            self.view_reports.display_menu_reports()
+            choix = self.view_reports.prompt_choice_report(["0", "1", "2", "3", "4", "10"])
+            if choix == "1":
                 pass
-            elif user_choice == "5":
+            elif choix == "2":
+                pass
+            elif choix == "3":
+                # self.select_list_saved_tournaments(action_type="view")
+                pass
+            elif choix == "4":
+                print("→ Affichage des rounds et matchs d un tournoi\n")
+            elif choix == "0":
                 self.view.clear_screen()
-                self.select_list_saved_tournaments(action_type="create_round")
-            elif user_choice == "6":
-                self.view_tournaments.display_message("à completer")
-            else:
-                self.view_tournaments.display_message("Mauvaise saisie")
-            input("\n Appuyez sur Entrée pour continuer...")
+                self.view.main_header()
+                self.view.menu()
+                return
+            elif choix == "10":
+                print("👋 Au revoir !")
+                exit()

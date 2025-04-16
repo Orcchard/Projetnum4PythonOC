@@ -6,6 +6,8 @@ from datetime import datetime
 from tabulate import tabulate
 
 
+from controllers.controller_reports import ControllerReports
+from views.view_reports import ViewReports
 from views.view_users import View
 from views.view_tournaments import ViewTournament
 from models.player_mod import Player
@@ -24,6 +26,8 @@ class ControllerPrincipal:
         """Initialise le controler avec une vue et ses attributs ."""
         self.view = View()
         self.view_tournaments = ViewTournament()
+        self.view_reports = ViewReports()
+        self.controller_reports = ControllerReports()
         self.all_players = []
         self.tournament = None
         self.participant_tournament = []
@@ -64,8 +68,7 @@ class ControllerPrincipal:
             return []
 
     def display_menu_principal(self):
-        """
-        Méthode pour démarrer le programme.Affiche le menu"""
+        """Méthode pour démarrer le programme.Affiche le menu"""
         while True:
             self.view.clear_screen()
             self.view.main_header()
@@ -78,9 +81,10 @@ class ControllerPrincipal:
                 self.new_tournament_input()
             elif user_choice == "3":
                 self.select_list_saved_tournaments(action_type="view")
-                # L'utilisateur choisit un tournoi
             elif user_choice == "4":
-                pass
+                self.view_reports.reports_new_header()
+                self.view_reports.display_menu_reports()
+                self.controller_reports.display_report_choice()
             elif user_choice == "5":
                 self.view.clear_screen()
                 self.select_list_saved_tournaments(action_type="create_round")
@@ -296,10 +300,9 @@ class ControllerPrincipal:
             # Boucle de sélection du tournoi
             while True:
                 try:
-                    tournament_index = int(
-                    input("Entrez le numéro du tournoi à sélectionner: ")) - 1
+                    tournament_index = int(input("Entrez le numéro du tournoi à sélectionner: ")) - 1
                     if 0 <= tournament_index < len(existing_tournaments):
-                        selected_tournament= existing_tournaments[
+                        selected_tournament = existing_tournaments[
                                 tournament_index]
                         # Vérifie la présence des clés essentielles
                         if "date_initial" not in selected_tournament:
@@ -377,10 +380,9 @@ class ControllerPrincipal:
                             adversaires_ids.append(adv)
                         elif hasattr(adv, 'player_id'):  # Si c'est un objet Player
                             adversaires_ids.append(adv.player_id)
-                participants_table.append([
-                player.name, player.first_name,
-                player.player_id, score, adversaires_ids
-            ])
+                participants_table.append(
+                    [player.name, player.first_name, player.player_id, score, adversaires_ids]
+                    )
             # Envoie les données à la vue"""
             tournament_data_table = selected_tournament.tournament_dict()
             self.view_tournaments.display_tournament_tabulate(
@@ -419,7 +421,7 @@ class ControllerPrincipal:
                         if entry["Player"] == p), 0), reverse=True
                     )
                 print(f" {round_i}")
-            round_i.matches = self.generate_matches(players)
+            round_i.matches = self.generate_matches(players, selected_tournament)
             # Ajoute le round au tournoi
             selected_tournament.rounds.append(round_i)
             if round_i.matches:
@@ -494,10 +496,14 @@ class ControllerPrincipal:
         # Sauvegarde du tournoi après chaque round
         self.save_tournament_to_json(selected_tournament)
 
-    def generate_matches(self, players):
+    def generate_matches(self, players, selected_tournament):
         """Génère les matchs en évitant les adversaires déjà affrontés."""
         matches = []
-        adversaires = {p.player_id: set() for p in players}
+        adversaires = {p["Player"].player_id: {
+            adv.player_id for adv in p["Adversaires"]
+            }for p in selected_tournament.participant_tournament
+        }
+
         available_players = players.copy()
         while available_players:
             player1 = available_players.pop(0)
