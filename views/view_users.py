@@ -27,8 +27,8 @@ class View:
         options = [
             ["1", "Créer un joueur"],
             ["2", "Créer un tournoi"],
-            ["3", "Éditer un rapport"],
-            ["4", "Supprimer un joueur"],
+            ["3", "Éditer un tournois complet"],
+            ["4", "Afficher les rapports "],
             ["5", "Reprendre un tournoi"],
             ["6", "Quitter le programme"],
         ]

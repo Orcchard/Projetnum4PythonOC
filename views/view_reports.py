@@ -1,10 +1,11 @@
 """Affichage des rapports"""
 from tabulate import tabulate
-from view_tournaments import ViewTournament
+from views.view_tournaments import ViewTournament
 
 
 class ViewReports:
     """Gère l'affichage des rapports"""
+
     @staticmethod
     def reports_new_header():
         """En tête de l'affichage des tournois."""
@@ -14,12 +15,12 @@ class ViewReports:
         print(tabulate(title_table, tablefmt="grid"))
 
     @staticmethod
-    def afficher_menu_rapports():
-        """"""
+    def display_menu_reports():
+        """ Affiche le menu rapports"""
         header = [["RAPPORTS DISPONIBLES"]]
         print(tabulate(header, tablefmt="grid"))
         rapports = [
-            ["1", "Afficher les 8 joueurs enregistrés"],
+            ["1", "Afficher les joueurs enregistrés dans la base de donnée"],
             ["2", "Afficher la liste des tournois"],
             ["3", "Afficher les joueurs d'un tournoi"],
             ["4", "Afficher les rounds et matchs d'un tournoi"],
@@ -29,15 +30,15 @@ class ViewReports:
         print(tabulate(rapports, headers=["Option", "ÉDITION DE RAPPORT"], tablefmt="grid"))
 
     @staticmethod
-    def afficher_choix_invalide():
+    def display_invalid_choice():
         """Affichage choix erroné"""
         print("⛔ Choix invalide. Veuillez réessayer.\n")
 
     @staticmethod
-    def saisir_choix(valeurs_autorisees):
+    def prompt_choice_report(valeurs_autorisees):
         """ Affichage choix utilisateur"""
         while True:
             choix = input("Entrez votre choix : ").strip()
             if choix in valeurs_autorisees:
                 return choix
-            ViewTournament.afficher_choix_invalide()
+            ViewReports.display_invalid_choice()
