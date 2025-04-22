@@ -41,3 +41,13 @@ class Match:
             player1_score=match_data["player1_score"],
             player2_score=match_data["player2_score"],
         )
+
+    @staticmethod
+    def already_played(player1, player2, rounds):
+        """Vérifie si deux joueurs se sont déjà affrontés dans les rounds précédents."""
+        pair = tuple(sorted((player1.player_id, player2.player_id)))
+        return any(
+            pair == tuple(sorted((match.player1.player_id, match.player2.player_id)))
+            for rnd in rounds
+            for match in rnd.matches
+        )
