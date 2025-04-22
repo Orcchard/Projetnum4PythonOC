@@ -20,6 +20,11 @@ class ViewTournament:
         title_table = [["CREATION D'UN TOURNOIS"]]
         print(tabulate(title_table, tablefmt="grid"))
 
+    @staticmethod
+    def no_file():
+        "Affiche message erreur"
+        print("Aucun fichier de tournois trouvé")
+
     def prompt_for_new_tournament(self):
         """Collect data return as a dictionary."""
         print("Veuillez entrer les informations du tournois:")
@@ -41,6 +46,14 @@ class ViewTournament:
         }
         """Crée un dictionnaire contenant toutes les informations"""
         return tournament_input_data
+
+    def display_title(self, tournament):
+        """Affichage du Titre"""
+        print("\n" + " o o o | TOURNOI : " + tournament.name.upper() + " | o o o\n")
+
+    def display_round_header(self, header: str):
+        """Affichage de l'en tête"""
+        print(tabulate([[header]], headers=[""], tablefmt="fancy_grid", colalign=("center",)))
 
     def display_tournament_tabulate(self, tournament_data_table, participants_table):
         """ Informations du tournoi et affichage sous forme de tableau"""
@@ -170,3 +183,34 @@ class ViewTournament:
                     match.get('player2', 'Inconnu')
                 ])
         print(tabulate(table, headers=headers, tablefmt="grid"))
+
+    @staticmethod
+    def no_tournament_file_found():
+        """Message erreur"""
+        print("Aucun fichier de tournois trouvé.")
+
+    @staticmethod
+    def tournament_not_built():
+        """Message d'erreur"""
+        print("Erreur : le tournoi n'a pas pu être recréé.")
+
+    @staticmethod
+    def no_tournaments_in_json():
+        """Message d'erreur"""
+        print("Aucun tournoi trouvé dans le fichier.")
+
+    def display_resume(self, tournament):
+        """ Afficher le résumé du tournoi (par exemple le nom, la date, etc.)"""
+        print(f"Résumé du tournoi {tournament.name}")
+
+    def display_round_header(self, round_header):
+        """Afficher l'entête du round"""
+        print(round_header)
+
+    def display_match_table(self, match_table):
+        """Afficher le tableau des matchs"""
+        print(
+            tabulate(
+                match_table, headers=["Joueur 1", "Score J1", "Joueur 2", "Score J2"],
+                tablefmt="fancy_grid", colalign=("left", "center", "left", "center"))
+            )
