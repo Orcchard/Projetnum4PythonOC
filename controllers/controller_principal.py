@@ -27,7 +27,7 @@ class ControllerPrincipal:
         self.view = View()
         self.view_tournaments = ViewTournament()
         self.view_reports = ViewReports()
-        self.controller_reports = ControllerReports()
+        self.controller_reports = ControllerReports(self)
         self.all_players = []
         self.tournament = None
         self.participant_tournament = []
@@ -41,22 +41,22 @@ class ControllerPrincipal:
         """Run the main program"""
         print("Chargement des joueurs...")
         self.all_players = self.load_players_from_js_file()
-        """Chargement de la liste de joueurs dans all_players"""
+        # Chargement de la liste de joueurs dans all_players """
         if not self.all_players:
             print(
                 "Aucun joueur trouvé"
                 "Veuillez vérifier le fichier des joueurs"
             )
             print(f"{len(self.all_players)} joueurs chargés avec succès.")
+            # AppeL le menu principal
         self.display_menu_principal()
-        """AppeL le menu principal"""
 
     def load_players_from_js_file(self):
         """Charge les joueurs depuis le fichier JSON."""
         try:
             with open(self.players_file, "r", encoding="utf-8") as file:
                 players_data = json.load(file)
-                """ Retourne les données  en instances"""
+                # Retourne les données  en instances"""
                 return [Player.recreate_player(self, data)
                         for data in players_data
                         ]
@@ -98,13 +98,13 @@ class ControllerPrincipal:
         """Adding a new player."""
         self.view.new_player_header()
         player_input_data = self.view.prompt_for_player()
-        """ Crée une instance de Player en utilisant recreate_player"""
+        # Crée une instance de Player en utilisant recreate_player
         player = Player.recreate_player(self, player_input_data)
         print(f"========{player}")
         self.view_tournaments.display_message(
             "Le joueur a été ajouté avec succès."
             )
-        """ Sérialise les données du joueur"""
+        # Sérialise les données du joueur
         player_data = player.player_dict()
         self.record_new_player(player_data)
 
@@ -115,10 +115,10 @@ class ControllerPrincipal:
             if os.path.exists(self.players_file):
                 with open(self.players_file, "r", encoding="utf-8") as file:
                     players = json.load(file)
-                    """Charge les données existantes du fichier JSON"""
+                    # Charge les données existantes du fichier JSON
             players.append(player_data)
             players.sort(key=lambda x: x["name"].lower())
-            """Trie les joueurs par nom"""
+            # Trie les joueurs par nom
             with open(self.players_file, "w", encoding="utf-8") as file:
                 json.dump(players, file, ensure_ascii=False, indent=4)
 
@@ -218,12 +218,9 @@ class ControllerPrincipal:
         if self.tournament is None:
             self.view_tournaments.display_message("Aucun tournoi sélectionné.")
             return
-        if not hasattr(
-            self.tournament, 'participant_tournament'
-            ) or not self.tournament.participant_tournament:
+        if not hasattr(self.tournament, 'participant_tournament') or not self.tournament.participant_tournament:
             self.view_tournaments.display_message(
-                "Aucun joueur sélectionné pour ce tournoi."
-                )
+                    "Aucun joueur sélectionné pour ce tournoi.")
             return
         """Affiche les participants sélectionnés."""
         self.view_tournaments.display_message("\nJoueurs sélectionnés:")
@@ -268,6 +265,7 @@ class ControllerPrincipal:
                 )
         except Exception as e:
             print(f"Erreur lors de la sauvegarde du fichier : {e}")
+
     def load_tournaments_from_json(self):
         """Charge les données du tournoi depuis un fichier JSON."""
         if os.path.exists(self.tournaments_file):
@@ -285,39 +283,30 @@ class ControllerPrincipal:
     def select_list_saved_tournaments(self, action_type="view"):
         """Sélectionne un tournoi sauvegardé parmi une liste."""
         if not os.path.exists(self.tournaments_file):
-            self.view_tournaments.display_message("Aucun fichier de tournois trouvé")
+            self.view_tournaments.no_file()
             return None
         try:
             with open(self.tournaments_file, "r", encoding="utf-8") as file:
                 existing_tournaments = json.load(file)
             if not existing_tournaments:
-                self.view_tournaments.display_message(
-                    "Aucun tournoi trouvé dans le fichier."
-                    )
+                self.view_tournaments.no_tournaments_in_json()
                 return None
             """ Affiche les tournois existants"""
             self.view_tournaments.display_tournament_list(existing_tournaments)
             # Boucle de sélection du tournoi
             while True:
                 try:
-                    tournament_index = int(input("Entrez le numéro du tournoi à sélectionner: ")) - 1
+                    tournament_index = int(
+                        input("Entrez le numéro du tournoi à sélectionner: ")) - 1
                     if 0 <= tournament_index < len(existing_tournaments):
                         selected_tournament = existing_tournaments[
                                 tournament_index]
-                        # Vérifie la présence des clés essentielles
-                        if "date_initial" not in selected_tournament:
-                            self.view_tournaments.display_message(
-                                "Erreur : Clé 'date' manquante dans les données du tournoi."
-                                )
-                            continue
                         # Recrée l'objet Tournament
                         self.selected_tournament = self.recreate_tournament_controlleur(
                             selected_tournament, self.all_players
                             )
                         if not self.selected_tournament:
-                            self.view_tournaments.display_message(
-                                "Erreur : le tournoi n'a pas pu être recréé."
-                                )
+                            self.view_tournaments.tournament_not_built()
                             return None
                         # Affiche les informations du tournoi sélectionné
                         self.view_tournaments.display_tournament_info(selected_tournament)
@@ -357,6 +346,13 @@ class ControllerPrincipal:
                 f"Une erreur inattendue est survenue : {e}"
                 )
         return None
+
+    def tournaments_file_exists(self):
+        """message erreur vue"""
+        if not os.path.exists(self.tournaments_file):
+            self.view_tournaments.no_tournament_file_found()
+            return False
+        return True
 
     def display_tournament_info(self, selected_tournament):
         """
@@ -456,13 +452,6 @@ class ControllerPrincipal:
             # Appel de la saisie des scores
             self.enter_scores(round_i, selected_tournament)
             self.display_tournament_info(selected_tournament)
-            """ # Affichage du résumé du round
-            print("\n résumé du round terminé:")
-            for match in round_i.matches:
-                print(
-                    f"{match.player1.name} {match.player1.first_name} ({match.player1_score}) "
-                    f"VS  {match.player2.name} {match.player2.first_name} ({match.player2_score})"
-                    )"""
             # Demander à l'utilisateur s'il veut continuer
             if round_number < int(selected_tournament.nb_round):
                 continuer = input(
@@ -508,8 +497,11 @@ class ControllerPrincipal:
         while available_players:
             player1 = available_players.pop(0)
             player2 = next(
-                (p for p in available_players if p.player_id not in adversaires[player1.player_id]),
-                None)
+                (
+                    p for p in available_players
+                    if p.player_id not in adversaires[player1.player_id]
+                    and not Match.already_played(player1, p, selected_tournament.rounds
+                                                )),               None)
             if player2:
                 available_players.remove(player2)
                 matches.append(Match(player1, player2))
@@ -549,65 +541,24 @@ class ControllerPrincipal:
             print("Données en échec:", tournament_data)
             return None
 
-    def print_tournament_details(self, tournament):
-        """Affiche tous les détails du tournoi de manière structurée"""
-        print("\n" + "="*50)
-        print(f"TOURNOI: {tournament.name.upper()}")
-        print(f"Lieu: {tournament.location} | Dates: {tournament.date_initial} → {tournament.date_end}")
-        print(f"Description: {tournament.description}")
-        print(f"Nombre de rounds: {len(tournament.rounds)}/{tournament.nb_round}")
-        print("="*50 + "\n")
-        # 1. Participants et scores
-        print("\n► PARTICIPANTS")
-        for participant in tournament.participant_tournament:
-            player = participant["Player"]
-            print(f"\nJoueur {player.player_id}: {player.firstname} {player.lastname}")
-            print(f"Score total: {participant['Score']}")
-            print("Adversaires rencontrés:")
-            for adversary in participant["Adversaires"]:
-                print(f"  - {adversary.firstname} {adversary.lastname} (ID: {adversary.player_id})")
-        # 2. Rounds et matchs
-        print("\n" + "="*50)
-        print("► DÉTAIL DES ROUNDS")
-        for i, round_obj in enumerate(tournament.rounds, 1):
-            print(f"\nRound {i}: {round_obj.round_name}")
-            print(f"Début: {round_obj.start_time} | Fin: {round_obj.end_time}")
-            print("Matchs:")
-            for j, match in enumerate(round_obj.matches, 1):
-                p1 = match.player1
-                p2 = match.player2
-                print(f"  Match {j}: {p1.firstname} vs {p2.firstname}")
-                print(f"    Score: {match.player1_score} - {match.player1_score}")
-        print("\n" + "="*50)
-        print("SYNTHÈSE")
-        print(f"Total participants: {len(tournament.participant_tournament)}")
-        print(f"Total matchs joués: {sum(len(r.matches) for r in tournament.rounds)}")
-        print("="*50)
-
     def display_tournament_rounds_and_matches(self, tournament):
-        """Affichage des rounds et Matches pour un tournois """
-        print("\n" + " o o o | TOURNOI : " + tournament.name.upper() + " | o o o\n")
+        """ Affichage des rounds et Matches pour un tournois"""
+        self.view_tournaments.display_title(tournament)
         for tourn_round in tournament.rounds:
             round_header = (
                 f"Round {tourn_round.round_number}\n"
                 f"DÉMARRÉ LE {tourn_round.start_time if tourn_round.start_time else 'Non démarré'}\n"
-                f"TERMINÉ LE {tourn_round.end_time if tourn_round.end_time else 'En cours'}\n")
-            print(tabulate([
-                [round_header]],
-                            headers=[""],
-                            tablefmt="fancy_grid",
-                            colalign=("center",))
-                )
+                f"TERMINÉ LE {tourn_round.end_time if tourn_round.end_time else 'En cours'}\n"
+            )
+            self.view_tournaments.display_round_header(round_header)
             # Construction du tableau des matchs
             match_table = []
             for match in tourn_round.matches:
                 match_table.append([
-                    f"{match.player1.name} {match.player1.first_name} {match.player1.player_id} ",
+                    f"{match.player1.name} {match.player1.first_name} {match.player1.player_id}",
                     match.player1_score,
-                    f"{match.player2.name} {match.player2.first_name} {match.player2.player_id} ",
+                    f"{match.player2.name} {match.player2.first_name} {match.player2.player_id}",
                     match.player2_score
                 ])
-            print(tabulate(
-                match_table,
-                headers=["Joueur 1", "Score J1", "Joueur 2", "Score J2"],
-                tablefmt="fancy_grid", colalign=("left", "center", "left", "center")))
+                self.view_tournaments.display_match_table(match_table)
+
