@@ -25,6 +25,36 @@ class ViewTournament:
         "Affiche message erreur"
         print("Aucun fichier de tournois trouvé")
 
+    @staticmethod
+    def back_to_menu():
+        "Affiche message retour au menu principal"
+        print("Retour au menu principal.")
+
+    @staticmethod
+    def all_rounds_played():
+        """Message alerte tous les rounds joués"""
+        print("✅ Tous les rounds ont déjà été joués.")
+
+    @staticmethod
+    def waiting_for_end_round():
+        """Message d'erreur """
+        print(" En attente de la fin du round")
+
+    @staticmethod
+    def tournament_stopped():
+        """Message d'erreur tournois interrompu """
+        print("Tournoi interrompu. Sauvegarde en cours...")
+
+    @staticmethod
+    def nb_rounds_reached():
+        print("\n Tous les rounds sont terminés ! Tournoi finalisé !")
+        print("Vous avez atteint le nombre de round maximum soit 4.")
+
+    @staticmethod
+    def no_players_in_tournament():
+        """Message d'erreur aucun joueur dans le tournoi"""
+        print("Erreur : Aucun joueur valide trouvé dans le tournoi.")
+
     def prompt_for_new_tournament(self):
         """Collect data return as a dictionary."""
         print("Veuillez entrer les informations du tournois:")
@@ -88,6 +118,11 @@ class ViewTournament:
     def not_tournament():
         """ Affiche un message indiquant qu'aucun tournoi n'a été sélectionné."""
         print("\n Aucun tournois selectionné")
+
+    @staticmethod
+    def not_tournament_created():
+        """ Affiche un message indiquant qu'aucun tournoi n'a été créé."""
+        print("\n Aucun tournois créé")
 
     def display_message(self, message):
         """Affiche un message générique (succès, erreur, info)."""

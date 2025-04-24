@@ -25,6 +25,11 @@ class ViewReports:
         print(tabulate(title_table, tablefmt="grid"))
 
     @staticmethod
+    def good_by():
+        """Sortie du menu"""
+        print("👋 Au revoir !")
+
+    @staticmethod
     def display_menu_reports():
         """ Affiche le menu rapports"""
         header = [["RAPPORTS DISPONIBLES"]]
@@ -99,7 +104,7 @@ class ViewReports:
     def display_all_players(players_table):
         """Affichage detous les joueurs d'echec stockés dans la base de donnée"""
         headers = ['Nom', 'Prénom', 'ID', 'Date de naissance']
-        print("\nListe des joueurs :")
+        print(f"\nNombre total de joueurs enregistrés : {len(players_table)}")
         print(tabulate(players_table, headers=headers, tablefmt="pretty"))
 
     def prompt_for_tournament_index(self, max_index):

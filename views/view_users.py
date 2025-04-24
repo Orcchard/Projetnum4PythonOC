@@ -1,6 +1,7 @@
 """Affichages liés aux joueurs"""
 import sys
 import os
+from datetime import datetime
 from tabulate import tabulate
 MAX_PLAYERS = 8
 
@@ -53,6 +54,32 @@ class View:
         ).strip().lower()
 
     @staticmethod
+    def loading_players_file():
+        """Message de chargement des joueurs"""
+        print("Chargement des joueurs...")
+
+    @staticmethod
+    def no_players_found():
+        """Message d'erreur"""
+        print("Erreur: fichier de données des joueurs introuvable.")
+
+    def players_loaded_successfully(self, count):
+        """Message affiché si chargement des joueurs ok affichage du nombre de joueurs"""
+        message = f"{count} joueurs chargés avec succès."
+        print(message)
+
+    def no_succes_load(self, error_message):
+        """Message d'erreur de chargement des joueurs"""
+        print(f"Erreur lors du chargement des joueurs : {error_message}")
+
+    def display_player_created(self, player):
+        """Message affichant les données du joueur crée et sauvegardé en json"""
+        print(
+            f"Joueur ajouté avec succès : {player.first_name} "
+            f"{player.name} (ID: {player.player_id})"
+            )
+
+    @staticmethod
     def new_player_header():
         """Header to add a New Player'."""
         View().clear_screen()
@@ -68,9 +95,16 @@ class View:
         player_id = input(
             "\nIdentifiant du joueur (2 Lettres majuscules et 5 nombres): "
             ).upper()
-        date_of_birth = input(
-            "Date de naissance du joueur (format JJ/MM/AAAA): "
-            )
+        
+        # Validation de la date de naissance
+        while True:
+            date_of_birth = input("Date de naissance du joueur (format JJ/MM/AAAA): ")
+            try:
+                # Essaye de parser la date, si erreur → format invalide
+                datetime.strptime(date_of_birth, "%d/%m/%Y")
+                break
+            except ValueError:
+                print("Format invalide. Veuillez entrer la date au format JJ/MM/AAAA.")
         # Créer un dictionnaire contenant toutes les informations
         player_input_data = {
             "name": name,
