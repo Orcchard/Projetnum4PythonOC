@@ -54,7 +54,7 @@ class ControllerReports:
                 self.view.menu()
                 return
             elif choix == "10":
-                print("👋 Au revoir !")
+                self.view_reports.good_by()
                 exit()
 
     def display_all_tournaments(self):
