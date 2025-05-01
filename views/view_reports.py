@@ -14,7 +14,7 @@ class ViewReports:
     @staticmethod
     def no_round_played():
         """Message d'erreur"""
-        print("Aucun round joué dans ce tournoi.")
+        print("AUCUN ROUND DANS CE TOURNOI POUR LE MOMENT.")
 
     @staticmethod
     def reports_new_header():
@@ -77,6 +77,7 @@ class ViewReports:
     def display_tournament_list(tournaments):
         """Affiche la liste des tournois sous forme de tableau."""
         table = []
+        print("Afficher la liste des tournois  LISTE DES TOURNOIS")
         for index, tournament in enumerate(tournaments, start=1):
             rounds_played = len(tournament.get("rounds", []))  # Nombre de rounds joués
             table.append([
@@ -97,12 +98,13 @@ class ViewReports:
 
     @staticmethod
     def no_players_found():
-        """Messge d'erreur"""
+        """Message d'erreur"""
         print("aucun joueur chargés verifier votre fichier de sauvegarde")
 
     @staticmethod
     def display_all_players(players_table):
         """Affichage detous les joueurs d'echec stockés dans la base de donnée"""
+        print("LISTE DES JOUEURS D'ECHEC ENREGISTRES DANS LA BASE DE DONNEE")
         headers = ['Nom', 'Prénom', 'ID', 'Date de naissance']
         print(f"\nNombre total de joueurs enregistrés : {len(players_table)}")
         print(tabulate(players_table, headers=headers, tablefmt="pretty"))

@@ -93,9 +93,8 @@ class View:
         name = input("Nom du joueur: ").capitalize()
         first_name = input("Prénom du joueur: ").capitalize()
         player_id = input(
-            "\nIdentifiant du joueur (2 Lettres majuscules et 5 nombres): "
+            "\nIdentifiant du joueur (2 lettres majuscules suivies de 5 chiffres (ex: AB12345): "
             ).upper()
-        
         # Validation de la date de naissance
         while True:
             date_of_birth = input("Date de naissance du joueur (format JJ/MM/AAAA): ")
@@ -134,3 +133,33 @@ class View:
     def display_message(self, message):
         """Affiche un message générique (succès, erreur, info)."""
         print(f"\n🔹 {message}")
+
+    @staticmethod
+    def three_letters():
+        """Message afin d'imposer au moins les 3 premières lettres du nom"""
+        print("Erreur : 3 lettres minimum !")
+
+    @staticmethod
+    def not_any_players():
+        """Alerte qu'aucun joueur avec ce prefix n'est connu de la base des players"""
+        print("Aucun joueur trouvé. Réessayez.")
+
+    @staticmethod
+    def player_already_selected():
+        """Alerte que le  joueur est déjà séléctionné"""
+        print("Joueur déjà sélectionné.")
+
+    @staticmethod
+    def invalid_entry():
+        "Message d'erreur pour saisie invalide"
+        print("Entrée invalide")
+
+    @staticmethod
+    def listing_selected_players():
+        """Affichage des joueurs sélectionnés pour un tournoi"""
+        print("\nListe des joueurs sélectionnés:")
+
+    def display_selected_players_list(self, players_info):
+        """Affiche la liste des joueurs sélectionnés."""
+        for name, first_name, player_id in players_info:
+            print(f"{name} {first_name} (ID: {player_id})")

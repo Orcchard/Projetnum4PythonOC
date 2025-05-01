@@ -26,6 +26,11 @@ class ViewTournament:
         print("Aucun fichier de tournois trouvé")
 
     @staticmethod
+    def corrupted_file_jason():
+        """Affiche message erreur fichier json corrompu"""
+        print("Erreur lors de la lecture du fichier JSON. Il semble corrompu.")
+
+    @staticmethod
     def back_to_menu():
         "Affiche message retour au menu principal"
         print("Retour au menu principal.")
@@ -36,9 +41,19 @@ class ViewTournament:
         print("✅ Tous les rounds ont déjà été joués.")
 
     @staticmethod
-    def waiting_for_end_round():
-        """Message d'erreur """
-        print(" En attente de la fin du round")
+    def control_dates_tournament():
+        "Message erreur date du tournois"
+        print("Erreur: Les dates doivent être renseignées !")
+
+    @staticmethod
+    def create_new_tournament():
+        """Affichage de création d'un nouveau tournois"""
+        print("Création d'un nouveau tournoi...")
+
+    @staticmethod
+    def existing_name_tournament():
+        """Message erreur si nom du tournois existe déjà"""
+        print("Erreur: Un tournoi avec ce nom existe déjà.")
 
     @staticmethod
     def tournament_stopped():
@@ -47,6 +62,7 @@ class ViewTournament:
 
     @staticmethod
     def nb_rounds_reached():
+        """ Affiche que le maximum de 4 rounds est joué"""
         print("\n Tous les rounds sont terminés ! Tournoi finalisé !")
         print("Vous avez atteint le nombre de round maximum soit 4.")
 
@@ -54,6 +70,11 @@ class ViewTournament:
     def no_players_in_tournament():
         """Message d'erreur aucun joueur dans le tournoi"""
         print("Erreur : Aucun joueur valide trouvé dans le tournoi.")
+
+    @staticmethod
+    def no_players_selected_tournament():
+        """Message d'erreur aucun joueur selectionné pour ce tournoi"""
+        print("Erreur : Aucun joueur séléctionné pour ce tournoi.")
 
     def prompt_for_new_tournament(self):
         """Collect data return as a dictionary."""
@@ -82,8 +103,12 @@ class ViewTournament:
         print("\n" + " o o o | TOURNOI : " + tournament.name.upper() + " | o o o\n")
 
     def display_round_header(self, header: str):
-        """Affichage de l'en tête"""
+        """Affichage de l'en tête du round"""
         print(tabulate([[header]], headers=[""], tablefmt="fancy_grid", colalign=("center",)))
+
+    def display_round_progress(self, current_round, total_rounds):
+        """Affiche la progression des rounds"""
+        print(f" -- {current_round} / {total_rounds} ")
 
     def display_tournament_tabulate(self, tournament_data_table, participants_table):
         """ Informations du tournoi et affichage sous forme de tableau"""
@@ -103,7 +128,7 @@ class ViewTournament:
         # Définir les en-têtes de tableau pour les participants
         headers = ['Nom', 'Prénom', 'ID', 'Score', 'Adversaires IDs']
         # Afficher les participants sous forme de tableau
-        print("\nParticipants*****:")
+        print("\nPARTICIPANTS AU TOURNOI SELECTIONNÉ:")
         print(tabulate(sorted_participants, headers=headers, tablefmt="pretty"))
 
     def ask_start_round(self):
@@ -124,13 +149,14 @@ class ViewTournament:
         """ Affiche un message indiquant qu'aucun tournoi n'a été créé."""
         print("\n Aucun tournois créé")
 
+    @staticmethod
+    def yes_tournament_created():
+        """ Affiche un message indiquant que le tournoi a été créé."""
+        print(("Le tournoi a été créé avec succès."))
+
     def display_message(self, message):
         """Affiche un message générique (succès, erreur, info)."""
         print(f"\n {message}")
-
-    def display_alerte(self, message):
-        """Affiche un message générique (Alerte)."""
-        print(f"\n ❌ {message}")
 
     def display_tournament_list(self, existing_tournaments):
         """Affiche la liste des tournois existants."""
@@ -193,12 +219,12 @@ class ViewTournament:
     def display_tournament_info(self, tournament):
         """
         Affiche les informations détaillées du tournoi.
-        :param tournament: L'objet Tournament contenant les informations du tournoi.
+        
         """
         # Affichage des informations du tournoi
         print(f"\nTournoi: {tournament['name']}")
         print(f"Date: {tournament['date_initial']}")
-        print("Participants:")
+        print("------Participants----- :")
         for participant in tournament.get('players', []):
             print(f"- {participant}")
 
@@ -225,6 +251,16 @@ class ViewTournament:
         print("Aucun fichier de tournois trouvé.")
 
     @staticmethod
+    def invalid_tournament_number():
+        """Message erreur suite numéro de tournois sélectionné invalide"""
+        print("Numéro de tournoi invalide.")
+
+    @staticmethod
+    def invalid_choice_entry():
+        """Message erreur suite saisie invalide"""
+        print("Saisie invalide.")
+
+    @staticmethod
     def tournament_not_built():
         """Message d'erreur"""
         print("Erreur : le tournoi n'a pas pu être recréé.")
@@ -238,10 +274,6 @@ class ViewTournament:
         """ Afficher le résumé du tournoi (par exemple le nom, la date, etc.)"""
         print(f"Résumé du tournoi {tournament.name}")
 
-    def display_round_header(self, round_header):
-        """Afficher l'entête du round"""
-        print(round_header)
-
     def display_match_table(self, match_table):
         """Afficher le tableau des matchs"""
         print(
@@ -249,3 +281,80 @@ class ViewTournament:
                 match_table, headers=["Joueur 1", "Score J1", "Joueur 2", "Score J2"],
                 tablefmt="fancy_grid", colalign=("left", "center", "left", "center"))
             )
+
+    def key_error_missing_field(self, field_name):
+        """Message erreur """
+        print(f"Erreur : clé manquante dans les données du tournoi ({field_name}).")
+
+    def unexpected_error(self, error_message):
+        """Message d'erreur"""
+        print(f"Une erreur inattendue est survenue : {error_message}")
+
+    def display_round_start(self, round_name, start_time):
+        """Affichage des données du round"""
+        print(f"\n Début du {round_name} à {start_time}\n")
+
+    def display_round_object(self, round_i):
+        """Affichage du round en cours"""
+        print(f" {round_i}")
+
+    def display_match_list_start(self, round_number):
+        """Annonce les matchs du round"""
+        print(f" Matchs de ce round numéro: {round_number} ")
+
+    def display_match_vs(self, player1, player2):
+        """Affiche match entre deux joueurs"""
+        print(
+            f"{player1.name} {player1.first_name} VS {player2.name} {player2.first_name}"
+            )
+
+    def ask_start_next_round(self):
+        """Demande si l'utilisateur veut démarrer un nouveau round"""
+        return input(
+            "\n Souhaitez-vous démarrer le prochain round ? (o/n) : ").strip().lower()
+
+    def ask_end_of_round(self):
+        """Demande si les matchs sont terminés pour saisir les scores."""
+        while True:
+            response = input(
+                "\n Si le match est terminé, saisir(o) pour entrer les scores ... : "
+                ).strip().lower()
+            if response in ["o", "n"]:
+                return response
+            print("❌ Entrée invalide. Veuillez répondre par 'O' ou 'N'.")
+
+    def display_end_of_round(self, round_name, end_time):
+        """Affiche la fin d'un round."""
+        print(f"\n✅ Fin du {round_name} à {end_time}\n")
+
+    def error_saving(self, error_message):
+        """Affichage erreur sauvegarde de fichier"""
+        print(f"Erreur lors de la sauvegarde du fichier: {error_message}")
+
+    def error_rebuilding_tournament(self, error, tournament_data):
+        """Affiche une erreur lors de la reconstruction du tournoi."""
+        print("\n❌ Erreur lors de la reconstruction du tournoi :", error)
+        print("📂 Données en échec :", tournament_data)
+
+    def prompt_to_continue(self):
+        """Invite l'utilisateur à appuyer sur Entrée pour continuer."""
+        input("\nAppuyez sur Entrée pour continuer [ENTER]...")
+
+    def display_loaded_rounds_info(self, tournament_name, number_of_rounds):
+        """Affiche les informations sur les rounds chargés pour un tournoi."""
+        print(f"Rounds chargés pour {tournament_name} : {number_of_rounds}")
+
+    def player_added_to_tournament(self, name, first_name, current_count, max_players):
+        """Affiche le message lorsqu'un joueur est ajouté au tournoi."""
+        print(f"✅ Joueur {name} {first_name} ajouté au tournoi !")
+        print(f"📋 {current_count} joueur(s) sélectionné(s) sur {max_players}.")
+
+    def success_tournament_saved(self, tournament_name):
+        """Affiche un message confirmant la sauvegarde d'un tournoi."""
+        print(
+            f"✅ Le tournoi '{tournament_name}' et ses données ont été sauvegardés avec succès."
+            )
+
+    def show_created_tournament(self, tournament):
+        """Affiche le tournoi créé."""
+        print(f"\n{tournament}")
