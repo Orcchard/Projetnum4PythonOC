@@ -1,8 +1,10 @@
 """Define the principal controller."""
+import sys
 import json
 import os
 import random
 from datetime import datetime
+from itertools import permutations
 
 
 from controllers.controller_reports import ControllerReports
@@ -84,6 +86,8 @@ class ControllerPrincipal:
             elif user_choice == "5":
                 self.view.clear_screen()
                 self.select_list_saved_tournaments(action_type="create_round")
+            elif user_choice == "6":
+                sys.exit()
             else:
                 self.view_tournaments.invalid_choice_entry()
             self.view_tournaments.prompt_to_continue()  # demander à appuyer sur entrée via la vue
@@ -452,9 +456,9 @@ class ControllerPrincipal:
         self.view_tournaments.display_end_of_round(round_i.round_name, round_i.end_time)
         # Sauvegarde du tournoi après chaque round
         self.save_tournament_to_json(selected_tournament)
-
+    """
     def generate_matches(self, players, selected_tournament):
-        """Génère les matchs en évitant les adversaires déjà affrontés."""
+        # Génère les matchs en évitant les adversaires déjà affrontés.
         matches = []
         adversaires = {p["Player"].player_id: {
             adv.player_id for adv in p["Adversaires"]
@@ -474,6 +478,32 @@ class ControllerPrincipal:
                 adversaires[player1.player_id].add(player2.player_id)
                 adversaires[player2.player_id].add(player1.player_id)
         return matches
+        """
+
+    def generate_matches(self, players, selected_tournament):
+        def can_pair(p1, p2):
+            return not Match.already_played(p1, p2, selected_tournament.rounds)
+        
+        def valid_permutation(perm):
+            tentative_matches = []
+            for i in range(0, len(perm), 2):
+                p1, p2 = perm[i], perm[i + 1]
+                if can_pair(p1, p2):
+                    tentative_matches.append(Match(p1, p2))
+                else:
+                    return None
+            return tentative_matches
+
+        for perm in permutations(players):
+            matches = valid_permutation(perm)
+            if matches:
+                return matches
+
+        # Si aucun appariement valide n'est trouvé
+        self.view_tournaments.no_valid_pairs()
+        return []
+            
+
 
     def recreate_round(self, round_data, all_players):
         """Recrée un round à partir des données JSON."""
