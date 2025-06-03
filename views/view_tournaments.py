@@ -38,7 +38,7 @@ class ViewTournament:
     @staticmethod
     def all_rounds_played():
         """Message alerte tous les rounds joués"""
-        print("✅ Tous les rounds ont déjà été joués.")
+        print(" Tous les rounds ont déjà été joués.")
 
     @staticmethod
     def control_dates_tournament():
@@ -137,7 +137,7 @@ class ViewTournament:
         if response in ["o", "n"]:
             """La vue renvoie la réponse au contrôleur."""
             return response
-        print("❌ Entrée invalide. Veuillez répondre par 'O' ou 'N'.")
+        print(" Entrée invalide. Veuillez répondre par 'O' ou 'N'.")
 
     @staticmethod
     def not_tournament():
@@ -161,7 +161,7 @@ class ViewTournament:
     def display_tournament_list(self, existing_tournaments):
         """Affiche la liste des tournois existants."""
         if not existing_tournaments:
-            print("\n❌ Aucun tournoi sélectionné")
+            print("\n Aucun tournoi sélectionné")
             return
         print("\n Liste des tournois sauvegardés:")
         for index, existing_tournaments in enumerate(
@@ -321,11 +321,11 @@ class ViewTournament:
                 ).strip().lower()
             if response in ["o", "n"]:
                 return response
-            print("❌ Entrée invalide. Veuillez répondre par 'O' ou 'N'.")
+            print(" Entrée invalide. Veuillez répondre par 'O' ou 'N'.")
 
     def display_end_of_round(self, round_name, end_time):
         """Affiche la fin d'un round."""
-        print(f"\n✅ Fin du {round_name} à {end_time}\n")
+        print(f"\n Fin du {round_name} à {end_time}\n")
 
     def error_saving(self, error_message):
         """Affichage erreur sauvegarde de fichier"""
@@ -333,8 +333,8 @@ class ViewTournament:
 
     def error_rebuilding_tournament(self, error, tournament_data):
         """Affiche une erreur lors de la reconstruction du tournoi."""
-        print("\n❌ Erreur lors de la reconstruction du tournoi :", error)
-        print("📂 Données en échec :", tournament_data)
+        print("\nErreur lors de la reconstruction du tournoi :", error)
+        print("Données en échec :", tournament_data)
 
     def prompt_to_continue(self):
         """Invite l'utilisateur à appuyer sur Entrée pour continuer."""
@@ -346,15 +346,18 @@ class ViewTournament:
 
     def player_added_to_tournament(self, name, first_name, current_count, max_players):
         """Affiche le message lorsqu'un joueur est ajouté au tournoi."""
-        print(f"✅ Joueur {name} {first_name} ajouté au tournoi !")
-        print(f"📋 {current_count} joueur(s) sélectionné(s) sur {max_players}.")
+        print(f"Joueur {name} {first_name} ajouté au tournoi !")
+        print(f"{current_count} joueur(s) sélectionné(s) sur {max_players}.")
 
     def success_tournament_saved(self, tournament_name):
         """Affiche un message confirmant la sauvegarde d'un tournoi."""
         print(
-            f"✅ Le tournoi '{tournament_name}' et ses données ont été sauvegardés avec succès."
+            f"Le tournoi '{tournament_name}' et ses données ont été sauvegardés avec succès."
             )
 
     def show_created_tournament(self, tournament):
         """Affiche le tournoi créé."""
         print(f"\n{tournament}")
+
+    def no_valid_pairs(self):
+        print("Impossible de générer des matchs sans doublons. Tournoi bloqué.")
