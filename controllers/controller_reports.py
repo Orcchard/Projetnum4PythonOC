@@ -1,18 +1,8 @@
 """Define the reports ."""
-import json
-import os
-import random
-from datetime import datetime
-from tabulate import tabulate
-
 
 from views.view_reports import ViewReports
 from views.view_users import View
 from views.view_tournaments import ViewTournament
-from models.player_mod import Player
-from models.tournament_mod import Tournament
-from models.round_mod import Round
-from models.match_mod import Match
 
 
 class ControllerReports:
@@ -78,7 +68,7 @@ class ControllerReports:
         selected_data = tournaments[index]
         tournament = self.controller_principal.recreate_tournament_controlleur(
             selected_data, self.controller_principal.all_players
-            )
+        )
         if tournament:
             if not tournament.rounds:
                 # Vérifie si le tournoi n'a pas de rounds
