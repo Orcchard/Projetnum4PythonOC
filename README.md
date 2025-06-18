@@ -10,7 +10,9 @@
 
 3.**Extraire l'ensemble des fichiers**:                                                                                Décompressez l'archive dans le repertoire de votre choix.
 
-4.**Créez et activez l'environnement virtuel**                                                                            Dans votre editeur de code à l'aide de la commande :                                                  **Windows : python**: -m venv env puis  env\scripts\activate                                        **Linux/macOS**: python -m venv env puis source env/bin/activat
+4.**Créez et activez l'environnement virtuel** dans votre editeur de code à l'aide de la commande :                                                  
+**Windows : python**: -m venv env puis  env\scripts\activate                                        
+**Linux/macOS**: python -m venv env puis source env/bin/activat
 
 5.**Installez les bibliothèques** :                                                                                                   pip install -r requirements.txt
 
