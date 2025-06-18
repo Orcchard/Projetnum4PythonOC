@@ -4,13 +4,13 @@
 
 ## Prérequis
 
-1.Installer Python, en vous rendant sur le site: [python.org/downloads](https://www.python.org/downloads)                                       ***Testé sous Windows 11 avec Python 3.12***
+1. **Installer Python**, en vous rendant sur le site: [python.org/downloads](https://www.python.org/downloads)                                       ***Testé sous Windows 11 avec Python 3.12***
 
-2.**Clonez le dépôt**: git clone [https://github.com/Orcchard/Projetnum4PythonOC.git](https://github.com/Orcchard/Projetnum4PythonOC.git)                              Ou téléchargez le ZIP via le bouton vert <> Code" > Download ZIP.
+2. **Clonez le dépôt**: git clone [https://github.com/Orcchard/Projetnum4PythonOC.git](https://github.com/Orcchard/Projetnum4PythonOC.git)                              Ou téléchargez le ZIP via le bouton vert <> Code" > Download ZIP.
 
-3.**Extraire l'ensemble des fichiers**:                                                                                Décompressez l'archive dans le repertoire de votre choix.
+3. **Extraire l'ensemble des fichiers**:                                                                                Décompressez l'archive dans le repertoire de votre choix.
 
-4.**Créez et activez l'environnement virtuel** dans votre editeur de code à l'aide de la commande :                                                  
+4. **Créez et activez l'environnement virtuel** dans votre editeur de code à l'aide de la commande :                                                  
 **Windows : python**: -m venv env puis  env\scripts\activate                                        
 **Linux/macOS**: python -m venv env puis source env/bin/activat
 
