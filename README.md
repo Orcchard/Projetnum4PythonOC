@@ -1,8 +1,8 @@
-# gestionnaire de tournois d'échecs
+# Gestionnaire de tournois d'échecs
 
 > Ce programme Python permet d'organiser et  de suivre des tournois d'échecs, avec sauvegarde des données en JSON.
 
-## Prèrequis
+## Prérequis
 
 1.Installer Python, en vous rendant sur le site: [python.org/downloads](https://www.python.org/downloads)                                       ***Testé sous Windows 11 avec Python 3.12***
 
@@ -16,20 +16,20 @@
 
 6.**Lancez le script** python main.py
 
-#### Utilisation
+## Utilisation
 
-    *Le menu principal est divisé en 5 options.*
+Le menu principal est divisé en 5 options.
 
-### 1. Créer un joueur
+##### 1. Créer un joueur
 
 Ajoute un joueur dans Le fichier json nommé "all_player_data" prè alimenté.
 
-### 2) Créer un tournoi
+##### 2) Créer un tournoi
 
 * Cette section permet de créer et sauvegarder  un tournois dans "tournament_data.json"
 * Vous serez  ensuite invité à choisir les 8 participants à ce tournois, en saisissant les 3 premières lettres du nom.
 
-#### 3) Afficher des rapports
+##### 3) Afficher des rapports
 
 Cette section vous permet de générer différents rapport. Vous pouvez consulter:
 
@@ -38,13 +38,13 @@ Cette section vous permet de générer différents rapport. Vous pouvez consulte
 3. Les joueurs d’un tournoi de votre choix, triés par leur score (décroissant)
 4. Les détails complets d'un tournoi : (classement des joueurs, tours et matchs)
 
-#### **Générer le rapport Flake8**
+## **Générer le rapport Flake8**
 
 a) Installez flake8 avec la commande:  pip intall flake8-html
 Y ecrire le texte suivant dedans:
-[flake8]
+*[flake8]
 max-line-length = 119
-exclude = env,venv,.venv,****pycache****,.git,*.pyc,*.pyo,*.pyd,.gitignore
+exclude = env,venv,.venv,****pycache****,.git,.pyc,.pyo,*.pyd,.gitignore*
 
 b) Generer le rapport : flake8 --format=html --htmldir=flake8_report --exit-zero
 
