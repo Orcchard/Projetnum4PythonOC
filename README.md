@@ -66,15 +66,6 @@ Cette section vous permet de générer différents rapport. Vous pouvez consulte
 3. Les joueurs d’un tournoi de votre choix, triés par leur score (décroissant)
 4. Les détails complets d'un tournoi : (classement des joueurs, tours et matchs)
 
-## **Générer le rapport Flake8**
-
-a) Installez flake8 avec la commande:  pip intall flake8-html
-Y ecrire le texte suivant dedans:
-*[flake8]
-max-line-length = 119
-exclude = env,venv,.venv,****pycache****,.git,.pyc,.pyo,*.pyd,.gitignore*
-
-b) Generer le rapport : flake8 --format=html --htmldir=flake8_report --exit-zero
 
 c) Ouvrir le rapport
 **Windows (PowerShell) : **Invoke-Item flake8_report/index.html**
