@@ -34,11 +34,19 @@ exclude = env,venv,.venv,****pycache****,.git,.pyc,.pyo,*.pyd,.gitignore*
 
 
 
-b) **Generer le rapport** : flake8 --format=html --htmldir=flake8_report --exit-zero
+b) **Generer le rapport** : flake8 --format=html --htmldir=flake8_report --exit-zero  
+    qui fera apparaitre les erreur detectées ou 
+    ![image](https://github.com/user-attachments/assets/7a8c86ff-9b15-4b77-9b1b-0b2067b5868f)
+
 
 
 ## Utilisation  
 Le menu principal est divisé en 5 options.
+
+![image](https://github.com/user-attachments/assets/74b93abc-9942-474a-823f-4d52ad51a5a6)
+
+
+
 
 ##### 1. Créer un joueur
 
