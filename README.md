@@ -14,15 +14,17 @@
 **Windows** : python -m venv env puis  env\scripts\activate                                        
 **Linux/macOS**: python -m venv env puis source env/bin/activat
 
-5.**Installez les bibliothèques** :                                                                                                   pip install -r requirements.txt
+5. **Installez les bibliothèques** :                                                                                                   pip install -r requirements.txt
 
-6.**Lancez le script** python main.py
+6. **Lancez le script** python main.py
 
 ## **Générer le rapport Flake8**
 
 a) **Installez flake8** avec la commande:  pip intall flake8-html
+
    S'il n'existe pas, **créer un fichier setup.cfg**, Y ecrire le texte suivant :
-*[flake8]
+   
+[flake8]
 max-line-length = 119
 exclude = env,venv,.venv,****pycache****,.git,.pyc,.pyo,*.pyd,.gitignore*
 
