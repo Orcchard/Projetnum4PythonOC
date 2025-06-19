@@ -38,12 +38,19 @@ b) **Generer le rapport** : flake8 --format=html --htmldir=flake8_report --exit-
     qui fera apparaitre les erreur detectées ou 
     ![image](https://github.com/user-attachments/assets/7a8c86ff-9b15-4b77-9b1b-0b2067b5868f)
 
+c) Ouvrir le rapport
+**Windows (PowerShell) : **Invoke-Item flake8_report/index.html**
+Linux/macOS** : xdg-open flake8_report/index.html
+
+
 
 
 ## Utilisation  
 Le menu principal est divisé en 5 options.
 
-![image](https://github.com/user-attachments/assets/74b93abc-9942-474a-823f-4d52ad51a5a6)
+![image](https://github.com/user-attachments/assets/c5cf8c22-bd36-4bd2-8722-2f3444882f28)
+
+
 
 
 
@@ -65,8 +72,3 @@ Cette section vous permet de générer différents rapport. Vous pouvez consulte
 2. La liste de tous les tournois enregistrés avec le nombre de rounds déjà joués.
 3. Les joueurs d’un tournoi de votre choix, triés par leur score (décroissant)
 4. Les détails complets d'un tournoi : (classement des joueurs, tours et matchs)
-
-
-c) Ouvrir le rapport
-**Windows (PowerShell) : **Invoke-Item flake8_report/index.html**
-Linux/macOS** : xdg-open flake8_report/index.html
