@@ -28,15 +28,14 @@ class View:
         options = [
             ["1", "Créer un joueur"],
             ["2", "Créer un tournoi"],
-            ["3", "Éditer un tournois complet"],
-            ["4", "Afficher les rapports "],
-            ["5", "Reprendre un tournoi"],
-            ["6", "Quitter le programme"],
+            ["3", "Afficher les rapports "],
+            ["4", "Reprendre un tournoi"],
+            ["5", "Quitter le programme"],
         ]
         print("\n" + tabulate([], headers=header, tablefmt="grid"))
-        """Affiche le titre encadré"""
+        # Affiche le titre encadré
         print(tabulate(options, tablefmt="plain"))
-        """Afficher le menu sans bordures pour plus de clarté"""
+        # Afficher le menu sans bordures pour plus de clarté
 
     @staticmethod
     def first_prompt():

@@ -95,7 +95,7 @@ class ViewTournament:
             "nb_round": nb_round,
             "description": description
         }
-        """Crée un dictionnaire contenant toutes les informations"""
+        # Crée un dictionnaire contenant toutes les informations
         return tournament_input_data
 
     def display_title(self, tournament):
@@ -119,7 +119,7 @@ class ViewTournament:
             ["Date de fin", tournament_data_table['date_end']],
             ["Description", tournament_data_table['description']],
         ]
-        """Afficher les détails du tournoi"""
+        # Afficher les détails du tournoi
         print("\nDétails du tournoi:")
         print(tabulate(tournament_info, tablefmt="pretty"))
         # On trie les participants par score décroissant (meilleur score en premier)
@@ -135,7 +135,7 @@ class ViewTournament:
         """Création d'un round ou pas: choix de l'utilisateur"""
         response = input("Souhaitez-vous démarrer un round ? (O/N) ").strip().lower()
         if response in ["o", "n"]:
-            """La vue renvoie la réponse au contrôleur."""
+            # La vue renvoie la réponse au contrôleur.
             return response
         print(" Entrée invalide. Veuillez répondre par 'O' ou 'N'.")
 
@@ -219,7 +219,6 @@ class ViewTournament:
     def display_tournament_info(self, tournament):
         """
         Affiche les informations détaillées du tournoi.
-        
         """
         # Affichage des informations du tournoi
         print(f"\nTournoi: {tournament['name']}")
@@ -360,4 +359,5 @@ class ViewTournament:
         print(f"\n{tournament}")
 
     def no_valid_pairs(self):
+        """Message d'erreur"""
         print("Impossible de générer des matchs sans doublons. Tournoi bloqué.")
