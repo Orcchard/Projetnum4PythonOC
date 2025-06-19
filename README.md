@@ -38,6 +38,8 @@ b) **Generer le rapport** : flake8 --format=html --htmldir=flake8_report --exit-
     qui fera apparaitre les erreur detectées ou 
     ![image](https://github.com/user-attachments/assets/7a8c86ff-9b15-4b77-9b1b-0b2067b5868f)
 
+    
+
 c) Ouvrir le rapport
 **Windows (PowerShell) : **Invoke-Item flake8_report/index.html**
 Linux/macOS** : xdg-open flake8_report/index.html
@@ -47,8 +49,8 @@ Linux/macOS** : xdg-open flake8_report/index.html
 
 ## Utilisation  
 Le menu principal est divisé en 5 options.
+![image](https://github.com/user-attachments/assets/ee02b24b-909d-460c-a640-a51a62fc0908)
 
-![image](https://github.com/user-attachments/assets/c5cf8c22-bd36-4bd2-8722-2f3444882f28)
 
 
 
