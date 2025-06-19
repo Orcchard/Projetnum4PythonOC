@@ -38,6 +38,9 @@ b) **Generer le rapport** : flake8 --format=html --htmldir=flake8_report --exit-
     qui fera apparaitre les erreur detectées ou 
     ![image](https://github.com/user-attachments/assets/7a8c86ff-9b15-4b77-9b1b-0b2067b5868f)
 
+
+    
+
     
 
 c) Ouvrir le rapport
