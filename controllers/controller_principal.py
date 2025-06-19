@@ -78,19 +78,18 @@ class ControllerPrincipal:
             elif user_choice == "2":
                 self.new_tournament_input()
             elif user_choice == "3":
-                self.select_list_saved_tournaments(action_type="view")
-            elif user_choice == "4":
                 self.view_reports.reports_new_header()
                 self.view_reports.display_menu_reports()
                 self.controller_reports.display_report_choice()
-            elif user_choice == "5":
+            elif user_choice == "4":
                 self.view.clear_screen()
                 self.select_list_saved_tournaments(action_type="create_round")
-            elif user_choice == "6":
+            elif user_choice == "5":
                 sys.exit()
             else:
                 self.view_tournaments.invalid_choice_entry()
-            self.view_tournaments.prompt_to_continue()  # demander à appuyer sur entrée via la vue
+            self.view_tournaments.prompt_to_continue()
+            # demander à appuyer sur entrée via la vue
 
     def player_add_input(self):
         """Adding a new player."""
