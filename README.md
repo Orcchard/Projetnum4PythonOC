@@ -38,14 +38,18 @@ exclude = env,venv,.venv,****pycache****,.git,.pyc,.pyo,*.pyd,.gitignore*
 
 
 b) **Generer le rapport** : Saisissez la commande flake8 --format=html --htmldir=flake8_report --exit-zero  
-    qui fera apparaitre les erreur detectées ou 
-     
+        
 
     
 
 c) Ouvrir le rapport
-**Windows (PowerShell) : **Invoke-Item flake8_report/index.html**
-Linux/macOS** : xdg-open flake8_report/index.html
+
+**Windows (PowerShell)** : **Invoke-Item flake8_report/index.html**
+
+**Linux/macOS** :**xdg-open flake8_report/index.html**  
+
+Si aucune erreur apparaitra:
+
  ![image](https://github.com/user-attachments/assets/7a8c86ff-9b15-4b77-9b1b-0b2067b5868f)
 
 
