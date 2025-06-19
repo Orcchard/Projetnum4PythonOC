@@ -220,218 +220,6 @@
         ]
     },
     {
-        "name": "Celui qui fonctionnera",
-        "location": "Jaffa",
-        "date_initial": "28/04/2025",
-        "date_end": "30/04/2025",
-        "nb_round": "4",
-        "description": "RAS",
-        "participant_tournament": [
-            {
-                "player": "DX66890",
-                "score": 1.5,
-                "adversaires": [
-                    "AA34344",
-                    "AV57855",
-                    "CX66990",
-                    "DJ67898"
-                ]
-            },
-            {
-                "player": "CX66990",
-                "score": 1.0,
-                "adversaires": [
-                    "DM10844",
-                    "AV89765",
-                    "DX66890"
-                ]
-            },
-            {
-                "player": "AV57855",
-                "score": 3.0,
-                "adversaires": [
-                    "DJ67898",
-                    "DX66890",
-                    "DM10844",
-                    "AM45870"
-                ]
-            },
-            {
-                "player": "AM45870",
-                "score": 3.0,
-                "adversaires": [
-                    "AV89765",
-                    "DM10844",
-                    "AA34344",
-                    "AV57855"
-                ]
-            },
-            {
-                "player": "AA34344",
-                "score": 2.0,
-                "adversaires": [
-                    "DX66890",
-                    "DJ67898",
-                    "AM45870",
-                    "DM10844"
-                ]
-            },
-            {
-                "player": "AV89765",
-                "score": 0.0,
-                "adversaires": [
-                    "AM45870",
-                    "CX66990",
-                    "DJ67898"
-                ]
-            },
-            {
-                "player": "DJ67898",
-                "score": 2.5,
-                "adversaires": [
-                    "AV57855",
-                    "AA34344",
-                    "AV89765",
-                    "DX66890"
-                ]
-            },
-            {
-                "player": "DM10844",
-                "score": 2.0,
-                "adversaires": [
-                    "CX66990",
-                    "AM45870",
-                    "AV57855",
-                    "AA34344"
-                ]
-            }
-        ],
-        "rounds": [
-            {
-                "round_number": 1,
-                "round_name": "Round N°: 1",
-                "start_time": "2025-04-29 00:14:56",
-                "end_time": "2025-04-29 00:15:22",
-                "matches": [
-                    {
-                        "player1": "AM45870",
-                        "player2": "AV89765",
-                        "player1_score": 1.0,
-                        "player2_score": 0.0
-                    },
-                    {
-                        "player1": "CX66990",
-                        "player2": "DM10844",
-                        "player1_score": 0.0,
-                        "player2_score": 1.0
-                    },
-                    {
-                        "player1": "DX66890",
-                        "player2": "AA34344",
-                        "player1_score": 0.5,
-                        "player2_score": 0.5
-                    },
-                    {
-                        "player1": "AV57855",
-                        "player2": "DJ67898",
-                        "player1_score": 0.5,
-                        "player2_score": 0.5
-                    }
-                ]
-            },
-            {
-                "round_number": 2,
-                "round_name": "Round N°: 2",
-                "start_time": "2025-04-29 00:15:30",
-                "end_time": "2025-04-29 00:16:10",
-                "matches": [
-                    {
-                        "player1": "AM45870",
-                        "player2": "DM10844",
-                        "player1_score": 0.5,
-                        "player2_score": 0.5
-                    },
-                    {
-                        "player1": "DX66890",
-                        "player2": "AV57855",
-                        "player1_score": 0.0,
-                        "player2_score": 1.0
-                    },
-                    {
-                        "player1": "AA34344",
-                        "player2": "DJ67898",
-                        "player1_score": 1.0,
-                        "player2_score": 0.0
-                    },
-                    {
-                        "player1": "AV89765",
-                        "player2": "CX66990",
-                        "player1_score": 0.0,
-                        "player2_score": 1.0
-                    }
-                ]
-            },
-            {
-                "round_number": 3,
-                "round_name": "Round N°: 3",
-                "start_time": "2025-04-29 00:16:14",
-                "end_time": "2025-04-29 00:16:27",
-                "matches": [
-                    {
-                        "player1": "AM45870",
-                        "player2": "AA34344",
-                        "player1_score": 1.0,
-                        "player2_score": 0.0
-                    },
-                    {
-                        "player1": "DM10844",
-                        "player2": "AV57855",
-                        "player1_score": 0.0,
-                        "player2_score": 1.0
-                    },
-                    {
-                        "player1": "CX66990",
-                        "player2": "DX66890",
-                        "player1_score": 0.0,
-                        "player2_score": 1.0
-                    },
-                    {
-                        "player1": "DJ67898",
-                        "player2": "AV89765",
-                        "player1_score": 1.0,
-                        "player2_score": 0.0
-                    }
-                ]
-            },
-            {
-                "round_number": 4,
-                "round_name": "Round N°: 4",
-                "start_time": "2025-04-29 00:16:34",
-                "end_time": "2025-04-29 00:16:44",
-                "matches": [
-                    {
-                        "player1": "AM45870",
-                        "player2": "AV57855",
-                        "player1_score": 0.5,
-                        "player2_score": 0.5
-                    },
-                    {
-                        "player1": "DM10844",
-                        "player2": "AA34344",
-                        "player1_score": 0.5,
-                        "player2_score": 0.5
-                    },
-                    {
-                        "player1": "DX66890",
-                        "player2": "DJ67898",
-                        "player1_score": 0.0,
-                        "player2_score": 1.0
-                    }
-                ]
-            }
-        ]
-    },
-    {
         "name": "On va gagner",
         "location": "Rome",
         "date_initial": "02/06/2025",
@@ -873,7 +661,7 @@
     },
     {
         "name": "Test final",
-        "location": "P1rigi",
+        "location": "Parigi",
         "date_initial": "03/06/2025",
         "date_end": "15/03/2026",
         "nb_round": "4",
@@ -1732,57 +1520,6 @@
         ]
     },
     {
-        "name": "Le tournoi de l'espoir",
-        "location": "Paris",
-        "date_initial": "25/06/2025",
-        "date_end": "26/06/2026",
-        "nb_round": "4",
-        "description": "RAS",
-        "participant_tournament": [
-            {
-                "player": "DN57898",
-                "score": 0,
-                "adversaires": []
-            },
-            {
-                "player": "JD66898",
-                "score": 0,
-                "adversaires": []
-            },
-            {
-                "player": "OT63208",
-                "score": 0,
-                "adversaires": []
-            },
-            {
-                "player": "VV57867",
-                "score": 0,
-                "adversaires": []
-            },
-            {
-                "player": "VB34523",
-                "score": 0,
-                "adversaires": []
-            },
-            {
-                "player": "FB27654",
-                "score": 0,
-                "adversaires": []
-            },
-            {
-                "player": "CX66990",
-                "score": 0,
-                "adversaires": []
-            },
-            {
-                "player": "AA87698",
-                "score": 0,
-                "adversaires": []
-            }
-        ],
-        "rounds": []
-    },
-    {
         "name": "Le tournois du desert",
         "location": "Arizona (USA)",
         "date_initial": "23/06/2025",
@@ -1883,5 +1620,225 @@
             }
         ],
         "rounds": []
+    },
+    {
+        "name": "Le tournoi de l'espoir",
+        "location": "Paris",
+        "date_initial": "25/06/2025",
+        "date_end": "26/06/2026",
+        "nb_round": "4",
+        "description": "RAS",
+        "participant_tournament": [
+            {
+                "player": "DN57898",
+                "score": 0.5,
+                "adversaires": [
+                    "JD66898",
+                    "AA87698",
+                    "CX66990",
+                    "VV57867"
+                ]
+            },
+            {
+                "player": "JD66898",
+                "score": 3.5,
+                "adversaires": [
+                    "DN57898",
+                    "VB34523",
+                    "FB27654",
+                    "OT63208"
+                ]
+            },
+            {
+                "player": "OT63208",
+                "score": 2.0,
+                "adversaires": [
+                    "CX66990",
+                    "FB27654",
+                    "VB34523",
+                    "JD66898"
+                ]
+            },
+            {
+                "player": "VV57867",
+                "score": 1.0,
+                "adversaires": [
+                    "FB27654",
+                    "CX66990",
+                    "AA87698",
+                    "DN57898"
+                ]
+            },
+            {
+                "player": "VB34523",
+                "score": 1.0,
+                "adversaires": [
+                    "AA87698",
+                    "JD66898",
+                    "OT63208",
+                    "CX66990"
+                ]
+            },
+            {
+                "player": "FB27654",
+                "score": 2.5,
+                "adversaires": [
+                    "VV57867",
+                    "OT63208",
+                    "JD66898",
+                    "AA87698"
+                ]
+            },
+            {
+                "player": "CX66990",
+                "score": 3.0,
+                "adversaires": [
+                    "OT63208",
+                    "VV57867",
+                    "DN57898",
+                    "VB34523"
+                ]
+            },
+            {
+                "player": "AA87698",
+                "score": 2.5,
+                "adversaires": [
+                    "VB34523",
+                    "DN57898",
+                    "VV57867",
+                    "FB27654"
+                ]
+            }
+        ],
+        "rounds": [
+            {
+                "round_number": 1,
+                "round_name": "Round N°: 1",
+                "start_time": "2025-06-20 00:54:40",
+                "end_time": "2025-06-20 00:55:11",
+                "matches": [
+                    {
+                        "player1": "JD66898",
+                        "player2": "DN57898",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "VB34523",
+                        "player2": "AA87698",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "OT63208",
+                        "player2": "CX66990",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "FB27654",
+                        "player2": "VV57867",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    }
+                ]
+            },
+            {
+                "round_number": 2,
+                "round_name": "Round N°: 2",
+                "start_time": "2025-06-20 00:55:27",
+                "end_time": "2025-06-20 00:56:17",
+                "matches": [
+                    {
+                        "player1": "JD66898",
+                        "player2": "VB34523",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "OT63208",
+                        "player2": "FB27654",
+                        "player1_score": 0.0,
+                        "player2_score": 1.0
+                    },
+                    {
+                        "player1": "DN57898",
+                        "player2": "AA87698",
+                        "player1_score": 0.5,
+                        "player2_score": 0.5
+                    },
+                    {
+                        "player1": "CX66990",
+                        "player2": "VV57867",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    }
+                ]
+            },
+            {
+                "round_number": 3,
+                "round_name": "Round N°: 3",
+                "start_time": "2025-06-20 00:56:53",
+                "end_time": "2025-06-20 00:58:52",
+                "matches": [
+                    {
+                        "player1": "JD66898",
+                        "player2": "FB27654",
+                        "player1_score": 0.5,
+                        "player2_score": 0.5
+                    },
+                    {
+                        "player1": "VB34523",
+                        "player2": "OT63208",
+                        "player1_score": 0.0,
+                        "player2_score": 1.0
+                    },
+                    {
+                        "player1": "CX66990",
+                        "player2": "DN57898",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "AA87698",
+                        "player2": "VV57867",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    }
+                ]
+            },
+            {
+                "round_number": 4,
+                "round_name": "Round N°: 4",
+                "start_time": "2025-06-20 00:58:59",
+                "end_time": "2025-06-20 00:59:27",
+                "matches": [
+                    {
+                        "player1": "JD66898",
+                        "player2": "OT63208",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "FB27654",
+                        "player2": "AA87698",
+                        "player1_score": 0.0,
+                        "player2_score": 1.0
+                    },
+                    {
+                        "player1": "CX66990",
+                        "player2": "VB34523",
+                        "player1_score": 1.0,
+                        "player2_score": 0.0
+                    },
+                    {
+                        "player1": "DN57898",
+                        "player2": "VV57867",
+                        "player1_score": 0.0,
+                        "player2_score": 1.0
+                    }
+                ]
+            }
+        ]
     }
 ]
