@@ -1,0 +1,4 @@
+    [flake8]
+# ignore = C901
+max-line-length = 119
+exclude = env,venv,.venv,__pycache__,.git,*.pyc,*.pyo,*.pyd
