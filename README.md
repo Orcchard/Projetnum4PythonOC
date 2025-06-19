@@ -53,6 +53,8 @@ Linux/macOS** : xdg-open flake8_report/index.html
 
 
 ## Utilisation  
+
+
 Le menu principal est divisé en 5 options.
 ![image](https://github.com/user-attachments/assets/ee02b24b-909d-460c-a640-a51a62fc0908)
 
