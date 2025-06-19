@@ -59,7 +59,7 @@ Si aucune erreur apparaitra:
 ## Utilisation  
 
 
-Le menu principal est divisé en 5 options.
+Le menu principal est divisé en 3 options.
 
 ![image](https://github.com/user-attachments/assets/ee02b24b-909d-460c-a640-a51a62fc0908)
 
@@ -86,3 +86,8 @@ Cette section vous permet de générer différents rapport. Vous pouvez consulte
 2. La liste de tous les tournois enregistrés avec le nombre de rounds déjà joués.
 3. Les joueurs d’un tournoi de votre choix, triés par leur score (décroissant)
 4. Les détails complets d'un tournoi : (classement des joueurs, tours et matchs)
+
+#### 4) Reprendre un tournoi
+ Il est possible de directement commencer le tournoi lors de sa création, on peut également retourner au menu principal et le
+ reprendre plus tard. Reprendre un tournois c'est se retrouver exactement à l'étape où le tournoi a été sauvegardé, avec tous les matchs, scores et participants intacts ou sans aucun rounds démarrés.
+
