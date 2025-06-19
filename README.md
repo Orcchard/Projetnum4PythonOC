@@ -19,6 +19,9 @@
 6. **Lancez le script** python main.py
 
 ## **Générer le rapport Flake8**
+ Flake8 va scanner le fichier "main" ainsi que les fichiers se trouvant dans les dossiers
+ "controller", "models" et "views". Le rapport sera exporté au dans le fichier "index.html"
+ situé dans le dossier "flake8-report"
 
 a) **Installez flake8** avec la commande:  pip intall flake8-html
 
