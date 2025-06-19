@@ -55,9 +55,9 @@ class ControllerPrincipal:
             with open(self.players_file, "r", encoding="utf-8") as file:
                 players_data = json.load(file)
                 # Retourne les données  en instances"""
-                return [Player.recreate_player(self, data)
-                        for data in players_data
-                        ]
+            return [Player.recreate_player(self, data)
+                    for data in players_data
+                    ]
         except FileNotFoundError:
             self.view.no_players_found()
             return []
@@ -101,6 +101,9 @@ class ControllerPrincipal:
         # Sérialise les données du joueur
         player_data = player.player_dict()
         self.record_new_player(player_data)
+        # Mise à jour de la liste en mémoire
+        self.all_players.append(player)
+        self.all_players.sort(key=lambda p: p.name.lower())
 
     def record_new_player(self, player_data):
         """Met à jour le fichier all_players en ajoutant un nouveau joueur."""
