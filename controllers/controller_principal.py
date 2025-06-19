@@ -204,9 +204,6 @@ class ControllerPrincipal:
         if self.tournament is None:
             self.view_tournaments.not_tournament()
             return
-        if not hasattr(self.tournament, "participant_tournament") or not self.tournament.participant_tournament:
-            self.view_tournaments.no_players_selected_tournament()
-            return
         # Affiche les participants sélectionnés."""
         self.view.listing_selected_players()
         players_info = [
@@ -448,29 +445,6 @@ class ControllerPrincipal:
         self.view_tournaments.display_end_of_round(round_i.round_name, round_i.end_time)
         # Sauvegarde du tournoi après chaque round
         self.save_tournament_to_json(selected_tournament)
-    """
-    def generate_matches(self, players, selected_tournament):
-        # Génère les matchs en évitant les adversaires déjà affrontés.
-        matches = []
-        adversaires = {p["Player"].player_id: {
-            adv.player_id for adv in p["Adversaires"]
-            }for p in selected_tournament.participant_tournament
-        }
-        available_players = players.copy()
-        while available_players:
-            player1 = available_players.pop(0)
-            player2 = next(
-                (p for p in available_players
-                    if p.player_id not in adversaires[player1.player_id]
-                    and not Match.already_played(player1, p, selected_tournament.rounds)), None)
-            if player2:
-                available_players.remove(player2)
-                matches.append(Match(player1, player2))
-                # Mettre à jour l'historique des adversaires
-                adversaires[player1.player_id].add(player2.player_id)
-                adversaires[player2.player_id].add(player1.player_id)
-        return matches
-        """
 
     def generate_matches(self, players, selected_tournament):
         """Genere les matchs controllant les paires de joeur unique pour un tournois """
@@ -527,7 +501,10 @@ class ControllerPrincipal:
             return None
 
     def display_tournament_rounds_and_matches(self, tournament):
-        """ Affichage des rounds et Matches pour un tournois"""
+        """ Affichage des rounds et Matches pour un tournois.
+        Args:
+        tournament (Tournament): Le tournoi dont on veut afficher les informations
+        """
         self.view_tournaments.display_title(tournament)
         for tourn_round in tournament.rounds:
             round_header = (
