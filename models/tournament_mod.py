@@ -1,5 +1,21 @@
+"""
+Module de gestion des tournois d'échecs.
+Ce module définit la classe Tournament qui représente un tournoi d'échecs,
+avec ses participants, ses rounds et les méthodes de sérialisation associées.
+"""
+
+
 class Tournament:
-    """ Définition de la classe tournament"""
+    """Représente un tournoi d'échecs avec ses caractéristiques et participants.
+
+    Attributes:
+        name (str): Nom du tournoi.
+        location (str): Lieu du tournoi.
+        date_initial (date): Date de début au format JJ/MM/AAAA.
+        date_end (date): Date de fin au format JJ/MM/AAAA.
+        nb_round (int): Nombre de rounds prévus (4 par défaut).
+        """
+
     def __init__(
         self, name, location, date_initial,
         date_end, nb_round=4, description=""
@@ -58,7 +74,7 @@ class Tournament:
         )
         # Optimisation: création d'un dictionnaire {player_id: Player}
         players_dict = {p.player_id: p for p in all_players}
-        """Reconstitution des participants"""
+        # Reconstitution des participants
         tournament.participant_tournament = []
         for participant_data in tournament_data.get("participant_tournament", []):
             # Récupération du joueur principal

@@ -1,5 +1,20 @@
+"""
+Module de gestion des matchs d'échecs.
+Ce module définit la classe Match qui représente un affrontement entre deux joueurs
+dans le cadre d'un tournoi, avec le score et les méthodes de sérialisation associées.
+"""
+
+
 class Match:
-    """Définition de la classe tournament"""
+    """
+    Représente un match entre deux joueurs dans un tournoi d'échecs
+        Attributes:
+            player1 (Player): Premier joueur du match.
+            player2 (Player): Deuxième joueur du match.
+            player1_score : Score du premier joueur (0, 0.5 ou 1).
+            player2_score : Score du deuxième joueur (0, 0.5 ou 1).
+            """
+
     def __init__(self, player1, player2, player1_score=0, player2_score=0):
         """Initialisation des joueurs et des scores"""
         self.player1 = player1

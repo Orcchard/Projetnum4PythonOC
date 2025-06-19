@@ -1,4 +1,18 @@
+"""Module de gestion des joueurs pour un système de tournois d'échecs.
+Ce module définit la classe Player qui représente un joueur participant à un tournoi,
+avec ses informations personnelles et des méthodes de sérialisation.
+"""
+
+
 class Player:
+    """défini un joueur participant à un tournoi.
+    Attributes:
+        name (str): Nom de famille du joueur.
+        first_name (str): Prénom du joueur.
+        date_of_birth (str): Date de naissance au format JJ/MM/AAAA.
+        player_id (str): Identifiant unique du joueur.
+    """
+
     def __init__(self, name, first_name, date_of_birth, player_id):
         self.name = name
         self.first_name = first_name
@@ -13,7 +27,6 @@ class Player:
                 f"ID: {self.player_id}"
             )
 
-    """serialize les joueurs"""
     def player_dict(self):
         """Serialisation des données du joueur"""
         return {

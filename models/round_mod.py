@@ -1,11 +1,25 @@
-"""Initialisation d'un round"""
+"""Module de gestion des rounds de tournoi d'échecs.
+Ce module définit la classe Round qui représente une étape d'un tournoi,
+contenant plusieurs matchs entre joueurs avec gestion des horaires.
+"""
 
 
 class Round:
+    """Représente un round dans un tournoi d'échecs, contenant plusieurs matchs.
+
+    Attributes:
+        round_number (int): Numéro séquentiel du round dans le tournoi.
+        round_name (str): Nom du round (ex: "Round 1", "Finale").
+        start_time (date): Date et heure de début.
+        end_time (date): Date et heure de fin.
+        matches (date): Liste des matchs du round.
+    """
+
     def __init__(
         self, round_number, round_name,
         start_time=None, end_time=None
     ):
+        """Initialise un round de tournoi"""
         self.round_number = round_number
         self.round_name = round_name
         self.start_time = start_time
